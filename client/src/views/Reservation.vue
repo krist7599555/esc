@@ -3,12 +3,10 @@
     <Layout>
       <!-- <PageContainer> -->
       <div class="hero is-fullwidth is-white">
-        <div class="hero-body">
           <!-- <h1 class="title">Reservation</h1> -->
           <div>
             <EscCalenda :events="events" @event-created="eventDrop" :resources="resources" />
           </div>
-        </div>
       </div>
       <!-- <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio ea alias velit fuga a rem explicabo ad ab amet corrupti. Tempora minus incidunt autem praesentium sit quam reiciendis voluptatem exercitationem!</div>
         <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio ea alias velit fuga a rem explicabo ad ab amet corrupti. Tempora minus incidunt autem praesentium sit quam reiciendis voluptatem exercitationem!</div>
@@ -26,7 +24,7 @@
 <script>
 import moment from "moment";
 import ModalReservation from "../components/ModalReservation";
-import EscCalenda from "../components/EscCalendar2";
+import EscCalenda from "../components/Calendar/EscCalendarMobile";
 
 export default {
   name: "reservation",
@@ -70,3 +68,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+  .hero {
+    padding: 1rem 2rem;
+  }
+</style>
