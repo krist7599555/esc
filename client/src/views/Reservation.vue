@@ -2,7 +2,7 @@
   <div>
     <Layout>
       <!-- <PageContainer> -->
-      <div class="hero is-fullwidth is-white">
+      <div class="hero is-fullwidth is-white has-background-grey-lighter">
           <!-- <h1 class="title">Reservation</h1> -->
           <div>
             <EscCalenda :events="events" @event-created="eventDrop" :resources="resources" />
@@ -24,7 +24,7 @@
 <script>
 import moment from "moment";
 import ModalReservation from "../components/ModalReservation";
-import EscCalenda from "../components/Calendar/EscCalendarMobile";
+import EscCalenda from "../components/Calendar/EscCalendarMobile_V2";
 
 export default {
   name: "reservation",
@@ -71,6 +71,6 @@ export default {
 
 <style scoped>
   .hero {
-    padding: 1rem 2rem;
+    padding: 1rem 1rem;
   }
 </style>
