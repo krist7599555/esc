@@ -8,9 +8,12 @@
         span.icon
           i.fas.fa-chevron-right
       .calendar-icons
-        .cal-row(v-for="idx in Array(1).fill(0)")
-          .cal-day-icon.active 6
-          .cal-day-icon(v-for="(_, idx) in Array(6).fill(0)")  {{idx + 7}}
+        .cal-row(v-for="_ in Array(1).fill(0)")
+          .cal-day-icon(
+            v-for="(_, idx) in Array(7).fill(0)"
+            :class="{active: idx == selectedDate}"
+            @click="selectDate(idx)"
+          )  {{idx + 6}}
 
     .spacing
 
@@ -49,10 +52,13 @@
       .calendar-icons
         .cal-row
           .cal-day-icon.is-size-7(
-            v-for="(roomName, idx) in rooms"
-            :class="{active: idx == 0}"
+            v-for="(roomName) in rooms"
+            :class="{active: selectedRooms[roomName]}"
+            @click="toggleRoom(roomName);"
           ) {{ roomName }}
 
+    .spacing 
+    .reserve-notice 
 
 </template>
 
@@ -61,15 +67,29 @@ import * as moment from 'moment';
 import ReserveByTimeCard from './ReserveByTimeCard';
 export default {
   data() {
+    const rooms = ["ป2", "ป3", "ป4", "ป5", "กวศ", "ปญ"];
+    const selectedRooms = {};
+    rooms.forEach(r => {selectedRooms[r] = false;});
     return {
+      selectedDate: 0,
+      selectedRooms,
+      rooms,
       range: [1, 2, 3, 4, 5, 6, 7],
-      rooms: ["ป2", "ป3", "ป4", "ป5", "กวศ", "ปญ"],
       moment, // moment lib
       isReservingByTime: false,
     };
   },
   components: {
     ReserveByTimeCard
+  },
+  methods: {
+    selectDate(idx) {
+      this.selectedDate = idx;
+      console.log("select date", idx);
+    },
+    toggleRoom(roomName){
+      this.selectedRooms[roomName] = !this.selectedRooms[roomName]; 
+    }
   }
 };
 </script>
@@ -117,7 +137,9 @@ $border: 1px solid #d2d2d2;
   background-color: white;
   text-align: center;
   line-height: 28px; // hieght 
+  cursor: pointer;
 }
+
 
 .cal-day-icon.active {
   color: white;
