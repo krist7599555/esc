@@ -74,4 +74,8 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
 @import "~@fortawesome/fontawesome-free/scss/regular.scss";
+
+.fa-menu-down {
+  @extend .fa-caret-down;
+}
 </style>

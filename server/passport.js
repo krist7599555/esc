@@ -10,7 +10,6 @@ passport.serializeUser(function(req, user, done) {
 });
 
 passport.deserializeUser(function(req, user_id, done) {
-  console.log('deserializeUser');
   done(null, { id: user_id });
 });
 
@@ -41,16 +40,17 @@ passport.use(
 passport.use(
   new jwt.Strategy(
     {
-      jwtFromRequest: jwt.ExtractJwt.fromAuthHeaderAsBearerToken(),
+      // jwtFromRequest: jwt.ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: req => req.ctx.cookies.get('jwt'),
       secretOrKey: process.env.JWT_SECRET,
       passReqToCallback: true
     },
     async (req, payload, done) => {
       const user = await req.ctx.users.findOne({ ticket: payload.ticket });
       if (user) {
-        return done(null, user, { message: 'success' });
+        return await done(null, user);
       } else {
-        return done(null, false, { message: 'no session found', status: 401 });
+        return await done(null, false, { message: 'no session found', status: 401 });
       }
     }
   )

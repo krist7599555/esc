@@ -8369,7 +8369,7 @@ tryer@^1.0.0:
   resolved "https://registry.yarnpkg.com/tryer/-/tryer-1.0.1.tgz#f2c85406800b9b0f74c9f7465b81eaad241252f8"
   integrity sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==
 
-tslib@^1.9.0:
+tslib@^1.9.0, tslib@^1.9.3:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
@@ -8682,6 +8682,13 @@ vue-full-calendar@^2.7.0:
     babel-plugin-transform-runtime "^6.23.0"
     fullcalendar "^3.4.0"
     lodash.defaultsdeep "^4.6.0"
+
+vue-function-api@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/vue-function-api/-/vue-function-api-2.1.2.tgz#ba43d1b379b0a862daeb0dac3a63069eecefa5e6"
+  integrity sha512-JrQIGrfyWta4+8e1JIaQB8gZjhYqs+yOkBMXD+j1248iGu4YrwMVV3x0RRXnsAFmghWrrjkXYzesrJH/+7UXBA==
+  dependencies:
+    tslib "^1.9.3"
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.3"

@@ -18,6 +18,10 @@ Vue.component('Layout', Layout);
 import PageContainer from '@/components/PageContainer';
 Vue.component('PageContainer', PageContainer);
 
+import { plugin } from 'vue-function-api';
+Vue.use(plugin);
+
+import './axios';
 // const vm =
 new Vue({
   router,

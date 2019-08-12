@@ -1,19 +1,12 @@
 <template>
   <div>
     <Layout>
-      <!-- <PageContainer> -->
-      <div class="hero is-fullwidth is-white has-background-grey-lighter">
-          <!-- <h1 class="title">Reservation</h1> -->
-          <div>
-            <EscCalenda :events="events" @event-created="eventDrop" :resources="resources" />
-          </div>
+      <div
+        class="hero is-fullwidth is-white has-background-grey-lighter"
+        style="align-items: center; min-height: -webkit-fill-available; padding-top: 50px"
+      >
+        <EscCalenda :events="events" @event-created="eventDrop" :resources="resources" />
       </div>
-      <!-- <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio ea alias velit fuga a rem explicabo ad ab amet corrupti. Tempora minus incidunt autem praesentium sit quam reiciendis voluptatem exercitationem!</div>
-        <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio ea alias velit fuga a rem explicabo ad ab amet corrupti. Tempora minus incidunt autem praesentium sit quam reiciendis voluptatem exercitationem!</div>
-        <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio ea alias velit fuga a rem explicabo ad ab amet corrupti. Tempora minus incidunt autem praesentium sit quam reiciendis voluptatem exercitationem!</div>
-        <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio ea alias velit fuga a rem explicabo ad ab amet corrupti. Tempora minus incidunt autem praesentium sit quam reiciendis voluptatem exercitationem!</div>
-      <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio ea alias velit fuga a rem explicabo ad ab amet corrupti. Tempora minus incidunt autem praesentium sit quam reiciendis voluptatem exercitationem!</div>-->
-      <!-- </PageContainer> -->
     </Layout>
     <b-modal :active.sync="showingReservationForm" has-modal-card>
       <ModalReservation></ModalReservation>
@@ -70,7 +63,7 @@ export default {
 </script>
 
 <style scoped>
-  .hero {
-    padding: 1rem 1rem;
-  }
+.hero {
+  padding: 1rem 1rem;
+}
 </style>

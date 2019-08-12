@@ -27,6 +27,11 @@ export default new Router({
       path: '/supply',
       name: 'supply',
       component: () => import('./views/Supply.vue')
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('./views/Profile.vue')
     }
     // {
     //   path: '/login',

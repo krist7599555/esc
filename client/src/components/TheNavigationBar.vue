@@ -1,88 +1,109 @@
-<template>
-  <nav class="navbar is-transparent">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="https://bulma.io">
-        <img
-          src="https://esc.eng.chula.ac.th/assets/images/logo_dark.png"
-          alt="ESC logo"
-          height="28"
-        />
-      </a>
-      <div
-        class="navbar-burger burger"
-        data-target="navbarExampleTransparentExample"
-        @click="showNav = !showNav"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
+<template lang='pug'>
+nav.navbar.is-transparent
+  .navbar-brand
+    a.navbar-item(href='/')
+      img(src='~@/assets/logo_dark.png' alt='ESC logo' height='28')
+    .navbar-burger.burger(data-target='navbarExampleTransparentExample' @click='showNav = !showNav')
+      span
+      span
+      span
+  .navbar-menu(:class="{'is-active': showNav}")
+    .navbar-start
+      a.navbar-item(href='/') หน้าแรก
+      .navbar-item.has-dropdown.is-hoverable
+        span.navbar-link(href) เพิ่มเติม
+        .navbar-dropdown.is-boxed
+          a.navbar-item(href='/reservation') จองห้องประชุม
+          a.navbar-item(href='/docs') เอกสาร
+          hr.navbar-divider
+          a.navbar-item(href='/supply') พัสดุ
+          a.navbar-item.is-active(href) ทะเบียน
+    .navbar-end
+      .navbar-item
+        .field.is-grouped
+            template(v-if="!user")
+              p.control
+                a.button.is-primary(@click='login')
+                  b-icon(icon='sign-in-alt')
+                  span เข้าสู่ระบบ
+            template(v-else)
+              b-dropdown.is-hidden-mobile(v-model='navigation' position='is-bottom-left' aria-role='menu')
+                a.navbar-item(slot='trigger' role='button')
+                  span Menu
+                  b-icon(icon='menu-down')
+                b-dropdown-item(custom aria-role='menuitem')
+                  b {{user.nameEN}} {{user.surnameEN}}
+                  br
+                  span {{user.facultyEN}}
 
-    <div id="navbarExampleTransparentExample" class="navbar-menu" :class="{'is-active': showNav}">
-      <div class="navbar-start">
-        <a class="navbar-item" href="/">หน้าแรก</a>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <span class="navbar-link" href>เพิ่มเติม</span>
-          <div class="navbar-dropdown is-boxed">
-            <a class="navbar-item" href="/reservation">จองห้องประชุม</a>
-            <a class="navbar-item" href="/docs">เอกสาร</a>
-            <hr class="navbar-divider" />
-            <a class="navbar-item" href="/supply">พัสดุ</a>
-            <a class="navbar-item is-active" href>ทะเบียน</a>
-          </div>
-        </div>
-      </div>
+                hr.dropdown-divider
+                b-dropdown-item(value='profile')
+                  b-icon(icon='user')
+                  span Profile
 
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="field is-grouped">
-            <!-- <p class="control">
-              <a
-                class="bd-tw-button button"
-                data-social-network="Twitter"
-                data-social-action="tweet"
-                data-social-target="http://localhost:4000"
-                target="_blank"
-                href="https://twitter.com/intent/tweet?text=Bulma: a modern CSS framework based on Flexbox&amp;hashtags=bulmaio&amp;url=http://localhost:4000&amp;via=jgthms"
-              >
-                <span class="icon">
-                  <i class="fab fa-twitter"></i>
-                </span>
-                <span>Tweet</span>
-              </a>
-            </p>-->
-            <p class="control">
-              <a class="button is-primary" @click="login">
-                <!-- <span class="icon">
-                  <i class="fas fa-download"></i>
-                </span>-->
-                <span>เข้าสู่ระบบ</span>
-              </a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </nav>
+                b-dropdown-item(value='settings')
+                  b-icon(icon='settings')
+                  span Settings
+
+                b-dropdown-item(value='logout' aria-role='menuitem' @click='logout')
+                  b-icon(icon='sign-out-alt')
+                  span Logout
+
+              a.button.is-primary.is-hidden-tablet(@click='logout')
+                b-icon(icon='sign-out-alt')
+                span ออกจากระบบ
+
+  b-modal(:active.sync='active' has-modal-card)
+    modal-login
 </template>
 
 <script>
 import ModalLogin from "./ModalLogin";
+import { value, computed } from "vue-function-api";
+
 export default {
-  data() {
-    return {
-      showNav: false,
-      popupLogin: false
-    };
+  components: {
+    ModalLogin
   },
-  methods: {
-    login() {
-      this.$modal.open({
-        component: ModalLogin,
-        hasModalCard: true
-      });
-    }
+  setup(_, { root }) {
+    const user = computed(() => root.$store.getters["auth/user"] || null);
+    const active = value(false);
+    const login = () => (active.value = true);
+    const logout = () => this.$store.dispatch("auth/logout");
+    return {
+      user,
+      active,
+      login,
+      logout,
+      showNav: value(false),
+      popupLogin: value(false)
+    };
   }
 };
+
+// const old = {
+//   components: {
+//     ModalLogin
+//   },
+//   data() {
+//     return {
+//       active: false,
+//       showNav: false,
+//       popupLogin: false
+//     };
+//   },
+//   computed: {
+//     user() {
+//       return this.$store.getters["auth/user"] || null;
+//     }
+//   },
+//   methods: {
+//     login() {
+//       this.active = true;
+//     },
+//     logout() {
+//       this.$store.dispatch("auth/logout");
+//     }
+//   }
+// };
 </script>
