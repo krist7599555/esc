@@ -1,7 +1,68 @@
 <template>
   <Layout>
-    <PageContainer>
-      <div class="section content">
+    <PageContainer class="has-text-white">
+      <div style="padding: 1rem">
+        <div class="head-title lim-width">
+          <br />
+          <br />
+          <br />
+          <br />
+          <h1 class="cursive is-size-3">CHULA ENGINNERING STUDENT CONCIL</h1>
+          <h1 class="cursive is-size-4">
+            กรรมการนิสิตคณะวิศวกรรมศาสตร์
+            จุฬาลงกรณ์มหาวิทยาลัย
+          </h1>
+          <br />
+          <br />
+          <br />
+        </div>
+        <hr class="minimal" />
+        <br />
+        <br />
+        <br />
+        <br />
+        <div class="lim-width">
+          <b class="cursive is-size-5">Main Function</b>
+          <br />
+          <br />
+          <br />
+          <div class="box__wrapper ้has-text-white cursive columns is-mobile">
+            <div class="column" v-for="{label, icon} in mainFunctions" :key="label">
+              <a class="box is-inverted is-flex-center has-text-white">
+                <div style="text-align: center;">
+                  <br />
+                  <b-icon :icon="icon" class="is-size-1"></b-icon>
+
+                  <br />
+                  <br />
+                  <div class="label has-text-white">{{label}}</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <hr class="minimal" />
+      <br />
+      <br />
+      <br />
+
+      <div class="lim-width" align="center">
+        <b-icon icon="facebook" pack="fab"></b-icon>
+        <b-icon icon="line" pack="fab"></b-icon>
+        <b-icon icon="instagram" pack="fab"></b-icon>
+
+        <!-- <img
+          src="https://esc.eng.chula.ac.th/assets/images/chula-engineering.png"
+          height="30px"
+          style="margin-right: 30px;"
+        />-->
+      </div>
+      <!-- <div class="section content">
         <div class="container text-center" align="center">
           <img
             class="footer-logo"
@@ -36,7 +97,6 @@
               <i class="icon-twitter"></i>
               <i class="icon-twitter"></i>
             </a>
-            <!-- /Social Icons -->
           </div>
         </div>
         <br />
@@ -54,7 +114,7 @@
             >© สงวนลิขสิทธิ์, กรรมการนิสิตคณะวิศวกรรมศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</span>
           </div>
         </div>
-      </div>
+      </div>-->
     </PageContainer>
   </Layout>
 </template>
@@ -66,6 +126,38 @@ export default {
   name: "home",
   components: {
     Layout
+  },
+  data() {
+    return {
+      mainFunctions: [
+        { label: "จองห้องประชุม", icon: "table" },
+        { label: "เปิด/ปิด โครงการ", icon: "file-alt" },
+        { label: "ยืม/คืน พัสดุ", icon: "boxes" }
+      ]
+    };
   }
 };
 </script>
+
+<style lang="scss" scoped>
+a.box.is-inverted {
+  transition: all 200ms ease-out;
+  border-radius: 25px;
+  background-color: #2221;
+
+  height: 100%;
+  &:hover {
+    transform: scale(1.02) translateY(-5px) rotateY(360deg);
+    transform: scale(1.02) translateY(-5px);
+  }
+}
+.lim-width {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.box__wrapper:hover a.box.is-inverted:not(:hover) {
+  transform: scale(0.98);
+  filter: brightness(0.6);
+}
+</style>

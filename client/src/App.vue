@@ -82,4 +82,26 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
   display: flex;
   justify-content: center;
 }
+
+@import url("https://fonts.googleapis.com/css?family=Chonburi|Prompt:300,400,700&display=swap&subset=thai");
+body {
+  font-family: "Prompt", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+.cursive {
+  font-family: "Chonburi", cursive;
+}
+.sans-serif {
+  font-family: "Chonburi", cursive;
+  font-family: "Prompt", sans-serif;
+}
+hr.minimal {
+  margin-right: 30%;
+  margin-left: 30%;
+}
+
+.box.is-inverted {
+  background-color: transparent;
+  border: solid 1px white;
+}
 </style>

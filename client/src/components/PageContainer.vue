@@ -19,11 +19,11 @@
 .esc-pagecontainer__box {
   margin-top: 30px;
   margin-bottom: 50px;
-  max-width: 500px;
-  box-shadow: 0px 5px 10px 5px rgba(10, 10, 10, 0.2);
-  background-color: white;
-  border-radius: 5px;
-  overflow: hidden;
+  // max-width: 500px;
+  // box-shadow: 0px 5px 10px 5px rgba(10, 10, 10, 0.2);
+  // background-color: white;
+  // border-radius: 5px;
+  // overflow: hidden;
 }
 </style>
 
