@@ -1,30 +1,22 @@
 <template lang="pug">
   .middle.columns
-    .column.is-3
-      EscCalendarItem
-      EscCalendarItem
-      EscCalendarItem
-      EscCalendarItem
-    .column(align='center')
-      .is-flex-center
-        b-datepicker(inline v-model='date' :events='[]' indicators='dots' :min-date='minDate' :max-date='maxDate')
-          //- b-button(type='is-primary' icon-left='calendar-day' @click='date = new Date()') Today
-          //- br
-          //- br
-          template
-            div(align='center')
-              #esc-timepicker__wrapper.is-flex-center
-                b-timepicker(size='is-small' v-model="start" inline :increment-minutes='30' :default-minutes='0')
-                label(style="margin: auto 0; padding: 0 1rem;") -
-                b-timepicker(size='is-small' v-model="end" inline :increment-minutes='30' :default-minutes='0')
-
-
+    //- .swap-on-mobile.is-8
+    .column.is-3#item-list
+      EscCalendarItem(time=" 13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
+      EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
+      EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
+      EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
+    .column.is-flex-center#date-picker
+      b-datepicker(inline v-model='date' :events='[]' size="is-small" indicators='dots' :min-date='minDate' :max-date='maxDate')
+        template
+          div(align='center')
+            #esc-timepicker__wrapper.is-flex-center
+              b-timepicker(size='is-small' v-model="start" inline :increment-minutes='30' :default-minutes='0')
+              label(style="margin: auto 0; padding: 0 1rem;") -
+              b-timepicker(size='is-small' v-model="end" inline :increment-minutes='30' :default-minutes='0')
     // - RIGHT
-    .column.is-5
-      .box(style='height: 100%')
-        b รายการจองก่อนหน้า
-        p ไม่มีรายการจองในช่วงเวลานี้
-        hr
+    .column.is-4#reserve-form
+      .box(style='height: 100%; display: flex; flex-wrap: wrap;')
         b-field(label='เรื่อง' horizontal)
           b-input(v-model='title')
         b-field(label='วันที่' horizontal)
@@ -33,11 +25,12 @@
         b-field(label='เวลา' horizontal)
           b-button.is-static {{strTime(start)}} - {{strTime(end)}}
         b-field(label='ห้อง' horizontal)
-          b-field(grouped)
+          b-field(grouped style="flex-wrap: wrap;")
             .control(v-for='room in roomsAll')
               b-button.is-small(
                 :class="{'is-primary': rooms.includes(room)}"
                 @click="toggleRoom(room);"
+                style="margin-top: 1em;"
               ) {{room}}
 
         br
@@ -150,6 +143,8 @@ export default {
 @import "~bulma/sass/utilities/mixins";
 $border: 1px solid #d2d2d2;
 
+$tablet: 768px; // make iPad a tablet
+
 .rnd-padd {
   @include tablet {
     border-radius: 5px;
@@ -161,46 +156,9 @@ $border: 1px solid #d2d2d2;
 .middle {
   width: 100%;
   max-width: 1100px;
-  // min-width: 100vw;
-  // @include tablet {
-  //   min-width: 600px;
-  // }
-}
-
-.cal-date {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px;
-}
-
-.cal-row {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.cal-day-icon {
-  display: flex;
-  justify-content: center;
-  vertical-align: middle;
-  $size: 40px;
-  min-width: $size;
-  min-height: $size;
-  // height: 10vw;
-  // width: 10vw;
-
-  border-radius: 50%;
-  color: #780000;
-  border: 2px solid #780000;
-  background-color: white;
-  text-align: center;
-  // line-height: 28px; // hieght
-  cursor: pointer;
-}
-
-.cal-day-icon.active {
-  color: white;
-  background-color: #780000;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 
 #esc-timepicker__wrapper {
@@ -208,4 +166,42 @@ $border: 1px solid #d2d2d2;
     box-shadow: none;
   }
 }
+
+.swap-on-mobile {
+  display: flex;
+  flex-direction: row;
+}
+
+@include mobile {
+ #item-list {
+   order: 2;
+   flex: 0 1 100%;
+ }
+
+  #date-picker {
+      flex: 0 1 100%;
+      order: 1;
+  }
+
+  #reserve-form {
+    flex: 0 1 100%;
+    order: 3;
+  }
+}
+
+@include tablet {
+ #item-list {
+   flex: 0 1 40%;
+ }
+
+  #date-picker {
+    flex: 0 1 40%;
+  }
+
+  #reserve-form {
+    flex: 0 1 100%;
+  }
+}
+
+
 </style>
