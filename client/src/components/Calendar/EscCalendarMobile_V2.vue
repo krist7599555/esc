@@ -1,24 +1,20 @@
 <template lang="pug">
   .middle.columns
-    .column.is-3
-      EscCalendarItem
-      EscCalendarItem
-      EscCalendarItem
-      EscCalendarItem
-    .column(align='center')
-      .is-flex-center
-        b-datepicker(inline v-model='date' :events='[]' indicators='dots' :min-date='minDate' :max-date='maxDate')
-          //- b-button(type='is-primary' icon-left='calendar-day' @click='date = new Date()') Today
-          //- br
-          //- br
-          template
-            div(align='center')
-              #esc-timepicker__wrapper.is-flex-center
-                b-timepicker(size='is-small' v-model="start" inline :increment-minutes='30' :default-minutes='0')
-                label(style="margin: auto 0; padding: 0 1rem;") -
-                b-timepicker(size='is-small' v-model="end" inline :increment-minutes='30' :default-minutes='0')
-
-
+    .swap-on-mobile
+      .column.is-3
+        EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
+        EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
+        EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
+        EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
+      .column(align='center')
+        .is-flex-center
+          b-datepicker(inline v-model='date' :events='[]' indicators='dots' :min-date='minDate' :max-date='maxDate')
+            template
+              div(align='center')
+                #esc-timepicker__wrapper.is-flex-center
+                  b-timepicker(size='is-small' v-model="start" inline :increment-minutes='30' :default-minutes='0')
+                  label(style="margin: auto 0; padding: 0 1rem;") -
+                  b-timepicker(size='is-small' v-model="end" inline :increment-minutes='30' :default-minutes='0')
     // - RIGHT
     .column.is-5
       .box(style='height: 100%')
@@ -208,4 +204,15 @@ $border: 1px solid #d2d2d2;
     box-shadow: none;
   }
 }
+
+.swap-on-mobile {
+  display: flex;
+}
+
+@media only screen and (max-width: 768px) {
+  .swap-on-mobile {
+    flex-direction: column-reverse;
+  }
+}
+
 </style>
