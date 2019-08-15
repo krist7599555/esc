@@ -1,6 +1,11 @@
 <template lang="pug">
   .middle.columns
-    .column.is-6(align='center')
+    .column.is-3
+      EscCalendarItem
+      EscCalendarItem
+      EscCalendarItem
+      EscCalendarItem
+    .column(align='center')
       .is-flex-center
         b-datepicker(inline v-model='date' :events='[]' indicators='dots' :min-date='minDate' :max-date='maxDate')
           //- b-button(type='is-primary' icon-left='calendar-day' @click='date = new Date()') Today
@@ -15,7 +20,7 @@
 
 
     // - RIGHT
-    .column
+    .column.is-5
       .box(style='height: 100%')
         b รายการจองก่อนหน้า
         p ไม่มีรายการจองในช่วงเวลานี้
@@ -49,6 +54,7 @@ import _ from "lodash";
 import dayjs from "dayjs";
 import axios from "axios";
 import ReserveByTimeCard from "./ReserveByTimeCard";
+import EscCalendarItem from "./EscCalendarItem";
 import { value, state } from "vue-function-api";
 
 const joinString = _ar => {
@@ -134,13 +140,8 @@ export default {
     };
   },
   components: {
-    ReserveByTimeCard
-  },
-  methods: {
-    selectDate(idx) {
-      this.selectedDate = idx;
-      console.log("select date", idx);
-    }
+    ReserveByTimeCard,
+    EscCalendarItem
   }
 };
 </script>
@@ -158,11 +159,12 @@ $border: 1px solid #d2d2d2;
 }
 
 .middle {
-  min-width: 100vw;
-  max-width: 100%;
-  @include tablet {
-    min-width: 600px;
-  }
+  width: 100%;
+  max-width: 1100px;
+  // min-width: 100vw;
+  // @include tablet {
+  //   min-width: 600px;
+  // }
 }
 
 .cal-date {
