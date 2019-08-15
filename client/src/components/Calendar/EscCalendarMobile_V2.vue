@@ -2,7 +2,7 @@
   .middle.columns
     //- .swap-on-mobile.is-8
     .column.is-3#item-list
-      EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
+      EscCalendarItem(time=" 13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
       EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
       EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
       EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
@@ -143,6 +143,8 @@ export default {
 @import "~bulma/sass/utilities/mixins";
 $border: 1px solid #d2d2d2;
 
+$tablet: 768px; // make iPad a tablet
+
 .rnd-padd {
   @include tablet {
     border-radius: 5px;
@@ -187,13 +189,13 @@ $border: 1px solid #d2d2d2;
   }
 }
 
-@include tablet-only {
+@include tablet {
  #item-list {
-   flex: 0 1 50%;
+   flex: 0 1 40%;
  }
 
   #date-picker {
-    flex: 0 1 50%;
+    flex: 0 1 40%;
   }
 
   #reserve-form {
