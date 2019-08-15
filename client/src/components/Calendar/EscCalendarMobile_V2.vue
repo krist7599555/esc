@@ -170,7 +170,7 @@ $border: 1px solid #d2d2d2;
   flex-direction: row;
 }
 
-@media only screen and (max-width: 767px) {
+@include mobile {
  #item-list {
    order: 2;
    flex: 0 1 100%;
@@ -186,5 +186,20 @@ $border: 1px solid #d2d2d2;
     order: 3;
   }
 }
+
+@include tablet-only {
+ #item-list {
+   flex: 0 1 50%;
+ }
+
+  #date-picker {
+    flex: 0 1 50%;
+  }
+
+  #reserve-form {
+    flex: 0 1 100%;
+  }
+}
+
 
 </style>
