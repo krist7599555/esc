@@ -78,4 +78,8 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 .fa-menu-down {
   @extend .fa-caret-down;
 }
+.is-flex-center {
+  display: flex;
+  justify-content: center;
+}
 </style>

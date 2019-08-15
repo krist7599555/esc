@@ -1,66 +1,136 @@
 <template lang="pug">
-  .middle.columns: .column.is-8
-    .calendar.has-background-light.rnd-padd(style='padding: 1rem 1.5rem;')
-      b-datepicker(inline v-model='date' :events='[]' :indicators='dots' :min-date='minDate' :max-date='maxDate')
-        b-button(type='is-primary' icon-left='calendar-day' @click='date = new Date()') Today
+  .middle.columns
+    .column.is-6(align='center')
+      .is-flex-center
+        b-datepicker(inline v-model='date' :events='[]' indicators='dots' :min-date='minDate' :max-date='maxDate')
+          //- b-button(type='is-primary' icon-left='calendar-day' @click='date = new Date()') Today
+          //- br
+          //- br
+          template
+            div(align='center')
+              #esc-timepicker__wrapper.is-flex-center
+                b-timepicker(size='is-small' v-model="start" inline :increment-minutes='30' :default-minutes='0')
+                label(style="margin: auto 0; padding: 0 1rem;") -
+                b-timepicker(size='is-small' v-model="end" inline :increment-minutes='30' :default-minutes='0')
 
-    //- .spacing
 
-    .select-time-field.has-background-light.rnd-padd
-      div(align='center')
-        b เลือกเวลา
+    // - RIGHT
+    .column
+      .box(style='height: 100%')
+        b รายการจองก่อนหน้า
+        p ไม่มีรายการจองในช่วงเวลานี้
+        hr
+        b-field(label='เรื่อง' horizontal)
+          b-input(v-model='title')
+        b-field(label='วันที่' horizontal)
+          //- b-button.is-static {{strDate(date)}}
+          b-button.is-static {{dayjs(date).format('D MMMM YYYY')}} ({{relativeTimeFormat(date)}})
+        b-field(label='เวลา' horizontal)
+          b-button.is-static {{strTime(start)}} - {{strTime(end)}}
+        b-field(label='ห้อง' horizontal)
+          b-field(grouped)
+            .control(v-for='room in roomsAll')
+              b-button.is-small(
+                :class="{'is-primary': rooms.includes(room)}"
+                @click="toggleRoom(room);"
+              ) {{room}}
+
         br
-        .is-flex-center
-          b-timepicker(v-model="timeStart" inline :increment-minutes='30')
-          label(style="margin: auto 0; padding: 0 1rem;") -
-          b-timepicker(v-model="timeEnd" inline :increment-minutes='30')
 
-    .spacing
+        b-button(type='is-primary' @click='submit') จอง
 
-    .room-selector.has-background-light.rnd-padd
-      div
-        span.header.with-extra-padding เลือกห้อง
-        span.has-text-primary
-          i.fa-info-circle.fas
-      .calendar-icons
-        .cal-row
-          .cal-day-icon.is-size-7(
-            v-for="(roomName) in rooms"
-            :class="{active: selectedRooms[roomName]}"
-            @click="toggleRoom(roomName);"
-          ) {{ roomName }}
 
-    .spacing
-    .reserve-notice
 
 </template>
 
 <script>
-import * as moment from "moment";
+// import * as moment from "moment";
+import _ from "lodash";
+import dayjs from "dayjs";
+import axios from "axios";
 import ReserveByTimeCard from "./ReserveByTimeCard";
+import { value, state } from "vue-function-api";
+
+const joinString = _ar => {
+  let ar = _.clone(_ar);
+  const sml = ["ป2", "ป3", "ป4", "ป5"];
+  if (_.difference(sml, ar).length == 0) {
+    ar = _.concat(["ประชุมเล็ก"], ..._.xor(ar, sml));
+  }
+  switch (ar.length) {
+    case 0:
+      return "ไม่ได้เลือก";
+    case 1:
+      return ar[0];
+    case 6:
+      return "ห้องใดก็ได้";
+    default:
+      return _.join(_.dropRight(ar), ", ") + " หรือ " + _.last(ar);
+  }
+};
+
+const dateAPI = () => {
+  const now = dayjs();
+  const floor = dayjs().startOf("hour");
+  const ceil = floor.add(1, "hour");
+  const minDate = dayjs().subtract(1, "day");
+  const maxDate = dayjs().add(7, "day");
+  const strDate = date => dayjs(date).format("YYYY-MM-DD");
+  const strTime = date => dayjs(date).format("HH:mm");
+  const mergeDateTime = (date, time) =>
+    dayjs(`${strDate(date)}T${strTime(time)}+0700`).format();
+  return state({
+    date: now.toDate(),
+    start: floor.toDate(),
+    end: ceil.toDate(),
+    strDate,
+    strTime,
+    minDate: minDate.toDate(),
+    maxDate: maxDate.toDate(),
+    toISO(field) {
+      return mergeDateTime(this.date, this[field]);
+    },
+    relativeTimeFormat(date) {
+      const dif = dayjs(date)
+        .startOf("day")
+        .diff(dayjs().startOf("day"), "day");
+      return dif ? `อีก ${dif} วัน` : "วันนี้";
+    }
+  });
+};
+
 export default {
-  data() {
-    const rooms = ["ป2", "ป3", "ป4", "ป5", "กวศ", "ปญ"];
-    const selectedRooms = {};
-    rooms.forEach(r => {
-      selectedRooms[r] = false;
-    });
-    const nowDate = new Date();
-    const nextDate = new Date(nowDate.getTime() + 10 * 86400000);
-    nowDate.setHours(0, 0, 0, 0);
-    nextDate.setHours(0, 0, 0, 0);
+  setup() {
+    const roomsAll = ["ป2", "ป3", "ป4", "ป5", "กวศ", "ปญ"];
+    const rooms = value(_.clone(roomsAll));
+
+    const title = value("");
+    const time = dateAPI();
+
+    const submit = () => {
+      console.log(time.toISO("start"));
+      console.log(time.toISO("end"));
+      axios
+        .post("/api/rooms", {
+          title: title.value,
+          start: time.toISO("start"),
+          end: time.toISO("end"),
+          rooms: rooms.value
+        })
+        .catch(e => console.error(e.response));
+    };
+
     return {
-      date: nowDate,
-      minDate: nowDate,
-      maxDate: nextDate,
-      timeStart: null,
-      timeEnd: null,
-      selectedDate: 0,
-      selectedRooms,
+      dayjs,
+      ...time,
+      title,
       rooms,
-      range: [1, 2, 3, 4, 5, 6, 7],
-      moment, // moment lib
-      isReservingByTime: false
+      roomsAll,
+      submit,
+      joinString,
+      toggleRoom: room => {
+        rooms.value = _.xor(rooms.value, [room]);
+      }
     };
   },
   components: {
@@ -70,9 +140,6 @@ export default {
     selectDate(idx) {
       this.selectedDate = idx;
       console.log("select date", idx);
-    },
-    toggleRoom(roomName) {
-      this.selectedRooms[roomName] = !this.selectedRooms[roomName];
     }
   }
 };
@@ -81,11 +148,6 @@ export default {
 <style lang="scss">
 @import "~bulma/sass/utilities/mixins";
 $border: 1px solid #d2d2d2;
-
-.is-flex-center {
-  display: flex;
-  justify-content: center;
-}
 
 .rnd-padd {
   @include tablet {
@@ -96,9 +158,8 @@ $border: 1px solid #d2d2d2;
 }
 
 .middle {
-  // margin: 0 auto;
   min-width: 100vw;
-  max-width: 768px;
+  max-width: 100%;
   @include tablet {
     min-width: 600px;
   }
@@ -111,24 +172,18 @@ $border: 1px solid #d2d2d2;
   padding: 8px;
 }
 
-.cal-date-text {
-  border: $border;
-  padding: 0 8px;
-}
-
-.calendar-icons {
-  padding: 8px 16px;
-}
-
 .cal-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .cal-day-icon {
-  display: block;
-  min-width: 32px;
-  min-height: 32px;
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+  $size: 40px;
+  min-width: $size;
+  min-height: $size;
   // height: 10vw;
   // width: 10vw;
 
@@ -137,7 +192,7 @@ $border: 1px solid #d2d2d2;
   border: 2px solid #780000;
   background-color: white;
   text-align: center;
-  line-height: 28px; // hieght
+  // line-height: 28px; // hieght
   cursor: pointer;
 }
 
@@ -146,35 +201,9 @@ $border: 1px solid #d2d2d2;
   background-color: #780000;
 }
 
-.control-buttons {
-  display: flex;
-  align-content: space-between;
-}
-.seperator {
-  padding: 0px 8px;
-  background: grey;
-  margin: 8px 0;
-}
-
-.has-background-primary {
-  * {
-    color: white;
+#esc-timepicker__wrapper {
+  .dropdown-content {
+    box-shadow: none;
   }
-}
-
-.spacing {
-  height: 8px;
-}
-
-.select-time-field {
-  padding: 8px;
-}
-
-.with-extra-padding {
-  padding: 0 1em;
-}
-
-.room-selector {
-  padding-top: 8px; // fix span
 }
 </style>

@@ -1,13 +1,15 @@
 <template>
   <div>
-    <TheNav></TheNav>
-    <slot></slot>
+    <TheNavigationBar />
+    <div style="padding-top: 50px">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
 <script>
-import TheNav from "@/components/TheNavigationBar";
+import TheNavigationBar from "@/components/TheNavigationBar";
 export default {
-  components: { TheNav }
+  components: { TheNavigationBar }
 };
 </script>

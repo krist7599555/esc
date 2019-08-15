@@ -22,6 +22,14 @@ import { plugin } from 'vue-function-api';
 Vue.use(plugin);
 
 import './axios';
+import 'dayjs/locale/th';
+
+import dayjs from 'dayjs';
+
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
+dayjs.locale('th');
 // const vm =
 new Vue({
   router,

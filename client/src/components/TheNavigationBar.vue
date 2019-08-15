@@ -1,5 +1,5 @@
 <template lang='pug'>
-nav.navbar.is-transparent
+nav.navbar(:class='{"is-hide": scroll == "down" && position > 70}')
   .navbar-brand
     a.navbar-item(href='/')
       img(src='~@/assets/logo_dark.png' alt='ESC logo' height='28')
@@ -7,6 +7,7 @@ nav.navbar.is-transparent
       span
       span
       span
+  .overlay(:class='{"is-hide": !showNav}' @click='showNav = false')
   .navbar-menu(:class="{'is-active': showNav}")
     .navbar-start
       a.navbar-item(href='/') หน้าแรก
@@ -27,12 +28,12 @@ nav.navbar.is-transparent
                   b-icon(icon='sign-in-alt')
                   span เข้าสู่ระบบ
             template(v-else)
-              b-dropdown.is-hidden-mobile(v-model='navigation' position='is-bottom-left' aria-role='menu')
+              b-dropdown.is-hidden-mobile(position='is-bottom-left' aria-role='menu')
                 a.navbar-item(slot='trigger' role='button')
                   span Menu
                   b-icon(icon='menu-down')
                 b-dropdown-item(custom aria-role='menuitem')
-                  b {{user.nameEN}} {{user.surnameEN}}
+                  b {{user['nameEN']}} {{user.surnameEN}}
                   br
                   span {{user.facultyEN}}
 
@@ -61,49 +62,69 @@ nav.navbar.is-transparent
 import ModalLogin from "./ModalLogin";
 import { value, computed } from "vue-function-api";
 
+const scrollAPI = () => {
+  let yOffset = 0;
+  const scroll = value(null);
+  const position = value(0);
+  window.addEventListener("scroll", () => {
+    if (yOffset < window.pageYOffset) scroll.value = "down";
+    if (yOffset > window.pageYOffset) scroll.value = "up";
+    position.value = yOffset = window.pageYOffset;
+  });
+  return { scroll, position };
+};
+
 export default {
+  name: "the-navigation-bar",
   components: {
     ModalLogin
   },
-  setup(_, { root }) {
-    const user = computed(() => root.$store.getters["auth/user"] || null);
+  setup(props, { root }) {
+    const user = computed(() => root.$store.getters["auth/user"]);
     const active = value(false);
     const login = () => (active.value = true);
-    const logout = () => this.$store.dispatch("auth/logout");
+    const logout = () => root.$store.dispatch("auth/logout");
+    const sAPI = scrollAPI();
     return {
+      ...sAPI,
       user,
       active,
       login,
       logout,
-      showNav: value(false),
-      popupLogin: value(false)
+      showNav: false,
+      popupLogin: false
     };
   }
 };
-
-// const old = {
-//   components: {
-//     ModalLogin
-//   },
-//   data() {
-//     return {
-//       active: false,
-//       showNav: false,
-//       popupLogin: false
-//     };
-//   },
-//   computed: {
-//     user() {
-//       return this.$store.getters["auth/user"] || null;
-//     }
-//   },
-//   methods: {
-//     login() {
-//       this.active = true;
-//     },
-//     logout() {
-//       this.$store.dispatch("auth/logout");
-//     }
-//   }
-// };
 </script>
+
+<style lang="scss" scoped>
+nav {
+  position: fixed;
+  background-color: white;
+  z-index: 2;
+  width: 100%;
+  height: 52px;
+  transition: all 120ms ease-out;
+  box-shadow: 0px -3px 14px #1006;
+  &.is-hide {
+    transform: translateY(-80px);
+  }
+}
+.navbar-menu,
+.navbar-brand {
+  background-color: white;
+}
+.overlay {
+  height: 100vh;
+  width: 100%;
+  background-color: #000a;
+  position: absolute;
+  z-index: -2;
+  transition: all 50ms ease-in-out;
+  &.is-hide {
+    background-color: transparent;
+    pointer-events: none;
+  }
+}
+</style>

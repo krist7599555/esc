@@ -8,7 +8,7 @@ const state = () => ({
 
 const mutations = {
   fetchUserFromLocalStorage(state) {
-    state.user = localStorage.getItem('user') || null;
+    state.user = JSON.parse(localStorage.getItem('user')) || null;
   }
 };
 
@@ -33,7 +33,7 @@ const actions = {
     return res;
   },
   async logout({ commit }) {
-    const res = await axios.post('/api/logout');
+    const res = await axios.post('/api/logout', {}, { timeout: 100 }).catch(() => {});
     localStorage.removeItem('user');
     commit('fetchUserFromLocalStorage');
     Toast.open({

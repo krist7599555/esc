@@ -12,7 +12,7 @@
   justify-content: center;
   width: 100%;
   background-color: #9f353599;
-  min-height: calc(100vh - 52px);
+  min-height: calc(100vh - 50px);
   background-image: url("../assets/background.jpg");
   background-size: cover;
 }

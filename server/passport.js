@@ -17,6 +17,7 @@ passport.use(
   new LocalStrategy(
     { passReqToCallback: true, session: false },
     async (req, username, password, done) => {
+      console.log('hello');
       const fnd = await req.ctx.users.findOne({ ouid: username });
       if (fnd && fnd.pwid == Base64.encode(password)) {
         return done(null, fnd, { message: 'success from db' });
@@ -48,7 +49,7 @@ passport.use(
     async (req, payload, done) => {
       const user = await req.ctx.users.findOne({ ticket: payload.ticket });
       if (user) {
-        return await done(null, user);
+        return await done(null, (req.ctx.state.user = user));
       } else {
         return await done(null, false, { message: 'no session found', status: 401 });
       }

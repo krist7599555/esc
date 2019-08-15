@@ -13,17 +13,20 @@ const { normalizeError } = require('./middleware');
 
 const Router = require('koa-router');
 const users = require('./users');
-const roomReservations = require('./roomReservations');
+const rooms = require('./rooms');
 
 process.env.JWT_SECRET = 'jwt secret';
+
+const dayjs = require('dayjs');
+dayjs.locale('th');
 
 const api = new Router()
   .prefix('/api')
   .get('/', ctx => (ctx.body = 'This is ESC api'))
   .use(users.routes())
   .use(users.allowedMethods())
-  .use(roomReservations.routes())
-  .use(roomReservations.allowedMethods());
+  .use(rooms.routes())
+  .use(rooms.allowedMethods());
 
 require('./passport');
 

@@ -8,10 +8,10 @@
             src="https://esc.eng.chula.ac.th/assets/images/logo-footer.png"
             style="filter: brightness(0);"
             alt
-          >
+          />
 
           <p>กรรมการนิสิตคณะวิศวกรรมศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย</p>
-          <br>
+          <br />
           <div class="margin-top-20">
             <a
               href="https://www.facebook.com/escchula"
@@ -39,7 +39,7 @@
             <!-- /Social Icons -->
           </div>
         </div>
-        <br>
+        <br />
         <div class="copyright">
           <div class="container text-center">
             <div style="margin-bottom: 10px;">
@@ -47,7 +47,7 @@
                 src="https://esc.eng.chula.ac.th/assets/images/chula-engineering.png"
                 height="30px"
                 style="margin-right: 30px;"
-              >
+              />
             </div>
             <span
               class="is-size-7"
@@ -60,12 +60,12 @@
 </template>
 
 <script>
-// import Layout from "@/layouts/default";
+import Layout from "@/layouts/default";
 
 export default {
   name: "home",
   components: {
-    // Layout
+    Layout
   }
 };
 </script>
