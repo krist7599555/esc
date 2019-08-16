@@ -1,29 +1,31 @@
 <template lang="pug">
   .middle.columns
     //- .swap-on-mobile.is-8
-    .column.is-3#item-list
-      EscCalendarItem(time=" 13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
+    #item-list.column
+      EscCalendarItem.is-success(time=" 13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
       EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
-      EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
+      EscCalendarItem.is-warning(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
       EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
     .column.is-flex-center#date-picker
-      b-datepicker(inline v-model='date' :events='[]' size="is-small" indicators='dots' :min-date='minDate' :max-date='maxDate')
+      b-datepicker(inline v-model='time.date' :events='[]' size="is-small" indicators='dots' :min-date='time.minDate' :max-date='time.maxDate' tabIndex="-1")
         template
           div(align='center')
             #esc-timepicker__wrapper.is-flex-center
-              b-timepicker(size='is-small' v-model="start" inline :increment-minutes='30' :default-minutes='0')
-              label(style="margin: auto 0; padding: 0 1rem;") -
-              b-timepicker(size='is-small' v-model="end" inline :increment-minutes='30' :default-minutes='0')
+              b-icon(type='is-primary' icon='caret-left' size='is-medium')
+              b-timepicker(size='is-small' v-model="time.start" inline :increment-minutes='30' :default-minutes='0')
+              label(style="margin: auto 0; padding: 0 0.8rem;") -
+              b-timepicker(size='is-small' v-model="time.end" inline :increment-minutes='30' :default-minutes='0')
+              b-icon(type='is-primary' icon='caret-right' size='is-medium')
     // - RIGHT
     .column.is-4#reserve-form
-      .box(style='height: 100%; display: flex; flex-wrap: wrap;')
+      .box
         b-field(label='เรื่อง' horizontal)
           b-input(v-model='title')
         b-field(label='วันที่' horizontal)
           //- b-button.is-static {{strDate(date)}}
-          b-button.is-static {{dayjs(date).format('D MMMM YYYY')}} ({{relativeTimeFormat(date)}})
+          b-button.is-static {{dayjs(time.date).format('D MMMM YYYY')}} ({{time.relativeTimeFormat(time.date)}})
         b-field(label='เวลา' horizontal)
-          b-button.is-static {{strTime(start)}} - {{strTime(end)}}
+          b-button.is-static {{time.strTime(time.start)}} - {{time.strTime(time.end)}} ({{diffTime}})
         b-field(label='ห้อง' horizontal)
           b-field(grouped style="flex-wrap: wrap;")
             .control(v-for='room in roomsAll')
@@ -48,7 +50,7 @@ import dayjs from "dayjs";
 import axios from "axios";
 import ReserveByTimeCard from "./ReserveByTimeCard";
 import EscCalendarItem from "./EscCalendarItem";
-import { value, state } from "vue-function-api";
+import { value, state, computed } from "vue-function-api";
 
 const joinString = _ar => {
   let ar = _.clone(_ar);
@@ -118,10 +120,22 @@ export default {
         })
         .catch(e => console.error(e.response));
     };
-
+    const diffTime = computed(() => {
+      const minute = dayjs(time.end).diff(time.start, "minute");
+      if (minute < 0) return "invalid interval";
+      if (minute == 0) return "empty interval";
+      return _.join(
+        [
+          `${_.floor(minute / 60)} ชั่วโมง`,
+          minute % 60 ? `${minute % 60} นาที` : ""
+        ],
+        " "
+      ).trim();
+    });
     return {
       dayjs,
-      ...time,
+      time,
+      diffTime,
       title,
       rooms,
       roomsAll,
@@ -165,6 +179,10 @@ $tablet: 768px; // make iPad a tablet
   .dropdown-content {
     box-shadow: none;
   }
+  .icon {
+    margin: auto 3px;
+    cursor: pointer;
+  }
 }
 
 .swap-on-mobile {
@@ -173,14 +191,14 @@ $tablet: 768px; // make iPad a tablet
 }
 
 @include mobile {
- #item-list {
-   order: 2;
-   flex: 0 1 100%;
- }
+  #item-list {
+    order: 2;
+    flex: 0 1 100%;
+  }
 
   #date-picker {
-      flex: 0 1 100%;
-      order: 1;
+    flex: 0 1 100%;
+    order: 1;
   }
 
   #reserve-form {
@@ -190,9 +208,9 @@ $tablet: 768px; // make iPad a tablet
 }
 
 @include tablet {
- #item-list {
-   flex: 0 1 40%;
- }
+  #item-list {
+    flex: 0 1 40%;
+  }
 
   #date-picker {
     flex: 0 1 40%;
@@ -202,6 +220,4 @@ $tablet: 768px; // make iPad a tablet
     flex: 0 1 100%;
   }
 }
-
-
 </style>
