@@ -4,11 +4,18 @@ const Router = require('koa-router');
 const _ = require('lodash');
 
 const getRooms = async ctx => {
-  const { start, end } = ctx.query;
-  ctx.body = await ctx.roomReservations
+  let { start, end } = ctx.query;
+  start = parseInt(start);
+  end = parseInt(end);
+  console.log(start, end)
+  // console.log(new Date(parseInt(start)), new Date(parseInt(end)))
+  console.log(new Date(start), new Date(end));
+  ctx.body = await ctx.rooms
     .find({
-      start: start ? { $gtr: new Date(start) } : { $exists: true },
-      end: end ? { $lte: new Date(end) } : { $exists: true }
+      $and: [
+        {start: { $lt: (end ? new Date(end) : new Date())}},
+        {end: { $gt: (start ? new Date(start) : new Date())}},
+      ],
     })
     .toArray();
 };
