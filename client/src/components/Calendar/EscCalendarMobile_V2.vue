@@ -2,10 +2,9 @@
   .middle.columns
     //- .swap-on-mobile.is-8
     #item-list.column
-      EscCalendarItem.is-success(time=" 13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
-      EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
-      EscCalendarItem.is-warning(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
-      EscCalendarItem(time="13:00 - 14:00" name="Sample Project" reserverName="road" room="ป2")
+      EscCalendarItem.is-success(
+        v-for="reserve in (reservations.reservationData || [])"
+        time=" 13:00 - 14:00" :name="reserve.title" :reserverName="reserve.createBy" room="ป2")
     .column.is-flex-center#date-picker
       b-datepicker(inline v-model='time.date' :events='[]' size="is-small" indicators='dots' :min-date='time.minDate' :max-date='time.maxDate' tabIndex="-1")
         template
@@ -79,7 +78,9 @@ const joinString = _ar => {
 const dateAPI = () => {
   const now = dayjs();
   const floor = dayjs().startOf("hour");
-  const ceil = floor.add(1, "hour");
+  // tmp
+  // const ceil = floor.add(1, "hour"); 
+  const ceil = floor.add(30, "minute"); 
   const minDate = dayjs().subtract(1, "day");
   const maxDate = dayjs().add(7, "day");
   const strDate = date => dayjs(date).format("YYYY-MM-DD");
@@ -106,6 +107,32 @@ const dateAPI = () => {
   });
 };
 
+// manage caching of room reservations data to minimize number of query
+const roomAPI = (start, end) => {
+  const query = {
+      start: new Date(start),
+      end: new Date(end)
+    },
+    cached = { ...query };
+  const o = state({
+    query,
+    cached,
+    reservationData: []
+  });
+  o.fetch = (async () => {
+    console.log("fetch", start, end)
+    const response = await axios.get("/api/rooms", {
+      params: {
+        start,
+        end,
+      }
+    });
+    console.log("fetch -> ", response);
+    o.reservationData = response.data;
+  }).bind(o);
+  return o;
+};
+
 export default {
   setup() {
     const roomsAll = ["ป2", "ป3", "ป4", "ป5", "กวศ", "ปญ"];
@@ -113,7 +140,8 @@ export default {
 
     const title = value("");
     const time = dateAPI();
-
+    const reservations = roomAPI(time.start.getTime(), time.end.getTime());
+    reservations.fetch().then(() => console.log(reservations.reservationData));
     const submit = () => {
       console.log(time.toISO("start"));
       console.log(time.toISO("end"));
@@ -141,12 +169,16 @@ export default {
 
     const duration = computed(() => {
       const minutes = dayjs(time.end).diff(time.start, "minute");
-      return dayjs().startOf("day").add(minutes, "minute").toDate(); // HH:MM = diff
-    })
+      return dayjs()
+        .startOf("day")
+        .add(minutes, "minute")
+        .toDate(); // HH:MM = diff
+    });
 
     const shiftTime = ((diff, field) => {
-      let newTime = dayjs(time[field]).add(diff, "minute")
-      if (newTime.get("day") != dayjs(time[field]).get("day")) { // wrap around day -- todo: checkLimit
+      let newTime = dayjs(time[field]).add(diff, "minute");
+      if (newTime.get("day") != dayjs(time[field]).get("day")) {
+        // wrap around day -- todo: checkLimit
         return false;
       }
       time[field] = newTime.toDate();
@@ -162,6 +194,7 @@ export default {
       title,
       rooms,
       roomsAll,
+      reservations,
       submit,
       joinString,
       toggleRoom: room => {
@@ -198,7 +231,8 @@ $tablet: 768px; // make iPad a tablet
   flex-direction: row;
 }
 
-#esc-timepicker__wrapper, #esc-durationpicker__wrapper {
+#esc-timepicker__wrapper,
+#esc-durationpicker__wrapper {
   .dropdown-content {
     box-shadow: none;
   }
