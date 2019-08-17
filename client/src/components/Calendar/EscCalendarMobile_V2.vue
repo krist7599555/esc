@@ -10,12 +10,18 @@
       b-datepicker(inline v-model='time.date' :events='[]' size="is-small" indicators='dots' :min-date='time.minDate' :max-date='time.maxDate' tabIndex="-1")
         template
           div(align='center')
+            #esc-durationpicker__wrapper.is-flex-center
+              label(style="margin: auto 0; padding: 0 0.8rem;") ระยะเวลา
+              b-icon(type='is-primary' icon='caret-left' size='is-medium' @click.native='shiftTime(-30, "end")')
+              b-timepicker(size='is-small' v-model="duration" inline :increment-minutes='30' :default-minutes='0')
+              b-icon(type='is-primary' icon='caret-right' size='is-medium' @click.native='shiftTime(30, "end")')
+          div(align='center')
             #esc-timepicker__wrapper.is-flex-center
-              b-icon(type='is-primary' icon='caret-left' size='is-medium')
+              b-icon(type='is-primary' icon='caret-left' size='is-medium' @click.native='shiftTime(-30, "start"); shiftTime(-30, "end");')
               b-timepicker(size='is-small' v-model="time.start" inline :increment-minutes='30' :default-minutes='0')
               label(style="margin: auto 0; padding: 0 0.8rem;") -
-              b-timepicker(size='is-small' v-model="time.end" inline :increment-minutes='30' :default-minutes='0')
-              b-icon(type='is-primary' icon='caret-right' size='is-medium')
+              b-timepicker(size='is-small' v-model="time.end" inline :increment-minutes='30' :default-minutes='0' disabled)
+              b-icon(type='is-primary' icon='caret-right' size='is-medium' @click.native='shiftTime(30, "start"); shiftTime(30, "end");')
     // - RIGHT
     .column.is-4#reserve-form
       .box
@@ -132,10 +138,27 @@ export default {
         " "
       ).trim();
     });
+
+    const duration = computed(() => {
+      const minutes = dayjs(time.end).diff(time.start, "minute");
+      return dayjs().startOf("day").add(minutes, "minute").toDate(); // HH:MM = diff
+    })
+
+    const shiftTime = ((diff, field) => {
+      let newTime = dayjs(time[field]).add(diff, "minute")
+      if (newTime.get("day") != dayjs(time[field]).get("day")) { // wrap around day -- todo: checkLimit
+        return false;
+      }
+      time[field] = newTime.toDate();
+      return true;
+    }).bind(this);
+
     return {
       dayjs,
       time,
       diffTime,
+      shiftTime,
+      duration,
       title,
       rooms,
       roomsAll,
@@ -175,7 +198,7 @@ $tablet: 768px; // make iPad a tablet
   flex-direction: row;
 }
 
-#esc-timepicker__wrapper {
+#esc-timepicker__wrapper, #esc-durationpicker__wrapper {
   .dropdown-content {
     box-shadow: none;
   }
