@@ -1,0 +1,48 @@
+{
+  "name": "koa",
+  "version": "0.0.1",
+  "description": "chula engineering esc web server",
+  "main": "src/index.ts",
+  "author": "krist7599555",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node ./dist/index.js",
+    "dev": "nodemon --exec babel-node --extensions '.ts' src/index.ts",
+    "build": "babel --out-dir dist --extensions '.ts' ./src"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.6.3",
+    "axios": "^0.19.0",
+    "dayjs": "^1.8.15",
+    "js-base64": "^2.5.1",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-compose": "^4.1.0",
+    "koa-jwt": "^3.6.0",
+    "koa-logger": "^3.2.0",
+    "koa-mongo": "^1.8.2",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.12.2",
+    "koa2-cors": "^2.0.6",
+    "lodash": "^4.17.15",
+    "qs": "^6.7.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-router": "^7.0.42",
+    "@types/lodash": "^4.14.144",
+    "@types/mongodb": "^3.3.6",
+    "@types/node": "^12.7.12",
+    "nodemon": "^1.19.1"
+  }
+}
