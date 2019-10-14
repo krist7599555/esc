@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
 const _ensureTicket = () => async (ctx, next) => {
-  const ticket = ctx.state.user.ticket;
+  const ticket = ctx.cookies.get('ticket');
   ctx.assert(ticket, 401, 'no ticket in cookies. please re-login');
   const user = await ctx.users.findOne({ ticket });
   ctx.assert(user, 401, 'you are login on another device. please re-login');

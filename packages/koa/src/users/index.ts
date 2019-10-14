@@ -14,11 +14,11 @@ const login = async (ctx: Context) => {
   const ticket = await sso.login(username, password);
   const user = await sso.validate(ticket);
   ctx.cookies.set('ticket', ticket, { httpOnly: true });
-  ctx.body = await ctx.users.findOneAndUpdate(
+  ctx.body = (await ctx.users.findOneAndUpdate(
     { ticket },
     { $set: user },
     { upsert: true, returnOriginal: false }
-  );
+  )).value;
 };
 
 const logout = async (ctx: Context) => {
@@ -26,7 +26,8 @@ const logout = async (ctx: Context) => {
   await sso.logout(ticket).catch(e => {});
   await ctx.users.updateOne({ ticket }, { $unset: { ticket: '' } });
   ctx.cookies.set('ticket', null, { httpOnly: true });
-  ctx.status = 204;
+  ctx.status = 200;
+  ctx.body = 'logout success';
 };
 
 const getProfile = ctx => {
@@ -34,12 +35,12 @@ const getProfile = ctx => {
 };
 
 const setProfile = async (ctx: Context) => {
-  await ctx.users.updateOne(
+  ctx.assert(!_.isEmpty(ctx.request.body), 400, 'field is empty. You must specify a field');
+  ctx.body = (await ctx.users.findOneAndUpdate(
     { ticket: ctx.cookies.get('ticket') },
-    { $set: _.omit(ctx.request.body, ['ticket', 'ouid']) },
-    { upsert: false }
-  );
-  ctx.status = 204;
+    { $set: _.omit(ctx.request.body, ['ticket', 'ouid', '_id']) },
+    { upsert: false, returnOriginal: false }
+  )).value;
 };
 
 export default new Router()
@@ -47,4 +48,4 @@ export default new Router()
   .use(_ensureTicket())
   .all('/logout', logout)
   .get('/profile', getProfile)
-  .post('/profile', setProfile);
+  .patch('/profile', setProfile);

@@ -1,4 +1,4 @@
-interface User {
+export interface User {
   ticket: string;
   ouid: string;
 
