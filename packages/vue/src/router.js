@@ -19,6 +19,11 @@ export default new Router({
       component: () => import('./views/Reservation.vue')
     },
     {
+      path: '/reservation2',
+      name: 'reservation2',
+      component: () => import('./views/Reservation2.vue')
+    },
+    {
       path: '/docs',
       name: 'docs',
       component: () => import('./views/Docs.vue')
