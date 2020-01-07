@@ -2440,16 +2440,10 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
-<<<<<<< HEAD:packages/vue/yarn.lock
 dayjs@^1.8.16:
   version "1.8.16"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.16.tgz#2a3771de537255191b947957af2fd90012e71e64"
   integrity sha512-XPmqzWz/EJiaRHjBqSJ2s6hE/BUoCIHKgdS2QPtTQtKcS9E4/Qn0WomoH1lXanWCzri+g7zPcuNV4aTZ8PMORQ==
-=======
-dayjs@^1.8.15:
-  version "1.8.15"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.15.tgz#7121bc04e6a7f2621ed6db566be4a8aaf8c3913e"
->>>>>>> 0846d3967eb37176d125e66e13ef016113935983:packages/vue/yarn.lock
 
 de-indent@^1.0.2:
   version "1.0.2"
@@ -6104,6 +6098,7 @@ pug-parser@^5.0.1:
 pug-plain-loader@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/pug-plain-loader/-/pug-plain-loader-1.0.0.tgz#cef2a984c90251882109ec2d417a6b433aa6b42a"
+  integrity sha512-mDfq/qvJJ0xdug38mZ1ObW0BQTx9kAHnKqotXC+C00XQkKmsWaMe90JUg/kN4lS6MU7tpVsMZ+rmcnBSPfDtHA==
   dependencies:
     loader-utils "^1.1.0"
 
@@ -6124,6 +6119,7 @@ pug-walk@^1.1.8:
 pug@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pug/-/pug-2.0.4.tgz#ee7682ec0a60494b38d48a88f05f3b0ac931377d"
+  integrity sha512-XhoaDlvi6NIzL49nu094R2NA6P37ijtgMDuWE+ofekDChvfKnzFal60bhSdiy8y2PBO6fmz3oMEIcfpBVRUdvw==
   dependencies:
     pug-code-gen "^2.0.2"
     pug-filters "^3.1.1"
@@ -7574,14 +7570,11 @@ vm-browserify@^1.0.1:
 void-elements@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
-<<<<<<< HEAD:packages/vue/yarn.lock
 
 vue-cal@^2.11.1:
   version "2.11.1"
   resolved "https://registry.yarnpkg.com/vue-cal/-/vue-cal-2.11.1.tgz#74b362bb18b602e887dcad730535c9270b677513"
   integrity sha512-H1ASGyUNiy3cWzZicwjYWQnNxB3598iOiMmVo2WM/jrArXwkT4JPlYLlD4rIF/zoJwxsYQ1de1rgXmOyzALCRw==
-=======
->>>>>>> 0846d3967eb37176d125e66e13ef016113935983:packages/vue/yarn.lock
 
 vue-eslint-parser@^2.0.3:
   version "2.0.3"

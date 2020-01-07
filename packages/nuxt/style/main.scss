@@ -1,0 +1,9 @@
+
+$primary: rgb(136, 43, 56);
+$primary-invert: #f4f4f4;
+
+$link: $primary;
+$link-invert: #f4f4f4;
+
+@import "../node_modules/bulma/bulma";
+@import "../node_modules/buefy/src/scss/buefy.scss";

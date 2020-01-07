@@ -16,7 +16,7 @@ const login = async (ctx: Context) => {
   ctx.cookies.set('ticket', ticket, { httpOnly: true });
   ctx.body = (await ctx.users.findOneAndUpdate(
     { ticket },
-    { $set: user },
+    { $set: user, _id: user.ouid },
     { upsert: true, returnOriginal: false }
   )).value;
 };
@@ -26,7 +26,6 @@ const logout = async (ctx: Context) => {
   await sso.logout(ticket).catch(e => {});
   await ctx.users.updateOne({ ticket }, { $unset: { ticket: '' } });
   ctx.cookies.set('ticket', null, { httpOnly: true });
-  ctx.status = 200;
   ctx.body = 'logout success';
 };
 
