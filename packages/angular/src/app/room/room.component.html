@@ -1,0 +1,219 @@
+<app-header></app-header>
+<br>
+<br>
+<!-- main -->
+<div class="container">
+  <!-- reserve button -->
+  <div class="field">
+    <div class="control">
+      <button id='reserve-btn' class="button is-primary is-rounded" (click)="showForm = true">
+        จองห้องประชุม
+      </button>
+    </div>
+  </div>
+  <div class="room-columns">
+    <div
+      class="room-column"
+      *ngFor="let o of roomService.roomsByDate.value; let i = index"
+    >
+      <div class="rooms-date" [ngClass]="'day-' + weekday(o.date)">
+        <div class="date">
+          {{ dayjs(o.date).format("ddd, D MMMM") }}
+          <div class="tag is-info" [class.is-hidden]="i != 0">วันนี้</div>
+        </div>
+        <br />
+        <div class="rooms">
+          <!-- RESERVE RECORDS -->
+          <ng-template ngFor let-record let-i='index' [ngForOf]="o.value">
+            <app-room-record [(ngModel)]='record'></app-room-record>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- from modal -->
+<div class="modal" [class.is-active]="!finished && showForm">
+  <div class="modal-background" (click)="showForm = false"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">จองห้องประชุม</p>
+    </header>
+    <section class="modal-card-body">
+      <form [formGroup]="reserveForm">
+        <!-- organization field -->
+        <div class="field">
+          <div class="control">
+            <label for="" class="label">หน่วยงาน</label>
+            <input
+              *ngIf="!showOrganizationList; else templateOrganizationList"
+              formControlName="organization"
+              type="text"
+              class="input"
+              placeholder="เช่น ลานเกียร์"
+            />
+            <ng-template #templateOrganizationList>
+              <div class="select is-fullwidth">
+                <select name="" id="">
+                  <option [value]="org" *ngFor="let org of organizationList">{{
+                    org
+                  }}</option>
+                </select>
+              </div>
+            </ng-template>
+            <a
+              class="help is-pulled-right"
+              (click)="showOrganizationList = !showOrganizationList"
+            >
+              {{ showOrganizationList ? "ไม่พบหน่วยงาน" : "ลิสหน่วยงาน" }}
+            </a>
+            <p
+              class="help is-danger"
+              *ngIf="
+                submitted && reserveForm.controls.organization.errors?.required
+              "
+            >
+              This field is required
+            </p>
+          </div>
+        </div>
+        <!-- description field -->
+        <div class="field">
+          <div class="control">
+            <label for="" class="label">รายละเอียด</label>
+            <textarea
+              formControlName="description"
+              type="text"
+              class="textarea"
+              rows="2"
+              placeholder="จุดประสงค์ในการขอใช้สถานที่"
+            ></textarea>
+            <p
+              class="help is-danger"
+              *ngIf="
+                submitted && reserveForm.controls.description.errors?.required
+              "
+            >
+              This field is required
+            </p>
+          </div>
+        </div>
+        <!-- date field -->
+        <div class="field">
+          <div class="control">
+            <label for="" class="label">วัน</label>
+            <div class="select is-fullwidth">
+              <select formControlName="date" name="" id="">
+                <option
+                  [value]="v.date"
+                  *ngFor="let v of roomService.roomsByDate.value"
+                  >{{ dayjs(v.date).format("DD MMMM (dddd)") }}</option
+                >
+              </select>
+            </div>
+            <p
+              class="help is-danger"
+              *ngIf="submitted && reserveForm.controls.date.errors?.required"
+            >
+              This field is required
+            </p>
+          </div>
+        </div>
+        <!-- room field -->
+        <div class="field">
+          <div class="control">
+            <label for="" class="label">ห้อง</label>
+            <div class="select is-fullwidth">
+              <select formControlName="room">
+                <option [value]="r.value" *ngFor="let r of rooms">{{
+                  r.label
+                }}</option>
+              </select>
+            </div>
+            <p
+              class="help is-danger"
+              *ngIf="submitted && reserveForm.controls.room.errors?.required"
+            >
+              This field is required
+            </p>
+          </div>
+        </div>
+        <!-- time field -->
+        <div class="field is-grouped">
+          <div class="control is-expanded">
+            <label for="" class="label">เริ่ม</label>
+            <div class="select is-fullwidth">
+              <select formControlName="start">
+                <option [value]="t" *ngFor="let t of times">{{ t }}</option>
+              </select>
+            </div>
+            <p
+              class="help is-danger"
+              *ngIf="submitted && reserveForm.controls.start.errors?.required"
+            >
+              This field is required
+            </p>
+          </div>
+          <div class="control is-expanded">
+            <label for="" class="label">จบ</label>
+            <div class="select is-fullwidth">
+              <select formControlName="end">
+                <option [value]="t" *ngFor="let t of times">{{ t }}</option>
+              </select>
+            </div>
+            <p
+              class="help is-danger"
+              *ngIf="submitted && reserveForm.controls.end.errors?.required"
+            >
+              This field is required
+            </p>
+          </div>
+        </div>
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <button
+        class="button is-success"
+        [class.is-loading]="loading"
+        (click)="onSubmit()"
+      >
+        จองห้อง
+      </button>
+      <p class="help is-danger" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </p>
+    </footer>
+  </div>
+</div>
+
+<!-- success status -->
+<div class="modal" [class.is-active]="finished">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="has-text-centered" style="width: 250px; margin: auto">
+      <svg viewBox="0 0 512 512" style="fill: #48c774">
+        <path
+          d="M497.36,69.995c-7.532-7.545-19.753-7.558-27.285-0.032L238.582,300.845l-83.522-90.713    c-7.217-7.834-19.419-8.342-27.266-1.126c-7.841,7.217-8.343,19.425-1.126,27.266l97.126,105.481    c3.557,3.866,8.535,6.111,13.784,6.22c0.141,0.006,0.277,0.006,0.412,0.006c5.101,0,10.008-2.026,13.623-5.628L497.322,97.286    C504.873,89.761,504.886,77.54,497.36,69.995z"
+        />
+        <path
+          d="M492.703,236.703c-10.658,0-19.296,8.638-19.296,19.297c0,119.883-97.524,217.407-217.407,217.407    c-119.876,0-217.407-97.524-217.407-217.407c0-119.876,97.531-217.407,217.407-217.407c10.658,0,19.297-8.638,19.297-19.296    C275.297,8.638,266.658,0,256,0C114.84,0,0,114.84,0,256c0,141.154,114.84,256,256,256c141.154,0,256-114.846,256-256    C512,245.342,503.362,236.703,492.703,236.703z"
+        />
+      </svg>
+      <br />
+      <br />
+      <div class="has-text-success">
+        <b class="is-size-4">จองห้องสำเร็จ</b>
+        <br />
+        <div class="is-size-7">
+          หน้านี้ปิดอัตโนมัติใน 3 วินาที
+        </div>
+      </div>
+      <!-- <button class="button is-success">จองห้องสำเร็จ</button> -->
+    </div>
+  </div>
+  <a class="modal-close is-large" aria-label="close" href="/room"></a>
+</div>
+
+<br />
+<app-footer></app-footer>

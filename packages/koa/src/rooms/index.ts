@@ -3,6 +3,7 @@ import compose from 'koa-compose';
 import Router from 'koa-router';
 import { _ensureTicket, _haveRole } from '../users/util';
 import { ObjectId } from 'koa-mongo';
+import dayjs from 'dayjs'
 
 const getRooms = async ctx => {
   const { start, end, ouid } = ctx.query;
@@ -26,14 +27,37 @@ const createRooms = async ctx => {
 
 const updateRooms = async ctx => {
   const { status } = ctx.request.body;
-  const curr = await ctx.rooms.findOne({ _id: ObjectId(ctx.params.id) });
-  ctx.assert(curr, 404, "Not Found Room to Update");
-
+  console.log("TCL: ctx.request.body", ctx.request.body)
+  console.log("TCL: ctx.request.body", ctx.params.id)
+  const curr = await ctx.rooms.findOneAndUpdate(
+    { _id: ObjectId(ctx.params.id) },
+    { $set: { status } },
+    { returnNewDocument: true }
+  );
+  console.log("TCL: curr", curr)
+  ctx.assert(curr.ok, 404, "Not Found Room to Update");
+  ctx.body = curr.value
 };
+
+async function getRoomsByDate(ctx: Context) {
+  const today = dayjs().startOf('day')
+  const dates = _.range(0, 7).map(nm => today.add(nm, 'day').format('YYYY-MM-DD'))
+  console.log("TCL: getRoomsByDate -> dates", dates)
+  
+  const raw = await ctx.rooms
+  .find({ date: {$in: dates}})
+  .toArray()
+  const grp = _.groupBy(raw, 'date')
+  ctx.body = dates.map(date => ({
+    date,
+    value: _.get(grp, date, [])
+  }))
+}
 
 export default new Router()
   .prefix('/rooms')
   .get('/', getRooms)
+  .get('/byDate', getRoomsByDate)
   .use(_ensureTicket())
   .post('/', createRooms)
   .patch('/:id', updateRooms);

@@ -1,0 +1,23 @@
+<app-header></app-header>
+<section class="section">
+  <!-- <div *ngFor='let row of escContact'>{{row}}
+  </div> -->
+  <!-- <div>
+    {{escContact[0] | json}}
+  </div> -->
+  <table class="table" style='margin: auto'>
+    <thead>
+      <tr>
+        <th *ngFor='let h of escContactOrder'>{{h}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let row of escContact'>
+        <td *ngFor='let h of escContactOrder'>{{row[h]}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- {{escContact | json}} -->
+</section>
+
+<app-footer></app-footer>

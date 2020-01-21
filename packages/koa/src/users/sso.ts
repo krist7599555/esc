@@ -2,6 +2,7 @@ import _ from 'lodash';
 import axios from 'axios';
 import faculty from './faculty';
 import qs from 'qs';
+import {User} from '../types/user'
 
 const SSO_URL = 'https://account.it.chula.ac.th';
 const SSO_KILL = ticket => `${SSO_URL}/resources/tickets/${ticket}`;

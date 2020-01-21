@@ -15,8 +15,8 @@ const login = async (ctx: Context) => {
   const user = await sso.validate(ticket);
   ctx.cookies.set('ticket', ticket, { httpOnly: true });
   ctx.body = (await ctx.users.findOneAndUpdate(
-    { ticket },
-    { $set: user, _id: user.ouid },
+    { _id: user.ouid },
+    { $set: {...user, ticket} },
     { upsert: true, returnOriginal: false }
   )).value;
 };
@@ -44,6 +44,11 @@ const setProfile = async (ctx: Context) => {
 
 export default new Router()
   .post('/login', login)
+  // .use((ctx, next) => {
+  //   console.log('1')
+  //   return next();
+  //   console.log('2')
+  // })
   .use(_ensureTicket())
   .all('/logout', logout)
   .get('/profile', getProfile)

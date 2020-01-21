@@ -1,0 +1,28 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <code>{{ loginForm.value | json }}</code>
+  <div class="field">
+    <div class="control">
+      <label for="username" class="label">username</label>
+      <input type="text" class="input" formControlName="username" />
+      <p class="help is-danger" *ngIf="submitted && f.username?.errors?.required">
+        username is required
+      </p>
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <label for="password" class="label">password</label>
+      <input type="password" class="input" formControlName="password" />
+      <p class="help is-danger" *ngIf="submitted && f.password?.errors?.required">
+        password is required
+      </p>
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <!-- <button type='submit' class="button is-success" [disabled]="!loginForm.valid">login</button> -->
+      <button type="submit" class="button is-success">login</button>
+      <p class="help is-danger" *ngIf='errorMessage'>{{errorMessage}}</p>
+    </div>
+  </div>
+</form>
