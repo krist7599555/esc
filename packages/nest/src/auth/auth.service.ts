@@ -1,12 +1,11 @@
-import { Injectable, HttpService, HttpException, Inject } from '@nestjs/common';
-import { map, tap, flatMap } from 'rxjs/operators';
-import { SsoService } from './sso/sso.service';
-import { UsersService } from '../users/users.service';
+import { map, tap } from 'rxjs/operators';
 
-const SSO_URL = 'https://account.it.chula.ac.th';
-const SSO_KILL = ticket => `${SSO_URL}/resources/tickets/${ticket}`;
-const SSO_LOGIN = () => `${SSO_URL}/login`;
-const SSO_USER = () => `${SSO_URL}/resources/users/me`;
+import { Injectable } from '@nestjs/common';
+
+import { User } from '../users/user.interface';
+import { UsersService } from '../users/users.service';
+import { signUser } from '../utils/jwt';
+import { SsoService } from './sso/sso.service';
 
 @Injectable()
 export class AuthService {
@@ -14,10 +13,13 @@ export class AuthService {
     private readonly sso: SsoService,
     private readonly users: UsersService,
   ) {}
+
   login(username: string, password: string) {
     return this.sso.login(username, password).pipe(
-      tap(console.log),
-      tap(d => this.users.create(d)),
+      tap(me => this.users.create(me)),
+      map((me: User) => ({
+        access_token: signUser(me),
+      })),
     );
   }
 }

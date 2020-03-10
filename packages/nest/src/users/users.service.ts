@@ -1,28 +1,43 @@
-import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { User } from './interfaces/user.interface';
+
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+
+import { User } from './user.interface';
+import { RethinkdbService } from '../rethinkdb/rethinkdb.service';
+import { RTable } from 'rethinkdb-ts';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectModel('User')
-    private readonly users: Model<User>,
-  ) {}
+  private users: RTable<User>;
+  private conn;
+  constructor(private readonly r: RethinkdbService) {
+    this.users = r.users;
+    this.conn = r.conn;
+  }
 
   create(user: User) {
-    return this.users.findByIdAndUpdate(user._id, user, {
-      upsert: true,
-      new: true,
-      setDefaultsOnInsert: true,
-    });
+    return this.users.insert(user).run(this.conn);
   }
 
-  findAll() {
-    return this.users.find().exec();
+  find() {
+    return this.users
+      .merge(user => ({
+        booking: this.r.books
+          .getAll(user('id'), { index: 'booker_id' })
+          .coerceTo('array'),
+      }))
+      .run(this.conn);
   }
 
-  findById(id: string) {
-    return this.users.findById(id);
+  get(id: string) {
+    return this.users
+      .get(id)
+      .merge(user => ({
+        booking: this.r.books
+          .getAll(user('id'), { index: 'booker_id' })
+          .coerceTo('array'),
+      }))
+      .run(this.conn);
   }
 }

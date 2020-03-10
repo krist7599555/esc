@@ -10,4 +10,6 @@ export interface User extends Document {
   year: number;
   faculty: number;
   email?: string;
+  nickname?: string;
+  role?: string[];
 }

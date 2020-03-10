@@ -1,38 +1,40 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject } from "rxjs";
 import { Router } from "@angular/router";
+
+import { BehaviorSubject } from "rxjs";
+import { tap, map } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
-  public user = new BehaviorSubject<any>(null);
+  public user$ = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient, private router: Router) {
-    this.user.subscribe(data => {
-      console.log('user', data)
-    })
-    this.profile();
+    this.profile().subscribe();
+  }
+
+  isAuthed() {
+    return !!this.user$.value;
   }
 
   login(username: string, password: string) {
-    const res = this.http.post("/api/login", { username, password });
-    res.subscribe(() => this.profile() && this.router.navigateByUrl("/"))
-    return res;
-  }
-  logout() {
-    const res = this.http.get("/api/logout");
-    res.subscribe(
-      () => this.user.next(null),
-      () => this.user.next(null)
+    return this.http.post("/api/login", { username, password }).pipe(
+      tap((data: any) => localStorage.setItem("token", data.access_token)),
+      map(() => this.profile()),
+      tap(() => this.router.navigateByUrl("/"))
     );
-    return res;
   }
+
+  logout() {
+    localStorage.removeItem("token");
+    this.user$.next(null);
+  }
+
   profile() {
-    const res = this.http.get("/api/profile");
-    res.subscribe(data => this.user.next(data));
-    return res;
+    return this.http
+      .get("/api/profile")
+      .pipe(tap(data => this.user$.next(data)));
   }
 }
-

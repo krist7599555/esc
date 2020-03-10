@@ -1,21 +1,23 @@
-import { Controller, Get, Body, Post } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 
-@Controller('auth')
+import { UsersService } from '../users/users.service';
+import { AuthService } from './auth.service';
+import { Jwt, JwtPayload } from '../utils/jwt';
+
+@Controller('api')
 export class AuthController {
-  constructor(private auth: AuthService) {}
-  @Get()
-  default() {
-    return "AUTH"
-  }
+  constructor(
+    private readonly auth: AuthService,
+    private readonly users: UsersService,
+  ) {}
 
   @Get('profile')
-  getProfile() {
-    return {}
+  getProfile(@Jwt() jwt: JwtPayload) {
+    return this.users.get(jwt.sub);
   }
 
   @Post('login')
-  login(@Body() body: any) {
-    return this.auth.login(body.username, body.password)
+  login(@Body() { username, password }) {
+    return this.auth.login(username, password);
   }
 }

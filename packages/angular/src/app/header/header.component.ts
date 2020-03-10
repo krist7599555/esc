@@ -1,15 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
+import { Component, OnInit, Input } from "@angular/core";
+import { Router } from "@angular/router";
+
+import { AuthService } from "../auth.service";
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.scss"]
 })
 export class HeaderComponent implements OnInit {
-
-  constructor(public auth: AuthService, private router: Router) { }
+  constructor(public auth: AuthService, private router: Router) {}
 
   ngOnInit() {
     // this.router.routeReuseStrategy.shouldReuseRoute = () => true;
@@ -17,4 +17,5 @@ export class HeaderComponent implements OnInit {
 
   @Input() fullheight = false;
   @Input() navigation = true;
+  openNav = false;
 }

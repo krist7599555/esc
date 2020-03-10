@@ -1,7 +1,16 @@
-import { Injectable, HttpService, HttpException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { map, tap, flatMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { flatMap, map, tap } from 'rxjs/operators';
+
+import {
+  HttpException,
+  HttpService,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+
+import { User } from '../../users/user.interface';
+import { SsoToken } from './sso.interface';
 
 const SSO_URL = 'https://account.it.chula.ac.th';
 const SSO_LOGIN = `${SSO_URL}/login`;
@@ -30,7 +39,8 @@ export class SsoService {
       .pipe(
         map(res => res.data),
         tap(data => {
-          if (data.type === 'error') throw new HttpException(data.content, 400);
+          if (data.type === 'error')
+            throw new HttpException(data.content, HttpStatus.BAD_REQUEST);
         }),
         map(data => data.ticket),
       );
@@ -47,16 +57,20 @@ export class SsoService {
       })
       .pipe(
         map(res => res.data),
-        map(raw => ({
-          _id: raw.ouid,
-          nameTH: raw.firstnameth,
-          nameEN: raw.firstname,
-          surnameTH: raw.lastnameth,
-          surnameEN: raw.lastname,
-          faculty: +raw.ouid.slice(-2),
-          year: +raw.ouid.slice(0, 2),
-          email: raw.email,
-        })),
+        tap(console.log),
+        map(
+          raw =>
+            (({
+              id: raw.ouid,
+              nameTH: raw.firstnameth,
+              nameEN: raw.firstname,
+              surnameTH: raw.lastnameth,
+              surnameEN: raw.lastname,
+              faculty: +raw.ouid.slice(-2),
+              year: +raw.ouid.slice(0, 2),
+              email: raw.email,
+            } as unknown) as User),
+        ),
       );
   }
 

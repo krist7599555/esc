@@ -1,26 +1,28 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { ReactiveFormsModule } from "@angular/forms";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { ProfileComponent } from './profile/profile.component'
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { TokenInterceptor } from "./token.interceptor";
 
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { NotfoundComponent } from './notfound/notfound.component';
-import { HeaderComponent } from './header/header.component';
-import { RoomComponent } from './room/room.component';
-import { ClubComponent } from './club/club.component';
-import { ContactComponent } from './contact/contact.component';
-import { FooterComponent } from './footer/footer.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { StudentComponent } from './student/student.component';
-import { RecordComponent } from './room/room/record/record.component';
+import { ClubComponent } from "./club/club.component";
+import { ContactComponent } from "./contact/contact.component";
+import { FooterComponent } from "./footer/footer.component";
+import { HeaderComponent } from "./header/header.component";
+import { HomeComponent } from "./home/home.component";
+import { LoginComponent } from "./login/login.component";
+import { NotfoundComponent } from "./notfound/notfound.component";
+import { ProfileComponent } from "./profile/profile.component";
+import { RoomComponent } from "./room/room.component";
+import { StudentComponent } from "./student/student.component";
+import { RecordComponent } from "./room/room/record/record.component";
+import { BookingformComponent } from './room/bookingform/bookingform.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { RecordComponent } from './room/room/record/record.component';
     ContactComponent,
     FooterComponent,
     StudentComponent,
-    RecordComponent
+    RecordComponent,
+    BookingformComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,9 @@ import { RecordComponent } from './room/room/record/record.component';
     ReactiveFormsModule,
     FontAwesomeModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "dev": "lerna run dev --stream --ignore=vue --ignore=nuxt",
+    "dev": "lerna run dev --stream --ignore=vue --ignore=nuxt --ignore=nest",
     "dev2": "lerna run dev --stream"
   },
   "devDependencies": {

@@ -1,12 +1,17 @@
 import { Component, OnInit } from "@angular/core";
-import { RoomService } from "../room.service";
-import * as dayjs from "dayjs";
-import "dayjs/locale/th";
-dayjs.locale("th");
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+
+import "dayjs/locale/th";
+import * as dayjs from "dayjs";
+
 import * as _ from "lodash";
 
-import { finalize } from "rxjs/operators";
+import { AuthService } from "../auth.service";
+import { BookService } from "../book.service";
+import { RoomService } from "../room.service";
+import { TimeService } from "../times.service";
+
+dayjs.locale("th");
 
 @Component({
   selector: "app-room",
@@ -14,6 +19,8 @@ import { finalize } from "rxjs/operators";
   styleUrls: ["./room.component.scss"]
 })
 export class RoomComponent implements OnInit {
+  public bookingFormActive = true;
+
   public dayjs: any = dayjs;
   public showContent: any = {};
   public showForm = false;
@@ -39,32 +46,28 @@ export class RoomComponent implements OnInit {
     "ค่ายลานเกียร์ ครั้งที่ 19",
     "ค่ายยุววิศวกรบพิธ ครั้งที่ 48",
     "ค่ายวิศวพัฒน์",
-    "ค่ายจิตอาสาปรับปรุงโรงเรียนร่วมกับนักเรียนต่างชาติ",
-  ]
-  public organizationList = [
-  ]
+    "ค่ายจิตอาสาปรับปรุงโรงเรียนร่วมกับนักเรียนต่างชาติ"
+  ];
+  public organizationList = [];
 
   get times() {
     return _.flatMap(_.range(8, 20), nm => [nm + ":00", nm + ":30"]);
   }
-  get rooms() {
-    return [
-      { label: "ห้องประชุม 2 (10 คน)", value: "pj2" },
-      { label: "ห้องประชุม 3 (10 คน)", value: "pj3" },
-      { label: "ห้องประชุม 4 (10 คน)", value: "pj4" },
-      { label: "ห้องประขุม กวศ (20 คน)", value: "esc" },
-      { label: "ห้องประชุม ใหญ่ (40 คน)", value: "big" }
-    ];
-  }
 
-  constructor(public roomService: RoomService, private fb: FormBuilder) {}
+  constructor(
+    public roomService: RoomService,
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private bookService: BookService,
+    public day: TimeService
+  ) {}
 
   ngOnInit() {
-    const now = dayjs().startOf('hour')
+    const now = dayjs().startOf("hour");
     this.reserveForm = this.fb.group({
       date: [null, [Validators.required]],
-      start: [now.format('H:mm'), Validators.required],
-      end: [now.add(1, 'hour').format('H:mm'), Validators.required],
+      start: [now.format("H:mm"), Validators.required],
+      end: [now.add(1, "hour").format("H:mm"), Validators.required],
       organization: [null, [Validators.required]],
       description: null,
       room: [null, Validators.required]
@@ -78,7 +81,7 @@ export class RoomComponent implements OnInit {
     this.submitted = true;
     if (this.reserveForm.valid) {
       this.loading = true;
-      this.roomService.reserve(this.reserveForm.value).subscribe(
+      this.bookService.reserve(this.reserveForm.value).subscribe(
         data => {
           this.loading = false;
           this.finished = true;
@@ -116,5 +119,12 @@ export class RoomComponent implements OnInit {
       console.error,
       () => {}
     );
+  }
+  openForm() {
+    if (this.auth.isAuthed()) {
+      this.showForm = true;
+    } else {
+      window.open("/login", "_blank");
+    }
   }
 }

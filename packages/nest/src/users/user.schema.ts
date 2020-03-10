@@ -1,9 +1,10 @@
 import * as mongoose from 'mongoose';
+import { User } from './user.interface';
 
-export const UserSchema = new mongoose.Schema(
+export const UserSchema = new mongoose.Schema<User>(
   {
-    _id: String,
-    gender: String,
+    _id: { type: String, validate: /^\d{10}$/ },
+    gender: { type: String, enum: ['male', 'female'] },
     nameTH: String,
     surnameTH: String,
     nameEN: String,
@@ -11,6 +12,12 @@ export const UserSchema = new mongoose.Schema(
     year: Number,
     faculty: Number,
     email: String,
+
+    nickname: String,
+    roles: {
+      type: [String],
+      default: [],
+    },
   },
   {
     timestamps: {
