@@ -1,0 +1,22 @@
+<div class="record" [attr.data-status]="value.status">
+  <p class="organization">{{ value.organization }}</p>
+  <div class="is-flex">
+    <p class="time">
+      {{ value.time_start | date_format: "HH:mm" }} -
+      {{ value.time_end | date_format: "HH:mm" }}
+    </p>
+    <p class="room">{{ value.room.label }}</p>
+  </div>
+  <br />
+  <div class="content">
+    โดย {{ value.user.nameTH }} {{ value.user.surnameTH }}
+    <br />
+    ติดต่อ {{ value.user.tel }}
+    <br />
+    สถานะ {{ value.status }}
+    <br />
+    <br />
+    อณุมัติโดย {{ value.user.nameTH }} {{ value.user.surnameTH }}
+    <fa-icon [icon]="faCoffee"></fa-icon>
+  </div>
+</div>

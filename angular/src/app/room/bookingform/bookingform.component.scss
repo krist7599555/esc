@@ -1,0 +1,11 @@
+.label {
+  &::after {
+    content: " *";
+    font-size: 0.8rem;
+    color: #ca3a3a;
+  }
+}
+
+.line-height-normal {
+  line-height: normal;
+}

@@ -1,0 +1,13 @@
+@charset "utf-8";
+// $warning: #f0ad4e;
+$warning: #f0b74e;
+$success: #5cb85c;
+$primary: #6e120b;
+$tabs-link-active-color: $primary;
+$link: $primary;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+$family-sans-serif: "THSarabunNew", BlinkMacSystemFont, -apple-system,
+  "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+  "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+@import "node_modules/bulma/bulma.sass";

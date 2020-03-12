@@ -1,0 +1,37 @@
+@import "../../../styles.scss";
+
+.organization {
+  font-weight: bold;
+}
+.record {
+  margin-left: 1.1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+  position: relative;
+  &::before {
+    content: "";
+    height: 2.4rem;
+    border-left: 3px solid $light;
+    position: absolute;
+    left: 0;
+    top: 20px;
+  }
+  &[data-status="pending"]::before {
+    border-color: $warning;
+  }
+  &[data-status="approved"]::before {
+    border-color: $success;
+  }
+  &[data-status="rejected"]::before {
+    border-color: $danger;
+  }
+}
+.record + .record,
+app-record + app-record,
+:host + :host {
+  border-top: 2px solid #95959514;
+}
+.time {
+  width: 7rem;
+}

@@ -1,3 +1,4 @@
 ESC website in one night
 
-- start 22:08
+- ruby on rails
+- angular
