@@ -1,0 +1,1 @@
+nodemon --ext rb --watch app --watch config --watch lib --verbose --exec "rails s -u puma --environment=development"

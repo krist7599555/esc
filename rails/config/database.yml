@@ -1,0 +1,5 @@
+development:
+  adapter: rethinkdb
+  encoding: utf8
+  reconnect: true
+  database: esc_dev
