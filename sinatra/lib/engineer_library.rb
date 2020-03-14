@@ -1,4 +1,7 @@
-class EngLib
+require 'faraday'
+require 'faraday_middleware'
+
+class EngineerLibrary
   @conn =
     Faraday.new(
       url: 'https://www.library.eng.chula.ac.th',
@@ -9,7 +12,7 @@ class EngLib
     end
   def self.user(id)
     resp = @conn.post('/api/user/verify-student', { "studentID": id })
-    body = resp.body.with_indifferent_access
+    body = resp.body
     if body['message'] == 'valid'
       {
         id: body['studentId'],
@@ -20,5 +23,10 @@ class EngLib
         tel: body['tel']
       }
     end
+  end
+  def self.user!(id)
+    res = self.user(id)
+    raise Unauthorized, 'user exist in engineer database' if res.nil?
+    res
   end
 end
