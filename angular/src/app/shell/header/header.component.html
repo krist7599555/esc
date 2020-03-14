@@ -1,0 +1,35 @@
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item" routerLink="/">
+        <img src="./assets/logo.png" alt="Logo" />
+      </a>
+      <span
+        class="navbar-burger burger"
+        [class.is-active]="openNav"
+        (click)="openNav = !openNav"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </div>
+    <div class="navbar-menu" [class.is-active]="openNav">
+      <div class="navbar-end">
+        <a class="navbar-item" routerLink="/room"    routerLinkActive='is-active'>จองห้อง</a>
+        <a class="navbar-item" routerLink="/club"    routerLinkActive='is-active'>ชมรม</a>
+        <a class="navbar-item" routerLink="/club"    routerLinkActive='is-active'>ฟอร์มเอกสาร</a>
+        <a class="navbar-item" routerLink="/student" routerLinkActive='is-active'>ฐานข้อมูล</a>
+        <a class="navbar-item" routerLink="/contact" routerLinkActive='is-active'>ติดต่อเรา</a>
+        <span class="navbar-item">
+          <a *showIfLoggedIn='false' class="button is-primary" routerLink="/login">
+            <span>เข้าสู่ระบบ</span>
+          </a>
+          <a *showIfLoggedIn='true' class="button" (click)="logout()">
+            <span>ออกจากระบบ</span>
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+</nav>

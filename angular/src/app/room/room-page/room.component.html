@@ -1,0 +1,21 @@
+<div class="container">
+  <!-- <app-map></app-map> -->
+  <div class="field">
+    <div class="control">
+      <button
+        class="button is-primary"
+        (click)="openForm(); bookingFormActive = true"
+      >
+        จองห้องประชุม
+      </button>
+    </div>
+  </div>
+  <div class="container">
+    <ng-container *ngFor="let pair of reservationsGroupByDate$ | async; trackBy: trackByIdx">
+      <div class="date">{{ pair[0] | date_format: "dd DD MMMM YYYY" }}</div>
+      <app-record [value]="r" *ngFor="let r of pair[1]; trackBy: trackById"></app-record>
+    </ng-container>
+  </div>
+</div>
+
+<app-bookingform [(active)]="bookingFormActive"></app-bookingform>

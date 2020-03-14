@@ -1,0 +1,41 @@
+<!-- <app-header [navigation]='false'></app-header> -->
+<section class="hero is-light is-fullheight-with-navbar">
+  <div class="hero-body">
+    <div class="box" style='margin: auto; width: 300px'>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- <code>{{ loginForm.value | json }}</code> -->
+
+        <div class="field">
+          <div class="control">
+            <label for="username" class="label">รหัสนิสิต 10 หลัก</label>
+            <input type="text" class="input" formControlName="username" />
+            <p
+              class="help is-danger"
+              *ngIf="submitted && f.username?.errors?.required"
+            >
+              username is required
+            </p>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <label for="password" class="label">รหัสผ่านเหมือน reg chula</label>
+            <input type="password" class="input" formControlName="password" />
+            <p
+              class="help is-danger"
+              *ngIf="submitted && f.password?.errors?.required"
+            >
+              password is required
+            </p>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <!-- <button type='submit' class="button is-success" [disabled]="!loginForm.valid">login</button> -->
+            <button type="submit" class="button is-success" [class.is-loading]='loading$ | async'>login</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

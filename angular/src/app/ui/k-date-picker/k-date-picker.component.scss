@@ -1,0 +1,140 @@
+@import "../../../styles";
+
+$block: calc(100% / 7);
+$main-color: #363636;
+$main-color: #6e120b;
+$main-color-fade: transparentize($main-color, 0.7);
+$main-color-invert: #f4f4f4;
+
+@mixin calenda-item {
+  margin: 0;
+  padding: 0.2rem;
+  padding-top: 8px;
+  min-height: 2.4rem;
+  min-width: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin down-icon {
+  right: 1.125em;
+  z-index: 100;
+
+  border: 3px solid $main-color;
+  border-radius: 2px;
+  border-right: 0;
+  border-top: 0;
+  content: " ";
+  display: block;
+  height: 0.625em;
+  margin-top: -0.4375em;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: rotate(-45deg);
+  transform-origin: center;
+  width: 0.625em;
+}
+
+.k-date-picker {
+  // width: 320px;
+  border: 1px solid $main-color-fade;
+  border-radius: 8px;
+
+  cursor: pointer;
+  display: block;
+  font-size: 1em;
+  max-width: 100%;
+  outline: none;
+
+  background-color: white;
+  border-color: #dbdbdb;
+  border-radius: 4px;
+  color: #363636;
+
+  > .selected-date {
+    @include calenda-item();
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: calc(0.75em - 1px);
+    padding-top: 0.5rem;
+    height: 2.5em;
+    position: relative;
+    &::after {
+      @include down-icon();
+    }
+  }
+  > .week-days {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    background-color: $main-color;
+    color: $main-color-invert;
+    > * {
+      @include calenda-item();
+      flex: 1;
+    }
+  }
+  > .calenda-outer {
+    overflow: scroll;
+    height: 300px;
+    > .calenda-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: row;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      > .month {
+        @include calenda-item();
+        flex: 7 100%;
+        // justify-content: flex-start;
+        // padding-left: 1rem;
+        font-weight: bold;
+        margin-top: 1rem;
+      }
+      > .day {
+        @include calenda-item();
+        cursor: pointer;
+        width: $block;
+        border-radius: 8px;
+        &:hover {
+          background-color: transparentize($main-color, 0.95);
+        }
+        &.is-today {
+          border: 1px solid $main-color-fade;
+        }
+        &.is-active {
+          background-color: $main-color;
+          color: $main-color-invert;
+        }
+        &[disabled="true"] {
+          opacity: 0.2;
+        }
+      }
+    }
+  }
+}
+.calenda-inner,
+.week-days {
+  padding-left: 1.3rem;
+  padding-right: 1.3rem;
+  @include desktop {
+    padding-left: 3.3rem;
+    padding-right: 3.3rem;
+  }
+}
+
+.k-date-picker:not(.is-active) {
+  > .calenda-outer,
+  > .week-days {
+    display: none;
+  }
+}
+
+.calenda-inner .month + .day {
+  margin-left: $block;
+}

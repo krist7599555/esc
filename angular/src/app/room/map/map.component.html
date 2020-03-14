@@ -1,0 +1,18 @@
+
+<div class="grid-container">
+  <button class='room grid-exit'   [attr.disabled]='true'>    <fa-icon [icon]="faFireAlt">     </fa-icon> <span>         </span></button>
+  <button class='room grid-office' [attr.disabled]='true'>    <fa-icon [icon]="faPrint">       </fa-icon> <span>สำนักงาน </span></button>
+  <button class='room grid-packg'  [attr.disabled]='true'>    <fa-icon [icon]="faCubes">       </fa-icon> <span>         </span></button>
+  <button class='room grid-toilet' [attr.disabled]='true'>    <fa-icon [icon]="faRestroom">    </fa-icon> <span>         </span></button>
+  <button class='room grid-liff'   [attr.disabled]='true'>    <fa-icon [icon]="faArrowsAltV">  </fa-icon> <span>ลิฟท์    </span></button>
+  <button class='room grid-god'    [attr.disabled]='true'>    <fa-icon [icon]="faDharmachakra"></fa-icon> <span>องค์พ่อ  </span></button>
+  <button class='room grid-pj1'    [attr.disabled]='true'>    <fa-icon [icon]="faChessRook">   </fa-icon> <span>ประชุม 1  </span></button>
+  <button class='room grid-pjbig' (click)='select("pjbig")' [class.is-active]='value == "pjbig"'>     <fa-icon [icon]="faChessRook">   </fa-icon> <span>ประชุม ใหญ่</span></button>
+  <button class='room grid-pjesc' (click)='select("pjesc")' [class.is-active]='value == "pjesc"'>     <fa-icon [icon]="faChessRook">   </fa-icon> <span>ประชุม กวศ</span></button>
+  <button class='room grid-pj2'   (click)='select("pj2")'   [class.is-active]='value == "pj2"'  >     <fa-icon [icon]="faChessRook">   </fa-icon> <span>ประชุม 2  </span></button>
+  <button class='room grid-pj3'   (click)='select("pj3")'   [class.is-active]='value == "pj3"'  >     <fa-icon [icon]="faChessRook">   </fa-icon> <span>ประชุม 3  </span></button>
+  <button class='room grid-pj4'   (click)='select("pj4")'   [class.is-active]='value == "pj4"'  >     <fa-icon [icon]="faChessRook">   </fa-icon> <span>ประชุม 4  </span></button>
+  <button class='room grid-pj5'   (click)='select("pj5")'   [class.is-active]='value == "pj5"'  >     <fa-icon [icon]="faChessRook">   </fa-icon> <span>ประชุม 5  </span></button>
+  <div class='center_element grid-me'>        <fa-icon [icon]="faUser">        </fa-icon> <span>  </span></div>
+  <div class="grid-out"></div>
+</div>

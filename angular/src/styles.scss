@@ -1,3 +1,5 @@
+
+
 @charset "utf-8";
 // $warning: #f0ad4e;
 $warning: #f0b74e;
@@ -8,6 +10,21 @@ $link: $primary;
 $widescreen-enabled: false;
 $fullhd-enabled: false;
 $family-sans-serif: "THSarabunNew", BlinkMacSystemFont, -apple-system,
-  "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-  "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+"Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+"Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 @import "node_modules/bulma/bulma.sass";
+
+
+@import "../node_modules/ngx-toastr/toastr";
+.toast-success {
+  background-color: $success;
+}
+.toast-error {
+  background-color: $danger;
+}
+.toast-info {
+  background-color: $info;
+}
+.toast-warning {
+  background-color: $warning;
+}

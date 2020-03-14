@@ -1,0 +1,49 @@
+@import "../../../styles.scss";
+
+.organization {
+  font-weight: bold;
+}
+.record {
+  margin-left: 1.1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+  position: relative;
+  &::before {
+    content: "";
+    height: calc(100% - 2rem);
+    border-left: 5px solid $light;
+    border-radius: 2px;
+    position: absolute;
+    left: 0;
+    left: -5px;
+    top: 1rem;
+  }
+  &[data-status="pending"] {
+    &::before { border-color: $warning; }
+    > .detail { background-color: transparentize($warning, 0.9); }
+    // background-color: transparentize($warning, 0.9);
+  }
+  &[data-status="approved"] {
+    &::before { border-color: $success; }
+    > .detail { background-color: transparentize($success, 0.9); }
+    // background-color: transparentize($success, 0.9);
+  }
+  &[data-status="rejected"] {
+    &::before { border-color: $danger; }
+    > .detail { background-color: transparentize($danger, 0.9); }
+    // background-color: transparentize($danger, 0.9);
+  }
+  > .detail {
+    margin-left: -2rem;
+    padding-left: 2rem;
+  }
+}
+.record + .record,
+app-record + app-record,
+:host + :host {
+  border-top: 2px solid #95959514;
+}
+.time {
+  width: 7rem;
+}
