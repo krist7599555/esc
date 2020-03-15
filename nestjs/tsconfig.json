@@ -11,12 +11,12 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
-      "@esc/sso": ["libs/sso/src"],
-      "@esc/sso/*": ["libs/sso/src/*"],
-      "@esc/englibrary": ["libs/englibrary/src"],
+      "@esc/sso":          ["libs/sso/src"],
+      "@esc/sso/*":        ["libs/sso/src/*"],
+      "@esc/englibrary":   ["libs/englibrary/src"],
       "@esc/englibrary/*": ["libs/englibrary/src/*"],
-      "@esc/rethinkdb-repository": ["libs/rethinkdb-repository/src"],
-      "@esc/rethinkdb-repository/*": ["libs/rethinkdb-repository/src/*"]
+      "@esc/repository":   ["libs/repository/src"],
+      "@esc/repository/*": ["libs/repository/src/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

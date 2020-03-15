@@ -27,6 +27,9 @@ export class RethinkdbRepository<T = any> {
                 
     if (!conn)       throw new TypeError('rethinkDB connection is required');
     if (!table_name) throw new TypeError('table_name is required');
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    r.tableCreate(table_name).run(conn).catch(() => { });
   }
 
   create(data: T) {
@@ -39,6 +42,12 @@ export class RethinkdbRepository<T = any> {
     return this.repo
       .get(id)
       .update(data, { returnChanges: true })
+      .run(this.conn);
+  }
+
+  upsert(data: T) {
+    return this.repo
+      .insert(data, { returnChanges: true, conflict: 'update' })
       .run(this.conn);
   }
 
@@ -57,6 +66,20 @@ export class RethinkdbRepository<T = any> {
   find(id: string) {
     return this.repo
       .get(id)
+      .run(this.conn);
+  }
+    
+  clear() {
+    return this.repo
+      .delete()
+      .run(this.conn);
+  }
+  
+  exist(id: string) {
+    return this.repo
+      .get(id)
+      .count()
+      .eq(1)
       .run(this.conn);
   }
 
