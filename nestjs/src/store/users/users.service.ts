@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Connection } from 'rethinkdb-ts';
 import { RethinkdbRepository } from '../../../libs/repository/src/index';
-import { RETHINKDB_CONNECTION } from '../store.provider';
+import { RETHINKDB_CONNECTION } from '../connection.provider';
 import { User } from './user.entity';
 
 @Injectable()

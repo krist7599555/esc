@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { RethinkConnectionProvider } from './store.provider';
+import { RethinkConnectionProvider } from './connection.provider';
 import { UsersService } from './users/users.service';
 import { RoomsService } from './rooms/rooms.service';
 import { ReservationsService } from './reservations/reservations.service';

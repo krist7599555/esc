@@ -1,4 +1,11 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
 @Controller('rooms')
-export class RoomsController {}
+export class RoomsController {
+
+  @Get()
+  index() {
+    // TODO
+  }
+
+}
