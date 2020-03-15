@@ -8,8 +8,6 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
-    'prettier',
-    'prettier/@typescript-eslint',
   ],
   root: true,
   env: {
@@ -20,5 +18,15 @@ module.exports = {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/camelcase': ['off'],
+    'key-spacing': [
+      'error',
+      { align: 'value', beforeColon: false, afterColon: true },
+    ],
+    indent: ['error', 2],
+    semi: ['error', 'always'],
+    quotes: ['error', 'single'],
+    'comma-dangle': ['error', 'always-multiline'],
+    'comma-spacing': ["error", { "before": false, "after": true }]
   },
 };
