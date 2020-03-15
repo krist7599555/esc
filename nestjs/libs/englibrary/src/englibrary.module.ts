@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Module, HttpModule } from '@nestjs/common';
 import { EnglibraryService } from './englibrary.service';
 
 @Module({
   providers: [EnglibraryService],
-  exports: [EnglibraryService],
+  imports:   [HttpModule],
+  exports:   [EnglibraryService],
 })
 export class EnglibraryModule {}
