@@ -1,0 +1,36 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "projects": {
+    "sso": {
+      "type": "library",
+      "root": "libs/sso",
+      "entryFile": "index",
+      "sourceRoot": "libs/sso/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/sso/tsconfig.lib.json"
+      }
+    },
+    "englibrary": {
+      "type": "library",
+      "root": "libs/englibrary",
+      "entryFile": "index",
+      "sourceRoot": "libs/englibrary/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/englibrary/tsconfig.lib.json"
+      }
+    },
+    "rethinkdb-repository": {
+      "type": "library",
+      "root": "libs/rethinkdb-repository",
+      "entryFile": "index",
+      "sourceRoot": "libs/rethinkdb-repository/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/rethinkdb-repository/tsconfig.lib.json"
+      }
+    }
+  },
+  "compilerOptions": {
+    "webpack": true
+  }
+}

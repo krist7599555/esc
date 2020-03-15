@@ -1,0 +1,23 @@
+{
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "esc/sso/(.*)": "<rootDir>/../libs/sso/src/$1",
+    "esc/sso": "<rootDir>/../libs/sso/src",
+    "@esc/sso/(.*)": "<rootDir>/../libs/sso/src/$1",
+    "@esc/sso": "<rootDir>/../libs/sso/src",
+    "esc/englibrary/(.*)": "<rootDir>/../libs/englibrary/src/$1",
+    "esc/englibrary": "<rootDir>/../libs/englibrary/src",
+    "@esc/rethinkdb-repository/(.*)": "<rootDir>/../libs/rethinkdb-repository/src/$1",
+    "@esc/rethinkdb-repository": "<rootDir>/../libs/rethinkdb-repository/src"
+  }
+}
