@@ -1,4 +1,4 @@
 ESC website in one night
 
-- ruby on rails
+- nestjs
 - angular
