@@ -22,7 +22,7 @@ export class RethinkdbRepository<T = any> {
   
   readonly repo = r.table<T>(this.table_name)
 
-  constructor(private conn: Connection,
+  constructor(protected conn: Connection,
               public table_name: string) {
                 
     if (!conn)       throw new TypeError('rethinkDB connection is required');
@@ -78,19 +78,8 @@ export class RethinkdbRepository<T = any> {
   exist(id: string) {
     return this.repo
       .get(id)
-      .count()
-      .eq(1)
-      .run(this.conn);
+      .run(this.conn)
+      .then(o => !!o);
   }
 
-  network_find(id: string) {
-    console.warn(`repo[${this.table_name}] use default network_find`);
-    return this.find(id);
-  }
-  
-  network_all() {
-    console.warn(`repo[${this.table_name}] use default network_all`);
-    return this.all();
-  }
-  
 }

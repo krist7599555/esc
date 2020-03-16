@@ -9,4 +9,10 @@ export class RoomsService extends RethinkdbRepository<Room> {
   constructor(@Inject(RETHINKDB_CONNECTION) conn: Connection) {
     super(conn, 'rooms');
   }
+  _minimal_get(id) {
+    return this.repo.get(id).pluck('id', 'label', 'capacity');
+  }
+  minimal_get(id) {
+    return this._minimal_get(id).run;
+  }
 }

@@ -9,4 +9,10 @@ export class UsersService extends RethinkdbRepository<User> {
   constructor(@Inject(RETHINKDB_CONNECTION) conn: Connection) {
     super(conn, 'users');
   }
+  _minimal_get(id) {
+    return this.repo.get(id).pluck('id', 'nameTH', 'surnameTH');
+  }
+  minimal_get(id) {
+    return this._minimal_get(id).run;
+  }
 }

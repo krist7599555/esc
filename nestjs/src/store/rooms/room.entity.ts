@@ -1,6 +1,6 @@
 export interface Room {
   id:        string;
   label:     string;
-  capacity:  string;
+  capacity:  number;
   order:     number;
 }
