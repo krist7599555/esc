@@ -1,6 +1,6 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
-import { ReservationsService } from '../../store/reservations/reservations.service';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { JwtDecode, JwtUser } from '../../auth/jwt.decorator';
+import { ReservationsService } from '../../store/reservations/reservations.service';
 import { ReserveDto } from './reservations.dto';
 
 @Controller('api/reservations')

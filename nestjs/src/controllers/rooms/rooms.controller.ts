@@ -1,4 +1,4 @@
-import { Controller, Post, All } from '@nestjs/common';
+import { All, Controller, Post } from '@nestjs/common';
 import { RoomsService } from '../../store/rooms/rooms.service';
 
 @Controller('api/rooms')

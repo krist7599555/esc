@@ -15,30 +15,33 @@ module.exports = {
     jest: true,
   },
   rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/camelcase': ['off'],
-    'key-spacing': [
-      'error',
-      {
-        multiLine: {
-          beforeColon: false,
-          afterColon: true,
-        },
-        align: {
-          beforeColon: false,
-          afterColon: true,
-          on: 'value',
-        },
+    '@typescript-eslint/interface-name-prefix':         ['off'],
+    '@typescript-eslint/explicit-function-return-type': ['off'],
+    '@typescript-eslint/no-explicit-any':               ['off'],
+    '@typescript-eslint/camelcase':                     ['off'],
+    'indent':             ['error', 2],
+    'semi':               ['error', 'always'],
+    'quotes':             ['error', 'single'],
+    'comma-dangle':       ['error', 'always-multiline'],
+    'comma-spacing':      ['error', { before: false, after: true }],
+    'quote-props':        ['error', 'consistent'],
+    'no-trailing-spaces': ['error'],
+    'key-spacing':        ['error', {
+      multiLine: {
+        afterColon:  true,
+        beforeColon: false,
       },
-    ],
-    indent: ['error', 2],
-    semi: ['error', 'always'],
-    quotes: ['error', 'single'],
-    'comma-dangle': ['error', 'always-multiline'],
-    'comma-spacing': ['error', { before: false, after: true }],
-    'no-trailing-spaces': 'error',
-    'quote-props': ["error", "consistent"]
+      align: {
+        on:          'value',
+        afterColon:  true,
+        beforeColon: false,
+      },
+    }],
+    // 'sort-imports': ['error', {
+    //   'ignoreCase': false,
+    //   'ignoreDeclarationSort': false,
+    //   'ignoreMemberSort': false,
+    //   'memberSyntaxSortOrder': ['none', 'all', 'multiple', 'single']
+    // }]
   },
 };

@@ -1,11 +1,12 @@
-import { Controller, Post, Body, HttpException } from '@nestjs/common';
-import { SsoService } from '@esc/sso/sso.service';
-import { EnglibraryService } from '@esc/englibrary/englibrary.service';
-import { zip, of, iif } from 'rxjs';
-import { flatMap, tap, map } from 'rxjs/operators';
-import { UsersService } from '../store/users/users.service';
+import { Body, Controller, HttpException, Post } from '@nestjs/common';
+import { flatMap, map, tap } from 'rxjs/operators';
+import { iif, of, zip } from 'rxjs';
 import { BcryptService } from './bcrypt.service';
+import { EnglibraryService } from '@esc/englibrary/englibrary.service';
 import { JwtService } from './jwt.service';
+import { SsoService } from '@esc/sso/sso.service';
+import { UsersService } from '../store/users/users.service';
+
 
 @Controller('api')
 export class AuthController {

@@ -1,5 +1,5 @@
-import { Injectable, HttpService, HttpException } from '@nestjs/common';
-import { pluck, tap, map } from 'rxjs/operators';
+import { HttpException, HttpService, Injectable } from '@nestjs/common';
+import { map, pluck, tap, retry } from 'rxjs/operators';
 
 @Injectable()
 export class EnglibraryService {
@@ -13,6 +13,7 @@ export class EnglibraryService {
         data:    { studentID: student_id },
       })
       .pipe(
+        retry(3),
         pluck('data'),
         tap(raw => {
           if (raw.message == 'invalid')

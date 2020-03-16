@@ -1,5 +1,5 @@
-import * as dotenv from 'dotenv';
 import * as _ from 'lodash';
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -12,9 +12,12 @@ export const config = {
   host:       process.env.HOST || '0.0.0.0',
   port:       +(process.env.PORT || 3000),
 };
-console.log(config);
-console.log(`API http://${config.host}:${config.port}`);
-console.log();
+
+if (!process.env.JEST_WORKER_ID) {
+  console.log(process.env);
+  console.log(config);
+  console.log(`API http://${config.host}:${config.port}`);
+}
 
 if (!_.includes(['production', 'development', 'test'], config.env)) {
   throw new TypeError(`config env [${config.env}] is wrong format`);

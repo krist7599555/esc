@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { JwtDecode, JwtUser } from 'src/auth/jwt.decorator';
+import { JwtDecode, JwtUser } from '../../auth/jwt.decorator';
 import { UsersService } from '../../store/users/users.service';
 
 @Controller('api/users')

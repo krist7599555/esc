@@ -21,9 +21,11 @@ end
 
 case mode.to_sym
 when :rethinkdb
-  system 'cd #{__dir__}; rethinkdb'
+  system "cd #{__dir__}; rethinkdb"
 when :angular
   system "cd #{__dir__}/angular; yarn dev"
 when :nestjs
   system "cd #{__dir__}/nestjs; yarn start:dev"
+else
+  p mode
 end

@@ -1,7 +1,7 @@
-import { HttpException, HttpService, Injectable } from '@nestjs/common';
 import * as qs from 'qs';
+import { HttpException, HttpService, Injectable } from '@nestjs/common';
+import { flatMap, map, pluck, tap, retry } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { flatMap, map, pluck, tap } from 'rxjs/operators';
 
 @Injectable()
 export class SsoService {
@@ -26,6 +26,7 @@ export class SsoService {
         headers: { accept: 'application/json' },
       })
       .pipe(
+        retry(5),
         pluck('data', 'ticket'),
         tap(ticket => {
           if (!ticket) {
@@ -53,6 +54,7 @@ export class SsoService {
         },
       })
       .pipe(
+        retry(5),
         pluck('data'),
         map(raw => ({
           id:        raw.ouid,

@@ -1,6 +1,6 @@
+import { HttpException, HttpModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { SsoService } from './sso.service';
-import { HttpModule, HttpException } from '@nestjs/common';
 
 describe('SsoService', () => {
   let service: SsoService;
@@ -26,7 +26,7 @@ describe('SsoService', () => {
   });
 
   function login_fail(usr, pwd) {
-    return expect(service.login(usr, pwd)).rejects.toThrowError(HttpException);
+    return expect(service.login(usr, pwd).toPromise()).rejects.toThrowError(HttpException);
   }
   it('wrong username', async () => {
     await login_fail('*', PASS_PASSWORD);

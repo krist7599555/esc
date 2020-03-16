@@ -1,5 +1,6 @@
-import { IsString, IsDate } from 'class-validator';
+import { IsDate, IsString, IsIn } from 'class-validator';
 import { Type } from 'class-transformer';
+import { ReservationStatus, RESERVATIONS_STATUS } from '../../store/reservations/reservaiton.entity';
 
 
 export class ReserveDto {
@@ -17,4 +18,9 @@ export class ReserveDto {
   @IsDate()
   @Type(() => Date)
   time_end: Date;
+
+  // @IsEnum()
+  @IsString()
+  @IsIn(RESERVATIONS_STATUS as any[])
+  status: ReservationStatus
 }

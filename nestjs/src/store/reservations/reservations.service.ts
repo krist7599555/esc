@@ -1,14 +1,14 @@
-import { Inject, Injectable, HttpException } from '@nestjs/common';
-import { Connection } from 'rethinkdb-ts';
-import { RethinkdbRepository } from '../../../libs/repository/src/index';
-import { RETHINKDB_CONNECTION } from '../connection.provider';
-import { Reservation } from './reservaiton.entity';
-import { UsersService } from '../users/users.service';
-import { RoomsService } from '../rooms/rooms.service';
-import { forkJoin, throwError, iif, from } from 'rxjs';
-import { flatMap, pluck } from 'rxjs/operators';
 import * as _ from 'lodash';
-import { r } from 'rethinkdb-ts';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
+import { flatMap, pluck                    } from 'rxjs/operators';
+import { forkJoin, from, iif, throwError   } from 'rxjs';
+import { Connection                        } from 'rethinkdb-ts';
+import { RETHINKDB_CONNECTION              } from '../connection.provider';
+import { Reservation                       } from './reservaiton.entity';
+import { RethinkdbRepository               } from '../../../libs/repository/src/index';
+import { RoomsService                      } from '../rooms/rooms.service';
+import { UsersService                      } from '../users/users.service';
+import { r                                 } from 'rethinkdb-ts';
 
 @Injectable()
 export class ReservationsService extends RethinkdbRepository<Reservation> {
@@ -18,10 +18,10 @@ export class ReservationsService extends RethinkdbRepository<Reservation> {
     super(conn, 'reservations');
   }
 
-  reserve(data: Reservation) {
+  async reserve(data: Reservation){
     return forkJoin(
-      this.users.exist(data.userid),
-      this.rooms.exist(data.roomid),
+      from(this.users.exist(data.userid)),
+      from(this.rooms.exist(data.roomid)),
     ).pipe(
       flatMap(exists =>
         iif(() => _.every(exists),

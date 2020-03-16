@@ -1,6 +1,6 @@
+import * as jwt from 'jsonwebtoken';
 import { HttpException, HttpStatus, createParamDecorator } from '@nestjs/common';
 import { config } from '../config';
-import * as jwt from 'jsonwebtoken';
 
 export const JwtDecode = createParamDecorator((_, request: any) => {
   try {

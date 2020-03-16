@@ -1,17 +1,17 @@
+import * as _ from 'lodash';
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import * as _ from 'lodash';
 import { ValidationError } from 'class-validator';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
-
+    console.log(exception);
     const ctx      = host.switchToHttp();
     const response = ctx.getResponse();
     const request  = ctx.getRequest();

@@ -1,4 +1,4 @@
-import { r, Connection, RDatum, RQuery, RTable } from 'rethinkdb-ts';
+import { Connection, r } from 'rethinkdb-ts';
 
 /**
  *
@@ -18,11 +18,7 @@ import { r, Connection, RDatum, RQuery, RTable } from 'rethinkdb-ts';
  *
  */
 
-export function _pipe_connection<T extends Array<any>, U extends RQuery | RDatum | RTable>(method: (...args: T) => U) {
-  return function (...args: T) {
-    return method(...args).run(this.conn as Connection);
-  };
-};
+
 
 export class RethinkdbRepository<T = any> {
 
@@ -38,52 +34,31 @@ export class RethinkdbRepository<T = any> {
     r.tableCreate(table_name).run(conn).catch(() => { });
   }
 
-  create = _pipe_connection(this._create)
-  update = _pipe_connection(this._update)
-  upsert = _pipe_connection(this._upsert)
-  delete = _pipe_connection(this._delete)
-  all    = _pipe_connection(this._all)
-  find   = _pipe_connection(this._find)
-  clear  = _pipe_connection(this._clear)
-  exist  = _pipe_connection(this._exist)
 
-  _create(data: T) {
-    return this.repo.insert(data, { returnChanges: true });
-  }
+  create(data: T) {return this.repo.insert(data, { returnChanges: true }).run(this.conn);}
+  _create(data: T) {return this.repo.insert(data, { returnChanges: true });}
 
-  _update(id: string, data: T) {
-    return this.repo.get(id).update(data, { returnChanges: true });
-  }
+  update(id: string, data: T) {return this.repo.get(id).update(data, { returnChanges: true }).run(this.conn);}
+  _update(id: string, data: T) {return this.repo.get(id).update(data, { returnChanges: true });}
 
-  _upsert(data: T) {
-    return this.repo.insert(data, { returnChanges: true, conflict: 'update' });
-  }
+  upsert(data: T) {return this.repo.insert(data, { returnChanges: true, conflict: 'update' }).run(this.conn);}
+  _upsert(data: T) {return this.repo.insert(data, { returnChanges: true, conflict: 'update' });}
+
+  delete(id: string) {return this.repo.get(id).delete({ returnChanges: true }).run(this.conn);}
+  _delete(id: string) {return this.repo.get(id).delete({ returnChanges: true });}
+
+  all() {return this.repo.run(this.conn);}
+  _all() {return this.repo;}
 
 
-  _delete(id: string) {
-    return this.repo
-      .get(id)
-      .delete({ returnChanges: true });
-  }
+  find(id: string) {return this.repo.get(id).run(this.conn);}
+  _find(id: string) {return this.repo.get(id);}
 
 
-  _all() {
-    return this.repo;
-  }
+  clear() {return this.repo.delete().run(this.conn);}
+  _clear() {return this.repo.delete();}
 
-
-  _find(id: string) {
-    return this.repo
-      .get(id);
-  }
-
-
-  _clear() {
-    return this.repo.delete();
-  }
-
-  _exist(id: string) {
-    return this.repo.get(id).count().eq(1);
-  }
+  exist(id: string) {return this.repo.getAll(id).count().eq(1).run(this.conn);}
+  _exist(id: string) {return this.repo.getAll(id).count().eq(1);}
 
 }
