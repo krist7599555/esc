@@ -5,7 +5,7 @@ import { JwtService } from './jwt.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  
+
   constructor(private jwtService: JwtService) { }
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {

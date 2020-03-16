@@ -1,5 +1,5 @@
-import { IsString, IsDateString, IsDate } from 'class-validator';
-import { Type, Transform } from 'class-transformer';
+import { IsString, IsDate } from 'class-validator';
+import { Type } from 'class-transformer';
 
 
 export class ReserveDto {
@@ -11,7 +11,7 @@ export class ReserveDto {
   @IsDate()
   @Type(() => Date)
   time_start: Date;
-  
+
   // @IsDateString()
   // @Transform(date => new Date(date))
   @IsDate()

@@ -21,12 +21,24 @@ module.exports = {
     '@typescript-eslint/camelcase': ['off'],
     'key-spacing': [
       'error',
-      { align: 'value', beforeColon: false, afterColon: true },
+      {
+        multiLine: {
+          beforeColon: false,
+          afterColon: true,
+        },
+        align: {
+          beforeColon: false,
+          afterColon: true,
+          on: 'value',
+        },
+      },
     ],
     indent: ['error', 2],
     semi: ['error', 'always'],
     quotes: ['error', 'single'],
     'comma-dangle': ['error', 'always-multiline'],
-    'comma-spacing': ["error", { "before": false, "after": true }]
+    'comma-spacing': ['error', { before: false, after: true }],
+    'no-trailing-spaces': 'error',
+    'quote-props': ["error", "consistent"]
   },
 };

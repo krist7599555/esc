@@ -6,5 +6,5 @@ export interface User {
   surnameTH: string;
   surnameEN: string;
   email:     string | string[];
-  phone: string | string[];  
+  phone: string | string[];
 }

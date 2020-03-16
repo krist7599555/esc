@@ -14,5 +14,5 @@ import { BcryptService } from './bcrypt.service';
   controllers: [AuthController],
 })
 export class AuthModule {
-  
+
 }

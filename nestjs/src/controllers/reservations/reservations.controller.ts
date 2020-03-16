@@ -7,7 +7,7 @@ import { ReserveDto } from './reservations.dto';
 export class ReservationsController {
 
   constructor(private reservations: ReservationsService) {}
-  
+
   @Post()
   create(
     @JwtDecode() usr: JwtUser,
@@ -20,7 +20,7 @@ export class ReservationsController {
   show(@Param('id') id: string) {
     return this.reservations.find(id);
   }
-  
+
   @Get('')
   index() {
     return this.reservations.query_network_all();

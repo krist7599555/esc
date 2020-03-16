@@ -5,8 +5,8 @@ import { RETHINKDB_CONNECTION } from '../connection.provider';
 import { Reservation } from './reservaiton.entity';
 import { UsersService } from '../users/users.service';
 import { RoomsService } from '../rooms/rooms.service';
-import { forkJoin, throwError, of, iif, from } from 'rxjs';
-import { flatMap, tap, pluck } from 'rxjs/operators';
+import { forkJoin, throwError, iif, from } from 'rxjs';
+import { flatMap, pluck } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { r } from 'rethinkdb-ts';
 
@@ -17,7 +17,7 @@ export class ReservationsService extends RethinkdbRepository<Reservation> {
               private rooms: RoomsService) {
     super(conn, 'reservations');
   }
-  
+
   reserve(data: Reservation) {
     return forkJoin(
       this.users.exist(data.userid),
@@ -33,7 +33,7 @@ export class ReservationsService extends RethinkdbRepository<Reservation> {
         )
       )
     );
-    
+
   }
 
   query_network_find(id) {
@@ -45,7 +45,7 @@ export class ReservationsService extends RethinkdbRepository<Reservation> {
       .run(this.conn);
   }
   query_network_all() {
-    return this.repo.map(rsv => 
+    return this.repo.map(rsv =>
       r.merge(rsv, {
         user: this.users._minimal_get(rsv('userid')),
         room: this.rooms._minimal_get(rsv('roomid')),

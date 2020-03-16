@@ -1,4 +1,4 @@
-import { Controller, Post, Redirect, All } from '@nestjs/common';
+import { Controller, Post, All } from '@nestjs/common';
 import { RoomsService } from '../../store/rooms/rooms.service';
 
 @Controller('api/rooms')
@@ -6,7 +6,7 @@ export class RoomsController {
 
   constructor(private rooms: RoomsService) { }
 
-  
+
   @Post('reset')
   async reset() {
     await  this.rooms.clear();

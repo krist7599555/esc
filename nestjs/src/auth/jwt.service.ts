@@ -4,7 +4,7 @@ import { config } from '../config';
 
 @Injectable()
 export class JwtService {
-  
+
   sign(payload: any, opt: jwt.SignOptions = {}) {
     return jwt.sign(payload, config.jwt_secret, opt);
   }

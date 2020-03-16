@@ -17,11 +17,11 @@ export class UsersController {
   profile(@JwtDecode() usr: JwtUser) {
     return this.users.find(usr.sub);
   }
-  
+
   @Get(':id')
   show() {
     // TODO
     return 'USER';
   }
-  
+
 }

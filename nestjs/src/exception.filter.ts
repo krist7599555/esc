@@ -11,7 +11,7 @@ import { ValidationError } from 'class-validator';
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
-    
+
     const ctx      = host.switchToHttp();
     const response = ctx.getResponse();
     const request  = ctx.getRequest();
@@ -19,9 +19,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
     exception instanceof HttpException
       ? exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR;
-    
+
     const msg = exception?.message?.message || exception?.message;
-    
+
     let body = null;
     if (_.isString(msg)) {
       body = { message: msg };

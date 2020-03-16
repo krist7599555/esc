@@ -7,10 +7,10 @@ export class AppController {
 
   @Get()
   @Redirect('/api')
-  home() { 
+  home() {
     return '';
   }
-  
+
   @Get('api')
   api() {
     return 'this is ESC api';
