@@ -20,12 +20,12 @@ export class EnglibraryService {
             throw new HttpException('user not exist in cu engineer api', 404);
         }),
         map(raw => ({
-          id:         raw.studentId,
-          nameEN:     raw.fName,
-          surnameEN:  raw.lName,
-          email:      raw.email,
-          department: raw.department,
-          phone:      raw.tel,
+          id:         raw.studentId as string,
+          nameEN:     raw.fName as string,
+          surnameEN:  raw.lName as string,
+          email:      raw.email as string,
+          department: raw.department as string,
+          phone:      raw.tel as string,
         })),
       );
   }

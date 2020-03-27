@@ -27,6 +27,7 @@
     "@types/lodash": "^4.14.149",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.2.3",
+    "class-transformer-validator": "^0.8.0",
     "class-validator": "^0.11.0",
     "dotenv": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
@@ -58,7 +59,7 @@
     "ts-loader": "^6.2.1",
     "ts-node": "^8.6.0",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.8.3"
   },
   "jest": {
     "moduleFileExtensions": [

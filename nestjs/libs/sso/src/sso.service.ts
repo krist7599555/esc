@@ -57,13 +57,13 @@ export class SsoService {
         retry(5),
         pluck('data'),
         map(raw => ({
-          id:        raw.ouid,
-          nameTH:    raw.firstnameth,
-          nameEN:    raw.firstname,
-          surnameTH: raw.lastnameth,
-          surnameEN: raw.lastname,
-          faculty:   +raw.ouid.slice(-2),
-          year:      +raw.ouid.slice(0, 2),
+          id:        raw.ouid as string,
+          nameTH:    raw.firstnameth as string,
+          nameEN:    raw.firstname as string,
+          surnameTH: raw.lastnameth as string,
+          surnameEN: raw.lastname as string,
+          faculty:   +raw.ouid.slice(-2) as number,
+          year:      +raw.ouid.slice(0, 2) as number,
         })),
       );
   }

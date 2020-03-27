@@ -11,7 +11,7 @@ import { ValidationError } from 'class-validator';
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
-    console.log(exception);
+
     const ctx      = host.switchToHttp();
     const response = ctx.getResponse();
     const request  = ctx.getRequest();
@@ -20,14 +20,17 @@ export class AllExceptionsFilter implements ExceptionFilter {
       ? exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const msg = exception?.message?.message || exception?.message;
+    const msg = exception?.message?.message || exception?.message || exception;
 
     let body = null;
     if (_.isString(msg)) {
       body = { message: msg };
     } else if (_.isArray(msg) && msg.length > 0 && msg[0] instanceof ValidationError) {
       const validations = _.flatMap(msg, (o: ValidationError) => _.values(o.constraints));
-      body = { message: _.first(validations), validations };
+      body = {
+        message: _.get(msg, [0, 'constraints', 'isNotEmpty'], _.first(validations)),
+        validations,
+      };
     } else {
       console.error();
       console.error('> [UNKNOW ERROR ESC] <');
