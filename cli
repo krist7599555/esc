@@ -25,7 +25,7 @@ when :rethinkdb
 when :angular
   system "cd #{__dir__}/angular; yarn dev"
 when :nestjs
-  system "cd #{__dir__}/nestjs; yarn start:dev"
+  system "cd #{__dir__}/nestjs; yarn dev"
 else
   p mode
 end
