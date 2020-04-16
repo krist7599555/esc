@@ -19,6 +19,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': ['off'],
     '@typescript-eslint/no-explicit-any':               ['off'],
     '@typescript-eslint/camelcase':                     ['off'],
+    '@typescript-eslint/no-empty-function':             ['off'],
     'indent':             ['error', 2],
     'semi':               ['error', 'always'],
     'quotes':             ['error', 'single'],
@@ -37,6 +38,8 @@ module.exports = {
         beforeColon: false,
       },
     }],
+    'object-curly-spacing': ['error', 'always'],
+    'array-bracket-spacing': ['error', 'never']
     // 'sort-imports': ['error', {
     //   'ignoreCase': false,
     //   'ignoreDeclarationSort': false,

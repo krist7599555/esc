@@ -2,21 +2,19 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { flatMap, map } from 'rxjs/operators';
 import { iif, of, zip, from } from 'rxjs';
 import { BcryptService } from './bcrypt.service';
-import { JwtService } from './jwt.service';
-import { SsoService } from '@esc/sso/sso.service';
 import { UserService } from '../users/state/user.service';
 import { UserQuery } from '../users/state/user.query';
 import { LoginCredential } from './auth.model';
-import { User } from 'src/users/state/user.model';
+import { User } from '../users/state/user.model';
+import { SsoService } from '../../libs/sso/src/sso.service';
 import { EnglibraryService } from '../../libs/englibrary/src/englibrary.service';
-
+import * as jwt from '../jwt';
 
 @Controller('api')
 export class AuthController {
 
   constructor(private sso:    SsoService,
               private englib: EnglibraryService,
-              private jwt: JwtService,
               private bcrypt: BcryptService,
               private userQuery:  UserQuery,
               private userService:  UserService,
@@ -44,7 +42,7 @@ export class AuthController {
       map(({ user, cache }) => ({
         cache,
         profile:      user,
-        access_token: this.jwt.sign({}, {
+        access_token: jwt.sign({}, {
           subject:   user.id,
           expiresIn: '2 days',
         }),

@@ -15,14 +15,7 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "paths": {
-      "@esc/sso":          ["libs/sso/src"],
-      "@esc/sso/*":        ["libs/sso/src/*"],
-      "@esc/englibrary":   ["libs/englibrary/src"],
-      "@esc/englibrary/*": ["libs/englibrary/src/*"],
-      "@esc/repository":   ["libs/repository/src"],
-      "@esc/repository/*": ["libs/repository/src/*"]
-    }
+    "moduleResolution": "node",
+    "typeRoots" : ["./node_modules/@types"]
   },
-  "exclude": ["node_modules", "dist"]
 }

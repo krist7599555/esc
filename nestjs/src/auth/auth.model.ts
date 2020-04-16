@@ -1,4 +1,4 @@
-import { IsString, Length, MinLength, IsNumberString, IsNotEmpty } from 'class-validator';
+import { IsString, Length, IsNumberString, IsNotEmpty } from 'class-validator';
 
 export class LoginCredential {
 

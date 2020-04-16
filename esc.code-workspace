@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "nestjs"
+		},
+		{
+			"path": "angular"
+		}
+	],
+	"settings": {
+		"eslint.alwaysShowStatus": true,
+		"vsicons.presets.angular": true
+	}
+}
