@@ -1,17 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { User } from './user.model';
-import { StoreService } from '../../store/store.service';
+import { users } from '../../db';
 
 @Injectable()
 export class UserService {
-  conn  = this.store.conn;
-  users = this.store.users;
-  constructor(private store: StoreService) { }
-
   insert(user: User) {
-    return this.users.insert(user, {returnChanges: true}).run(this.conn);
+    return users.insert(user, { returnChanges: true }).run();
   }
   upsert(user: User) {
-    return this.users.insert(user, {returnChanges: true, conflict: 'update'}).run(this.conn);
+    return users.insert(user, { returnChanges: true, conflict: 'update' }).run();
   }
 }

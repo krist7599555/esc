@@ -1,30 +1,25 @@
-import * as _ from 'lodash';
 import * as dotenv from 'dotenv';
-
-dotenv.config();
+import * as path from 'path';
+dotenv.config({ path: path.resolve(__dirname, '../.env.default')  });
+dotenv.config({ path: path.resolve(__dirname, '../.env')  });
 
 type Env = 'production' | 'development' | 'test'
 
-export const config = {
-  env:        process.env.NODE_ENV   as Env,
-  jwt_secret: process.env.JWT_SECRET,
-  db_name:    process.env.DATABASE_NAME,
-  host:       process.env.HOST || '0.0.0.0',
-  port:       +(process.env.PORT || 3000),
-};
+export const NODE_ENV      = process.env.NODE_ENV as Env;
+export const JWT_SECRET    = process.env.JWT_SECRET;
+export const DATABASE_NAME = process.env.DATABASE_NAME;
+export const HOST          = process.env.HOST;
+export const PORT          = +process.env.PORT;
+export const API_ENDPOINT  = `http://${HOST}:${PORT}`;
 
-if (!process.env.JEST_WORKER_ID) {
-  console.log(process.env);
-  console.log(config);
-  console.log(`API http://${config.host}:${config.port}`);
-}
 
-if (!_.includes(['production', 'development', 'test'], config.env)) {
-  throw new TypeError(`config env [${config.env}] is wrong format`);
-}
+console.log({
+  NODE_ENV,
+  JWT_SECRET,
+  DATABASE_NAME,
+  HOST,
+  PORT,
+  API_ENDPOINT,
+});
 
-for (const [k, v] of _.toPairs(config)) {
-  if (!v) {
-    throw new TypeError(`config env [${k}] is required`);
-  }
-}
+

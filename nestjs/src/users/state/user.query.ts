@@ -1,27 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { UserStore } from './user.store';
-import { StoreService } from '../../store/store.service';
+import { users } from '../../db';
 
 @Injectable()
 export class UserQuery {
-  users = this.store.users;
-  conn  = this.store.conn;
   mini_fields = ['id', 'nameTH', 'surnameTH', 'phone']
-  constructor(private store: StoreService) {}
+  constructor() {}
 
   all() {
-    return this.users.run(this.conn);
+    return users.run();
   }
 
   get(id: string) {
-    return this.users.get(id).run(this.conn);
+    return users.get(id).run();
   }
 
   exist(id: string) {
-    return this.users.getAll(id).count().eq(1).run(this.conn);
+    return users.getAll(id).count().eq(1).run();
   }
 
   get_mini(id) {
-    return this.users.get(id).pluck(...this.mini_fields).run(this.conn);
+    return users.get(id).pluck(...this.mini_fields).run();
   }
 }

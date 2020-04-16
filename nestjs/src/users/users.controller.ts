@@ -1,5 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { UserService } from './state/user.service';
+// import { UserService } from './state/user.service';
 import { UserQuery } from './state/user.query';
 import { JwtDecode, JwtUser } from '../auth/jwt.decorator';
 

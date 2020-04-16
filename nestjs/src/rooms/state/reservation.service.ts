@@ -1,20 +1,16 @@
 import { Injectable, HttpException } from '@nestjs/common';
-import { ReservationStore } from './reservation.store';
 import { UserQuery } from '../../users/state/user.query';
 import { RoomQuery } from './room.query';
 import { Reservation } from './reservation.model';
 import { zip, iif, throwError, from } from 'rxjs';
 import * as _ from 'lodash';
-import { flatMap, pluck, map, tap } from 'rxjs/operators';
+import { flatMap, pluck, tap } from 'rxjs/operators';
 import { ReservationQuery } from './reservation.query';
-import { StoreService } from '../../store/store.service';
+import { reservations } from '../../db';
 
 @Injectable()
 export class ReservationService {
-  conn = this.store.conn;
-  reservations = this.store.reservations;
   constructor(
-    private store: StoreService,
     private reservationQuery: ReservationQuery,
     private userQuery: UserQuery,
     private roomQuery: RoomQuery,
@@ -28,7 +24,7 @@ export class ReservationService {
       tap(console.log),
       flatMap(exits =>
         iif(() => _.every(exits),
-          from(this.reservations.insert(o).run(this.conn)).pipe(
+          from(reservations.insert(o).run()).pipe(
             pluck('generated_keys', 0),
             flatMap(id => this.reservationQuery.get(id))
           ),

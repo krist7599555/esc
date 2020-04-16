@@ -1,6 +1,6 @@
-import { Controller, Get, NotImplementedException, Post, Param, Body, Delete, Put, Redirect, HttpException } from '@nestjs/common';
+import { Controller, Get, NotImplementedException, Post, Param, Body, Delete, Put, HttpException } from '@nestjs/common';
 import { JwtDecode, JwtUser } from '../auth/jwt.decorator';
-import { Reservation, CreateReservationDto } from './state/reservation.model';
+import { CreateReservationDto } from './state/reservation.model';
 import { RoomQuery } from './state/room.query';
 import { RoomService } from './state/room.service';
 import { ReservationQuery } from './state/reservation.query';

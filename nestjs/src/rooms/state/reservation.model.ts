@@ -1,6 +1,5 @@
-import { IsString, IsDate, IsIn, IsOptional, IsDateString, IsNotEmpty } from 'class-validator';
+import { IsString, IsDate, IsIn, IsDateString, IsNotEmpty } from 'class-validator';
 import { transformAndValidateSync } from 'class-transformer-validator';
-import { Optional } from '@nestjs/common';
 import { Transform } from 'class-transformer';
 
 
@@ -29,7 +28,7 @@ export class CreateReservationDto {
   @Transform(date => new Date(date))
   @IsDate()
   time_start: Date;
-  
+
   @IsNotEmpty()
   @IsDateString()
   @Transform(date => new Date(date))
