@@ -1,9 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { rooms } from '../../db';
+import { rooms } from '../db';
 
 @Injectable()
 export class RoomService {
   constructor() {}
+  show(id: string) {
+    return rooms.get(id).run();
+  }
+  index() {
+    return rooms.orderBy('capacity', 'id').run();
+  }
+  exist(id: string) {
+    return rooms.getAll(id).count().eq(1).run();
+  }
   async reset() {
     await rooms.delete().run();
     await rooms.insert([
