@@ -1,3 +1,5 @@
+import "./app.initialize"
+
 import { CommonModule } from '@angular/common'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { NgModule } from '@angular/core'
@@ -12,7 +14,7 @@ import { AuthModule } from './auth/auth.module'
 import { PipeModule } from './pipe/pipe.module'
 import { RoomModule } from './room/room.module'
 import { ShellModule } from './shell/shell.module'
-import { TokenInterceptor } from './token.interceptor'
+import { TokenInterceptor } from './http.token.interceptor'
 
 @NgModule({
   bootstrap:    [AppComponent],

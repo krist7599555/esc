@@ -28,6 +28,9 @@
         โดย {{ value.user.nameTH }} {{ value.user.surnameTH }}
       </div>
     </div>
+    <div class="field">
+      <a [routerLink]="['/room', value.id]" class="button is-small is-primary">edit</a>
+    </div>
     <br>
     <br>
   </div>

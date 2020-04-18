@@ -8,8 +8,8 @@ import { tap } from 'rxjs/operators';
 interface ReserveForm {
   roomid: string;
   organization: string;
-  time_start: number;
-  time_end: number;
+  time_start: string;
+  time_end: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -19,12 +19,12 @@ export class ReservationService {
 
   getReservations() {
     return this.http
-      .get<Reservation[]>('/api/reservations')
+      .get<Reservation[]>('/api/rooms/reservations')
       .pipe(tap(data => this.reservationStore.set(data)))
   }
 
   create(form: ReserveForm) {
-    return this.http.post<Reservation>('/api/reservations', form).pipe(
+    return this.http.post<Reservation>(`/api/rooms/${form.roomid}/reservations`, form).pipe(
       // tap(data => this.reservationStore.add(data))
     )
   }

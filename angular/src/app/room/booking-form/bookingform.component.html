@@ -51,7 +51,7 @@
             <label for="เริ่ม" class="label">เริ่ม</label>
             <div class="select is-fullwidth">
               <select formControlName="start">
-                <option *ngFor="let d of times$ | async" [value]="d.unix()">{{ d | date_format: "HH:mm" }} {{d}}</option>
+                <option *ngFor="let d of times$ | async" [value]="d.unix()">{{ d | date_format: "HH:mm" }}</option>
               </select>
             </div>
           </div>
@@ -59,7 +59,7 @@
             <label for="จบ" class="label">จบ</label>
             <div class="select is-fullwidth">
               <select formControlName="end">
-                <option *ngFor="let d of times$ | async" [value]="d.unix()">{{ d | date_format: "HH:mm" }} {{d}} {{d.toISOString()}}</option>
+                <option *ngFor="let d of times$ | async" [value]="d.unix()">{{ d | date_format: "HH:mm" }}</option>
               </select>
             </div>
           </div>

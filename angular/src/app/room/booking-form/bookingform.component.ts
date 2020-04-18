@@ -2,12 +2,10 @@ import { Component, OnInit, Input, Output, ɵCompiler_compileModuleSync__POST_R3
 import { FormBuilder, Validators } from '@angular/forms'
 import { EventEmitter } from '@angular/core'
 
-import 'dayjs/locale/th'
+
 import * as dayjs from 'dayjs'
 import * as _ from 'lodash'
 import { gsap } from 'gsap';
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-gsap.registerPlugin(ScrollToPlugin);
 import { ReservationService } from '../state/reservations.service'
 import { RoomsQuery } from '../state/rooms.query';
 import { ReservationsQuery } from '../state/reservations.query';
@@ -28,7 +26,7 @@ export class BookingformComponent implements OnInit {
   rooms$        = this.roomsQuery.selectAll();
   reservations$ = this.reservationsQuery.selectAll();
   bookingform   = this.formBuilder.group({
-    organization: [null, [Validators.required, Validators.minLength(5)]],
+    organization: [null, [Validators.required, Validators.minLength(2)]],
     roomid:       [null, Validators.required],
     date:         [null, [Validators.required, Validators.maxLength(10)]],
     start:        [null, [Validators.required, Validators.maxLength(5)]],
@@ -60,7 +58,6 @@ export class BookingformComponent implements OnInit {
         let now = dayjs().startOf('hour');
         if (now.hour() > 17) now = now.add(1, 'day').hour(9)
         const hour = _.clamp(now.hour(), 9, 17)
-        console.log(now.format(), now.hour(), hour)
         this.bookingform.patchValue({
           roomid: _.sample(rooms).id,
           date:   now.startOf('day').unix(),
@@ -78,9 +75,10 @@ export class BookingformComponent implements OnInit {
         const realoutput = {
           organization: o.organization,
           roomid:       o.roomid,
-          time_start:   o.date + o.start,
-          time_end:     o.date + o.end,
+          time_start:   dayjs.unix(o.date + o.start).format(),
+          time_end:     dayjs.unix(o.date + o.end).format(),
         };
+        console.log("BookingformComponent -> onSubmit -> realoutput", realoutput)
         this.reservationService
           .create(realoutput)
           .subscribe((reserv) => {

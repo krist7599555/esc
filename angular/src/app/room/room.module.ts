@@ -7,6 +7,7 @@ import { BookingformComponent             } from './booking-form/bookingform.com
 import { PipeModule                       } from '../pipe/pipe.module';
 import { MapComponent } from './map/map.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -22,7 +23,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     CommonModule,
     PipeModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ]
 })
 export class RoomModule { }
