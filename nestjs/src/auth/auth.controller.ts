@@ -1,40 +1,38 @@
+import * as bcrypt from './bcrypt';
 import { Body, Controller, Post } from '@nestjs/common';
 import { flatMap, map } from 'rxjs/operators';
 import { iif, of, zip, from } from 'rxjs';
-import { BcryptService } from './bcrypt.service';
-import { UserService } from '../users/state/user.service';
-import { UserQuery } from '../users/state/user.query';
+import { UserService } from '../users/user.service';
 import { LoginCredential } from './auth.model';
-import { User } from '../users/state/user.model';
 import { SsoService } from '../../libs/sso/src/sso.service';
 import { EnglibraryService } from '../../libs/englibrary/src/englibrary.service';
 import * as jwt from '../jwt';
+import { ApiTags, ApiBody, ApiOkResponse } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('api')
 export class AuthController {
 
   constructor(private sso:    SsoService,
               private englib: EnglibraryService,
-              private bcrypt: BcryptService,
-              private userQuery:  UserQuery,
               private userService:  UserService,
   ) { }
 
-  @Post('login')
+  @ApiBody({ type: LoginCredential })
+  @Post('/login')
   async login(@Body() cred: LoginCredential) {
     return of(cred.username).pipe(
-      flatMap(id => from(this.userQuery.get(id))),
+      flatMap(id => from(this.userService.show(id))),
       flatMap(user =>
-        iif(() => user && this.bcrypt.equal(cred.password, user.password),
+        iif(() => user && bcrypt.equal(cred.password, user.password),
           of({ user, cache: true }),
           zip(
             this.sso.login(cred.username, cred.password),
             this.englib.get(cred.username)
           ).pipe(
-            map    (([s, e]) => ({ ...s, ...e, password: this.bcrypt.hash(cred.password) })),
-            map    (user => User.validate(user)),
+            map    (([s, e]) => ({ ...s, ...e, roles: [], password: bcrypt.hash(cred.password) })),
             flatMap(user => this.userService.upsert(user)),
-            flatMap(()   => this.userQuery.get(cred.username)),
+            flatMap(()   => this.userService.show(cred.username)),
             map    (user => ({ user, cache: false }))
           )
         )
@@ -42,12 +40,9 @@ export class AuthController {
       map(({ user, cache }) => ({
         cache,
         profile:      user,
-        access_token: jwt.sign({}, {
-          subject:   user.id,
-          expiresIn: '2 days',
-        }),
+        access_token: jwt.sign({ id: user.id }),
       }))
-    );
+    ).toPromise();
   }
 
 }

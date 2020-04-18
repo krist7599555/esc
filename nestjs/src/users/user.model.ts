@@ -1,11 +1,8 @@
-import { IsString, Length, IsNumber, IsNumberString, Min, Max, IsOptional } from 'class-validator';
-import { transformAndValidateSync } from 'class-transformer-validator';
+import { IsString, Length, IsNumber, IsNumberString, Min, Max, IsOptional, IsIn, ArrayUnique } from 'class-validator';
 
+export const ROLE_ROOM_APPROVER = 'room_approver';
+export const UserRoles = [ROLE_ROOM_APPROVER];
 export class User {
-
-  static validate(value: User) {
-    return transformAndValidateSync(User, value);
-  }
 
   @IsString()
   @Length(10) id: string;
@@ -35,4 +32,8 @@ export class User {
   @IsNumber()
   @Min(50)
   @Max(80) year: number
+
+  @ArrayUnique()
+  @IsIn(UserRoles, { each: true })
+  roles: string[];
 }

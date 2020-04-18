@@ -34,3 +34,6 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 .env
+rethinkdb_data
+.env.production
+yarn.lock

@@ -31,6 +31,16 @@
     }
   },
   "compilerOptions": {
-    "webpack": true
+    "webpack": false,
+    "plugins": [
+      {
+        "name": "@nestjs/swagger/plugin",
+        "options": {
+          "dtoFileNameSuffix":	[".dto.ts", ".entity.ts", ".model.ts"],
+          "controllerFileNameSuffix":	".controller.ts",
+          "classValidatorShim": true
+        }
+      }
+    ]
   }
 }

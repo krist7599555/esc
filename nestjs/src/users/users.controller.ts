@@ -1,27 +1,29 @@
 import { Controller, Get, Param } from '@nestjs/common';
-// import { UserService } from './state/user.service';
-import { UserQuery } from './state/user.query';
-import { JwtDecode, JwtUser } from '../auth/jwt.decorator';
+import { UserService } from './user.service';
+import { JwtDecode, JwtUser } from '../jwt';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 
+@ApiTags('User')
+@ApiBearerAuth()
 @Controller('api/users')
 export class UsersController {
 
-  constructor(private userQuery: UserQuery) { }
+  constructor(private userService: UserService) { }
 
-  @Get('')
+  @Get('/')
   index() {
-    return this.userQuery.all();
+    return this.userService.index();
   }
 
-  @Get('me')
-  me(@JwtDecode() usr: JwtUser) {
-    return this.userQuery.get(usr.sub);
+  @Get('/me')
+  me(@JwtDecode() user: JwtUser) {
+    return this.userService.show(user.id);
   }
 
-  @Get(':id')
+  @Get('/:id')
   show(@Param('id') id: string) {
-    return this.userQuery.get(id);
+    return this.userService.show(id);
   }
 
 }
