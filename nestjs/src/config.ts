@@ -1,7 +1,6 @@
-import * as dotenv from 'dotenv';
-import * as path from 'path';
-dotenv.config({ path: path.resolve(__dirname, '../.env.default')  });
-dotenv.config({ path: path.resolve(__dirname, '../.env')  });
+require('dotenv-flow').config({
+  default_node_env: 'development',
+});
 
 type Env = 'production' | 'development' | 'test'
 
@@ -12,14 +11,4 @@ export const HOST          = process.env.HOST;
 export const PORT          = +process.env.PORT;
 export const API_ENDPOINT  = `http://${HOST}:${PORT}`;
 
-
-console.log({
-  NODE_ENV,
-  JWT_SECRET,
-  DATABASE_NAME,
-  HOST,
-  PORT,
-  API_ENDPOINT,
-});
-
-
+console.log(module.exports);

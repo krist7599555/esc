@@ -9,6 +9,15 @@
 	],
 	"settings": {
 		"eslint.alwaysShowStatus": true,
-		"vsicons.presets.angular": true
+		"vsicons.presets.angular": true,
+		"files.exclude": {
+			"**/.git": false,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"node_modules": true
+		},
+		"explorerExclude.backup": null
 	}
 }
