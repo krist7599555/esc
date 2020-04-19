@@ -5,8 +5,8 @@ import { ReservationsStore } from './reservations.store';
 import { Reservation } from './model';
 import { tap } from 'rxjs/operators';
 
-interface ReserveForm {
-  roomid: string;
+export interface ReservationForm {
+  room_id: string;
   organization: string;
   time_start: string;
   time_end: string;
@@ -19,14 +19,12 @@ export class ReservationService {
 
   getReservations() {
     return this.http
-      .get<Reservation[]>('/api/rooms/reservations')
+      .get<Reservation[]>('/api/reservations')
       .pipe(tap(data => this.reservationStore.set(data)))
   }
 
-  create(form: ReserveForm) {
-    return this.http.post<Reservation>(`/api/rooms/${form.roomid}/reservations`, form).pipe(
-      // tap(data => this.reservationStore.add(data))
-    )
+  create(form: ReservationForm) {
+    return this.http.post<Reservation>(`/api/reservations`, form)
   }
 
   adminChangeStatus(reservationId: string, status: Reservation["status"]) {

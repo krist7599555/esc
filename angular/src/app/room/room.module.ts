@@ -1,7 +1,7 @@
 import { NgModule                         } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule                     } from '@angular/common';
-import { RoomComponent                    } from './room-page/room.component';
+import { RoomComponent                    } from './index/room.component';
 import { RecordComponent                  } from './record-item/record.component';
 import { BookingformComponent             } from './booking-form/bookingform.component';
 import { PipeModule                       } from '../pipe/pipe.module';
@@ -19,12 +19,12 @@ import { RouterModule } from '@angular/router';
     MapComponent,
   ],
   imports: [
-    FontAwesomeModule,
     CommonModule,
+    RouterModule,
+    FontAwesomeModule,
     PipeModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
   ]
 })
 export class RoomModule { }

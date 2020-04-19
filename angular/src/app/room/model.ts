@@ -16,7 +16,7 @@ export interface Reservation {
   id: string;
   organization: string;
   userid: string;
-  roomid: string;
+  room_id: string;
   room?: Room;
   user?: User;
   status: "pending" | "rejected" | "approved";

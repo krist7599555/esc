@@ -13,11 +13,18 @@ export class ReservationsQuery
   constructor(protected store: ReservationsStore) {
     super(store);
   }
-  groupByDate() {
+  dates() {
     return this.selectAll().pipe(
-      map(reservs => {
-        return _.sortBy(_.toPairs(_.groupBy(reservs, r => dayjs(r.time_start).startOf('day').format())), 0)
-      })
+      map(rs => rs.map(r => ({
+        date: dayjs(r.time_start).startOf('day').format(),
+        id:   r.id
+      }))),
+      map(rs => {
+        return _.map(_.groupBy(rs, 'date'), (rids, date) => {
+          return { date, ids: _.map(rids, 'id') }
+        })
+      }),
+      map(rs => _.sortBy(rs, 'date'))
     )
   }
 }
