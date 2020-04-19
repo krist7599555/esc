@@ -55,7 +55,6 @@ export class KDatePickerComponent implements OnInit {
   }
 
   set_select_date(unixDate) {
-    console.log(unixDate)
     this.value = unixDate
     this.ngModelChange.emit(dayjs(unixDate).toDate())
   }

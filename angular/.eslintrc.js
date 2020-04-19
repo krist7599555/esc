@@ -17,8 +17,9 @@ module.exports = {
       modules: true
     }
   },
-  plugins: ["@typescript-eslint", "@typescript-eslint/tslint"],
+  plugins: [],
   settings: {
+    "html/html-extensions": [".html"],
     "import/parsers": { "@typescript-eslint/parser": [".ts"] },
     "import/resolver": { "eslint-import-resolver-typescript": true }
   },
@@ -57,6 +58,10 @@ module.exports = {
           requireLast: true
         }
       }
-    ]
+    ],
+    "@typescript-eslint/no-empty-function": "off",
+    "array-bracket-spacing": ["error", "never"],
+    "object-curly-spacing": ["error", "always"],
+
   }
 };
