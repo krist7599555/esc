@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body, Delete, Put, HttpException } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Delete, Put } from '@nestjs/common';
 import { JwtDecode, JwtUser } from '../jwt';
 import { CreateReservationDto } from './reservation.model';
 import { RoomService } from './room.service';
@@ -28,6 +28,7 @@ export class ReservationsController {
     @JwtDecode() user: JwtUser,
     @Body()      body: CreateReservationDto,
   ) {
+    console.log('create reservation dto', body);
     return this.reservationService.create({
       user_id:    user.id,
       room_id:    body.room_id,

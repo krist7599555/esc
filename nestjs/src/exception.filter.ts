@@ -22,6 +22,7 @@ export class BadRequestExceptionFilter implements ExceptionFilter {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     const validates = exception.getResponse()?.message;
+    console.log('BadRequestExceptionFilter -> validates', validates);
     if (validates?.[0] instanceof ValidationError) {
       response
         .status(exception.getStatus() || 400)
@@ -38,6 +39,7 @@ export class BadRequestExceptionFilter implements ExceptionFilter {
         .json({
           path:    request.url,
           message: 'bad request, input might be wrong format',
+          exception,
         });
     }
   }

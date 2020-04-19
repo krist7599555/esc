@@ -13,9 +13,7 @@ export function verify(token: string) {
 export const JwtDecode = createParamDecorator((_, ctx: ExecutionContext) => {
   try {
     const request = ctx.switchToHttp().getRequest();
-    console.log({ request });
     const token = request.headers.authorization.split(' ')[1];
-    console.log({ token });
     const res = verify(token);
     if (!res.id) throw new HttpException('auth token is in wrong format', 401);
     return res;
