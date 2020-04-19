@@ -9,18 +9,20 @@ import {
 
 import { Observable, throwError } from 'rxjs'
 import { catchError } from 'rxjs/operators'
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export class ToastInterceptor implements HttpInterceptor {
+  constructor(private toast: ToastrService) {
+
+  }
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
-        if (err.status == 401) {
-          window.open("/login")
-        }
+        this.toast.error(err.error?.message || err.message)
         return throwError(err);
       })
     )
