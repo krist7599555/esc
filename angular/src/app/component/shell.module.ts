@@ -8,7 +8,7 @@ import { AuthModule      } from '../auth/auth.module';
 @NgModule({
   declarations: [FooterComponent, HeaderComponent],
   exports:      [FooterComponent, HeaderComponent],
-  imports:      [RouterModule, AuthModule, CommonModule],
+  imports:      [CommonModule, RouterModule, AuthModule],
 })
 export class ShellModule {
 

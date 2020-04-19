@@ -12,9 +12,9 @@
             <label for="หน่วยงาน" class="label">หน่วยงาน</label>
             <input formControlName="organization" type="text" class="input line-height-normal" placeholder="กวศ, ลานเกียร์, กรุป, ภาค.." />
           </div>
+          <p class="help is-danger" name='organization'></p>
         </div>
-        <!-- <div>{{days$ | async | json}}</div>
-        <div>{{bookingform.getRawValue() | json}}</div> -->
+
         <div class="field">
           <div class="control">
             <label for="วัน" class="label">วัน</label>
@@ -33,16 +33,17 @@
           <div class="control">
             <label for="ห้อง" class="label">ห้อง</label>
             <div class="select is-fullwidth">
-              <select formControlName="roomid" class="line-height-normal" [value]='bookingform.controls.roomid.value'>
+              <select formControlName="room_id" class="line-height-normal" [value]='bookingform.controls.room_id.value'>
                 <option *ngFor="let r of rooms$ | async" [value]="r.id">
                   {{ r.label }} (~{{ r.capacity }} คน)
                 </option>
               </select>
             </div>
           </div>
+          <p class="help is-danger" name='room_id'></p>
         </div>
         <div class="field">
-          <app-map formControlName="roomid" [value]='bookingform.controls.roomid.value'></app-map>
+          <app-map formControlName="room_id" [value]='bookingform.controls.room_id.value'></app-map>
         </div>
         <br>
 
@@ -54,6 +55,7 @@
                 <option *ngFor="let d of times$ | async" [value]="d.unix()">{{ d | date_format: "HH:mm" }}</option>
               </select>
             </div>
+            <p class="help is-danger" name='time_start'></p>
           </div>
           <div class="control is-expanded">
             <label for="จบ" class="label">จบ</label>
@@ -62,6 +64,7 @@
                 <option *ngFor="let d of times$ | async" [value]="d.unix()">{{ d | date_format: "HH:mm" }}</option>
               </select>
             </div>
+            <p class="help is-danger" name='time_end'></p>
           </div>
         </div>
       </form>

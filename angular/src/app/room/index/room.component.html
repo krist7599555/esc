@@ -1,0 +1,45 @@
+<div class="container">
+  <br>
+  <div class="field">
+    <div class="control">
+      <button
+        class="button is-primary"
+        (click)="openForm()"
+      >
+        จองห้องประชุม
+      </button>
+    </div>
+  </div>
+  <div class="container columns">
+    <div class="column">
+      <ng-container *ngFor="let o of reservationsDates$ | async; trackBy: trackByIdx">
+        <div class="date" style='position: sticky; top: 0rem; z-index: 10'>{{ o.date | date_format: "dd D MMMM YYYY" }}</div>
+        <ng-container *ngFor="let id of o.ids; trackBy: trackById">
+          <app-record [value]="getReservation(id)"></app-record>
+        </ng-container>
+      </ng-container>
+
+      <div *ngIf='(reservationsDates$ | async).length == 0'>
+        <div class="message">
+          <div class="message-body">
+            <div class="is-flex" style='align-items: center'>
+              <fa-icon [icon]='faHandSparkles' class='is-size-3'>
+              </fa-icon>
+              <p style='margin-left: 1rem'>no reservation</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div style='position: sticky; top: 2rem'>
+        <app-map
+          [ngModel]='filter.value.room_id'
+          (ngModelChange)='filter.next({ room_id: $event })'
+        ></app-map>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-bookingform [(active)]="bookingFormActive" (createdId)='createdId($event)'></app-bookingform>

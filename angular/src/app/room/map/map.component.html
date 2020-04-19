@@ -1,5 +1,5 @@
 
-<div class="grid-container">
+<div #map class="grid-container" (click)='unfocus($event)'>
   <button class='room grid-exit'   [attr.disabled]='true'>    <fa-icon [icon]="faFireAlt">     </fa-icon> <span>         </span></button>
   <button class='room grid-office' [attr.disabled]='true'>    <fa-icon [icon]="faPrint">       </fa-icon> <span>สำนักงาน </span></button>
   <button class='room grid-packg'  [attr.disabled]='true'>    <fa-icon [icon]="faCubes">       </fa-icon> <span>         </span></button>

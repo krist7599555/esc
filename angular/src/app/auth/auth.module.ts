@@ -15,7 +15,6 @@ import { IsLoggedInDirective } from './is-logged-in.directive';
     ReactiveFormsModule,
     HttpClientModule
   ],
-
 })
 export class AuthModule {
 }

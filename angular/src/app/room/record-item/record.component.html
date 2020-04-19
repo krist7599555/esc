@@ -1,7 +1,7 @@
 <div class="record" [attr.data-id]="value.id" [attr.data-status]="value.status">
   <div (click)='toggleVisibleDetail()' style='cursor: pointer'>
     <p class="organization">{{ value.organization }}</p>
-    <div class="is-flex">
+    <div class="is-flex" style='margin-bottom: 5px'>
       <p class="time">
         {{ value.time_start | date_format: "HH:mm" }} -
         {{ value.time_end | date_format: "HH:mm" }}
@@ -9,28 +9,33 @@
       <p class="room">{{ value.room.label }}</p>
     </div>
   </div>
-  <div #detail class='detail' style='overflow: hidden'>
+  <div #detail class='detail is-size-7' style='overflow: hidden'>
+    <!-- {{value | json}} -->
     <br>
-    โดย {{ value.user.nameTH }} {{ value.user.surnameTH }}
+    จาก {{value.organization}}<br>
+    จองเมื่อ {{ value.created_time | date_format: "dd D MMM (HH:mm)" }}<br>
+    จองโดย {{ value.user.nameTH }} {{ value.user.surnameTH }}  ({{value.user.id}})<br />
+    ติดต่อ {{ value.user.phone }}
     <br />
-    ติดต่อ {{ value.user.tel }}
     <br />
-    <br />
-    <div class="field">
-      <div class="control">
-        <div class="select is-light is-small">
-          <select (input)='handleChangeStatus($event.target.value)' [value]='value.status'>
-            <option value="approved">อณุมัติ</option>
-            <option value="pending">รอ</option>
-            <option value="rejected">ปฏิเสท</option>
-          </select>
-        </div>
-        โดย {{ value.user.nameTH }} {{ value.user.surnameTH }}
+    <div class="is-flex" style='align-items: center; margin-bottom: 5px;'>
+      <span style='margin-right: 5px'>
+        สถานะ
+      </span>
+      <div class="select is-light is-small">
+        <select (input)='handleChangeStatus($event.target.value)' [value]='value.status'>
+          <option value="approved">อณุมัติ</option>
+          <option value="pending">รอ</option>
+          <option value="rejected">ปฏิเสท</option>
+        </select>
       </div>
     </div>
-    <div class="field">
+
+    ตรวจโดย ({{value.authorizer_id}})<br>
+    เมื่อ {{ value.authorizer_time | date_format: "dd D MMM (HH:mm)" }}
+    <!-- <div class="field">
       <a [routerLink]="['/room', value.id]" class="button is-small is-primary">edit</a>
-    </div>
+    </div> -->
     <br>
     <br>
   </div>

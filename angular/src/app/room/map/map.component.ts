@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, ViewChild, ElementRef } from '@angular/core';
 import { faRestroom, faPrint, faCubes, faDharmachakra, faChessRook, faFireAlt, faArrowsAltV, faUser } from '@fortawesome/free-solid-svg-icons'
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 @Component({
@@ -7,7 +7,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   styleUrls:   ['./map.component.scss'],
   providers:   [
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MapComponent), multi: true}
+    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MapComponent), multi: true }
   ]
 })
 export class MapComponent implements ControlValueAccessor {
@@ -32,11 +32,17 @@ export class MapComponent implements ControlValueAccessor {
   }
 
   writeValue(value: string) {
-    console.log('write value')
     this.value = value || null;
   }
   registerOnChange(fn)  {this.onChange  = fn;}
   registerOnTouched(fn) {this.onTouched = fn;}
 
+
+  @ViewChild('map') mapRef: ElementRef;
+  unfocus(e) {
+    if (this.mapRef.nativeElement === e.target) {
+      this.select(null)
+    }
+  }
 }
 

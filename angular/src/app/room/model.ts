@@ -4,7 +4,7 @@ export interface User {
   nameEN: string;
   surnameTH: string;
   surnameEN: string;
-  tel?: string;
+  phone?: string;
 };
 
 export interface Room {
@@ -22,4 +22,7 @@ export interface Reservation {
   status: "pending" | "rejected" | "approved";
   time_start: string;
   time_end: string;
+  created_time: string;
+  authorizer_id: string;
+  authorizer_time: string;
 }

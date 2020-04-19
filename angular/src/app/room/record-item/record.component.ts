@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { gsap } from 'gsap'
-import { Reservation } from '../state/model';
-import { ReservationService } from '../state/reservations.service';
+import { Reservation } from '../model';
+import { ReservationService } from '../reservations.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -23,7 +23,6 @@ export class RecordComponent implements AfterViewInit, OnDestroy {
     this.tween.reverse();
   }
   ngOnDestroy() {
-    console.log('destroy', this)
   }
 
   private visibleDetail = false;
@@ -36,7 +35,6 @@ export class RecordComponent implements AfterViewInit, OnDestroy {
   }
 
   handleChangeStatus(status: Reservation["status"]) {
-    console.log(status, this.value.id)
     this.reservationService.adminChangeStatus(this.value.id, status).subscribe(
       () => this.toast.success("update reservation success"),
       () => this.toast.error("update reservation fail")

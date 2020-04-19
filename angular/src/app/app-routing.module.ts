@@ -6,7 +6,7 @@ import { ClubComponent        } from './club/club.component'
 import { ContactComponent     } from './contact/contact.component'
 import { HomeComponent        } from './home/home.component'
 import { NotfoundComponent    } from './notfound/notfound.component'
-import { RoomComponent        } from './room/room-page/room.component'
+import { RoomComponent        } from './room/index/room.component'
 import { StudentComponent     } from './student/student.component'
 
 

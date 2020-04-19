@@ -13,19 +13,21 @@ import { AppComponent } from './app.component'
 import { AuthModule } from './auth/auth.module'
 import { PipeModule } from './pipe/pipe.module'
 import { RoomModule } from './room/room.module'
-import { ShellModule } from './shell/shell.module'
+import { ShellModule } from './component/shell.module'
 import { TokenInterceptor } from './http.token.interceptor'
+import { AuthInterceptor } from './http.auth.interceptors';
+import { ToastInterceptor } from './http.toast.interceptors';
 
 @NgModule({
   bootstrap:    [AppComponent],
   declarations: [AppComponent],
   imports:      [
+    CommonModule,
     RoomModule,
     AuthModule,
     PipeModule,
     FormsModule,
     ShellModule,
-    CommonModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -34,6 +36,8 @@ import { TokenInterceptor } from './http.token.interceptor'
     ToastrModule.forRoot(),
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ToastInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
 })
