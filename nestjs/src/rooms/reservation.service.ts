@@ -1,11 +1,11 @@
 import { r } from 'rethinkdb-ts';
 import { Injectable, HttpException } from '@nestjs/common';
 import { reservations, users, rooms } from '../db';
-import { Reservation } from './reservation.model';
+import { Reservation } from './reservation.entity';
 import { UserService } from '../users/user.service';
 import { RoomService } from './room.service';
 import { ROLE_ROOM_APPROVER } from '../users/user.model';
-import { Room } from './room.model';
+import { Room } from './room.entity';
 
 @Injectable()
 export class ReservationService {
@@ -19,12 +19,14 @@ export class ReservationService {
       return Promise.all(ids.map(id => this.show(id)));
     });
   }
+
   show(id: string) {
     return reservations.get(id).merge<Reservation & {user: any; room: Room}>(r => ({
       user: users.get(r('user_id')),
       room: rooms.get(r('room_id')),
     })).run();
   }
+
   exist(id: string) {
     return reservations.getAll(id).count().eq(1).run();
   }

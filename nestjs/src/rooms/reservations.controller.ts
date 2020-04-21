@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Param, Body, Delete, Put } from '@nestjs/common';
-import { JwtDecode, JwtUser } from '../jwt';
-import { CreateReservationDto } from './reservation.model';
+import { JwtDecode, JwtUser } from '../libs/jwt';
+import { CreateReservationDto } from './dto/create_reservation.dto';
 import { RoomService } from './room.service';
 import { ReservationService } from './reservation.service';
 import { ApiTags, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
@@ -28,7 +28,6 @@ export class ReservationsController {
     @JwtDecode() user: JwtUser,
     @Body()      body: CreateReservationDto,
   ) {
-    console.log('create reservation dto', body);
     return this.reservationService.create({
       user_id:    user.id,
       room_id:    body.room_id,

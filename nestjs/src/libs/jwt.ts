@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import { JWT_SECRET } from './config';
+import { JWT_SECRET } from '../config';
 import { HttpException, createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 export function sign(payload: { id: string }, opt: jwt.SignOptions = { expiresIn: '2 days' }) {

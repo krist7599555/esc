@@ -1,9 +1,9 @@
 import * as _ from 'lodash';
 import { r } from 'rethinkdb-ts';
-import { User } from './users/user.model';
-import { Room } from './rooms/room.model';
-import { Reservation } from './rooms/reservation.model';
-import { DATABASE_NAME } from './config';
+import { Room } from 'src/rooms/room.entity';
+import { User } from 'src/users/user.model';
+import { Reservation } from 'src/rooms/reservation.entity';
+import { DATABASE_NAME } from '../config';
 
 export const connection_pool = r.connectPool({ db: DATABASE_NAME });
 export const users           = r.table<User>('users');
