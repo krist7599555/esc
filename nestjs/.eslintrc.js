@@ -12,7 +12,8 @@ module.exports = {
   root: true,
   env: {
     node: true,
-    jest: true,
+    es6: true,
+    mocha: true
   },
   rules: {
     '@typescript-eslint/interface-name-prefix':         ['off'],
@@ -39,7 +40,11 @@ module.exports = {
       },
     }],
     'object-curly-spacing': ['error', 'always'],
-    'array-bracket-spacing': ['error', 'never']
+    'array-bracket-spacing': ['error', 'never'],
+    'no-undef': ['error'],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ['warn', {"argsIgnorePattern": "^_"}]
+
     // 'sort-imports': ['error', {
     //   'ignoreCase': false,
     //   'ignoreDeclarationSort': false,
