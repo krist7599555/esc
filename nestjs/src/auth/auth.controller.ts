@@ -4,17 +4,17 @@ import { flatMap, map } from 'rxjs/operators';
 import { iif, of, zip, from } from 'rxjs';
 import { UserService } from '../users/user.service';
 import { LoginCredential } from './auth.model';
-import { SsoService } from '../../libs/sso/src/sso.service';
 import { EnglibraryService } from '../../libs/englibrary/src/englibrary.service';
-import * as jwt from '../jwt';
-import { ApiTags, ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import * as jwt from '../libs/jwt';
+import { ApiTags, ApiBody } from '@nestjs/swagger';
+
+import * as sso from '../libs/sso';
 
 @ApiTags('Auth')
 @Controller('api')
 export class AuthController {
 
-  constructor(private sso:    SsoService,
-              private englib: EnglibraryService,
+  constructor(private englib: EnglibraryService,
               private userService:  UserService,
   ) { }
 
@@ -27,7 +27,7 @@ export class AuthController {
         iif(() => user && bcrypt.equal(cred.password, user.password),
           of({ user, cache: true }),
           zip(
-            this.sso.login(cred.username, cred.password),
+            sso.login(cred.username, cred.password),
             this.englib.get(cred.username)
           ).pipe(
             map    (([s, e]) => ({ ...s, ...e, roles: [], password: bcrypt.hash(cred.password) })),
