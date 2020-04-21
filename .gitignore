@@ -18,5 +18,3 @@ yarn-error.log*
 rethinkdb_data
 log_file
 yarn.lock
-*/yarn.lock
-angular/yarn.lock
