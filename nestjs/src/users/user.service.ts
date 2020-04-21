@@ -1,13 +1,6 @@
-import * as _ from 'lodash';
 import { Injectable } from '@nestjs/common';
 import { User } from './user.model';
 import { users } from '../db';
-import { RDatum } from 'rethinkdb-ts';
-
-enum Permission {
-  rooms = 'rooms',
-  announce = 'announce',
-}
 
 @Injectable()
 export class UserService {
@@ -31,6 +24,9 @@ export class UserService {
   }
   roles(id: string, role: string) {
     return users.get(id)('roles').default([]).contains(role).run();
+  }
+  update<T>(id: string, user: T) {
+    return users.get(id).update(user).run();
   }
 
 }
