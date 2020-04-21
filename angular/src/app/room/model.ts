@@ -5,6 +5,7 @@ export interface User {
   surnameTH: string;
   surnameEN: string;
   phone?: string;
+  roles: string[];
 };
 
 export interface Room {
