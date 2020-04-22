@@ -35,5 +35,5 @@ export class User {
 
   @ArrayUnique()
   @IsIn(UserRoles, { each: true })
-  roles: string[];
+  roles?: string[];
 }

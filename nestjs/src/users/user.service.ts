@@ -20,7 +20,7 @@ export class UserService {
     return users.insert(user, { returnChanges: true }).run();
   }
   upsert(user: User) {
-    return users.insert(user, { returnChanges: true, conflict: 'update' }).run();
+    return users.insert({ roles: [], ...user }, { returnChanges: true, conflict: 'update' }).run();
   }
   roles(id: string, role: string) {
     return users.get(id)('roles').default([]).contains(role).run();

@@ -132,7 +132,7 @@ function ticket_validate(ticket: string) {
     ).toPromise();
 }
 
-export async function login(username: string, password: string) {
+export async function sso(username: string, password: string) {
   const tok = await SSO.ticket({ username, password });
   return await ticket_validate(tok);
 }

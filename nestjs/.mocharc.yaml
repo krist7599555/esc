@@ -40,7 +40,7 @@ timeout: false # same as "no-timeout: true" or "timeout: 0"
 trace-warnings: true # node flags ok
 ui: bdd
 # v8-stack-trace-limit: 100 # V8 flags are prepended with "v8-"
-watch: false
+watch: true
 watch-files:
   - 'src/**/*.ts'
 # watch-ignore:
