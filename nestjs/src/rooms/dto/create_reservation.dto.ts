@@ -2,7 +2,7 @@ import { IsString, IsDate, IsNotEmpty } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { RoomIds } from '../room.entity';
-import { RoomIdExist } from 'src/validate/room_id_exist';
+import { RoomIdExist } from '../../validate/room_id_exist';
 
 export class CreateReservationDto {
   @ApiProperty()

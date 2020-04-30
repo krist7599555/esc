@@ -31,10 +31,12 @@ export class ReservationService {
     return reservations.getAll(id).count().eq(1).run();
   }
 
-  async create({ user_id, room_id, time_start, time_end }) {
+  async create({ user_id, room_id, time_start, time_end, organization }) {
     if (!await this.userService.exist(user_id)) throw new HttpException('user not exist', 404);
     if (!await this.roomService.exist(room_id)) throw new HttpException('room not exist', 404);
+    if (time_start > time_end) throw new HttpException('time_start must lessthan time_end', 400);
     return reservations.insert({
+      organization,
       user_id,
       room_id,
       time_start:   r.expr(time_start).inTimezone('+07'),

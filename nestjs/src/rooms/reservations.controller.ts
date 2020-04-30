@@ -4,6 +4,7 @@ import { CreateReservationDto } from './dto/create_reservation.dto';
 import { RoomService } from './room.service';
 import { ReservationService } from './reservation.service';
 import { ApiTags, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
+import { reservations } from '../db/index';
 
 
 @ApiTags('Room')
@@ -29,13 +30,19 @@ export class ReservationsController {
     @Body()      body: CreateReservationDto,
   ) {
     return this.reservationService.create({
-      user_id:    user.id,
-      room_id:    body.room_id,
-      time_start: body.time_start,
-      time_end:   body.time_end,
+      user_id:      user.id,
+      room_id:      body.room_id,
+      time_start:   body.time_start,
+      time_end:     body.time_end,
+      organization: body.organization,
     }).then(id =>
       this.reservationService.show(id)
     );
+  }
+
+  @Get('/organization')
+  get_organization_list() {
+    return reservations.getField('organization').distinct().run();
   }
 
   @Get('/:reservation_id')
@@ -63,4 +70,5 @@ export class ReservationsController {
   ) {
     return this.reservationService.remove({ user_id: user.id, reservation_id });
   }
+
 }
