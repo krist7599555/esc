@@ -37,3 +37,4 @@ lerna-debug.log*
 rethinkdb_data
 .env.production
 yarn.lock
+.env.test.local
