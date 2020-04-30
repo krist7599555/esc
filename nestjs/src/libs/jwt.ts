@@ -13,9 +13,11 @@ export function verify(token: string) {
 export const JwtDecode = createParamDecorator((_, ctx: ExecutionContext) => {
   try {
     const request = ctx.switchToHttp().getRequest();
-    const token = request.headers.authorization.split(' ')[1];
+    const authorization = request.headers.authorization;
+    if (!authorization) throw new HttpException('process require login, authorization header is empty', 401);
+    const token = authorization.split(' ')[1];
     const res = verify(token);
-    if (!res.id) throw new HttpException('auth token is in wrong format', 401);
+    if (!res.id) throw new HttpException('process require login, authorization header is in wrong format', 401);
     return res;
   } catch(e) {
     if (e instanceof HttpException) throw e;
