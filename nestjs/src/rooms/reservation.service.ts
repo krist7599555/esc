@@ -4,7 +4,7 @@ import { reservations, users, rooms } from '../db';
 import { Reservation } from './reservation.entity';
 import { UserService } from '../users/user.service';
 import { RoomService } from './room.service';
-import { ROLE_ROOM_APPROVER } from '../users/user.model';
+import { ROLE_OFFICE } from '../users/user.entity';
 import { Room } from './room.entity';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class ReservationService {
 
   show(id: string) {
     return reservations.get(id).merge<Reservation & {user: any; room: Room}>(r => ({
-      user: users.get(r('user_id')),
+      user: users.get(r('user_id')).pluck('id', 'nameTH', 'surnameTH', 'faculty', 'year', 'student_id', 'phone'),
       room: rooms.get(r('room_id')),
     })).run();
   }
@@ -31,9 +31,7 @@ export class ReservationService {
     return reservations.getAll(id).count().eq(1).run();
   }
 
-  async create({ user_id, room_id, time_start, time_end, organization }) {
-    if (!await this.userService.exist(user_id)) throw new HttpException('user not exist', 404);
-    if (!await this.roomService.exist(room_id)) throw new HttpException('room not exist', 404);
+  async create({ user_id, room_id, time_start, time_end, organization }: Reservation) {
     if (time_start > time_end) throw new HttpException('time_start must lessthan time_end', 400);
     return reservations.insert({
       organization,
@@ -49,7 +47,6 @@ export class ReservationService {
 
   async remove({ user_id, reservation_id }) {
     const reservation = await reservations.get(reservation_id).run();
-    if (!reservation) throw new HttpException('your reservation_id is not exist', 404);
     if (reservation.user_id != user_id) throw new HttpException('forbidden, only owner can remove reservation', 403);
     return await reservations
       .get(reservation_id)
@@ -59,7 +56,7 @@ export class ReservationService {
   }
 
   async change_status({ reservation_id, authorizer_id, status }) {
-    if (!await this.userService.roles(authorizer_id, ROLE_ROOM_APPROVER)) throw new HttpException('authorizer_id is not permit', 403);
+    if (!await this.userService.roles(authorizer_id, ROLE_OFFICE)) throw new HttpException('authorizer_id is not permit', 403);
     if (!await this.exist(reservation_id)) throw new HttpException('reservation_id is not exist', 404);
     await reservations.get(reservation_id).update({
       authorizer_id,

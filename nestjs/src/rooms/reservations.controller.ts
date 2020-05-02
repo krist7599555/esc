@@ -5,6 +5,11 @@ import { RoomService } from './room.service';
 import { ReservationService } from './reservation.service';
 import { ApiTags, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 import { reservations } from '../db/index';
+import { ReservationIdPipe, JwtId } from '../pipe/id.pipe';
+import { OneOfPipe } from '../pipe/util.pipe';
+import { Roles } from '../guard/roles.guard';
+import { ROLE_OFFICE } from '../users/user.entity';
+import { ReservationStatus } from './reservation.entity';
 
 
 @ApiTags('Room')
@@ -26,11 +31,11 @@ export class ReservationsController {
   @ApiBody({ type: CreateReservationDto })
   @Post('/')
   async create(
-    @JwtDecode() user: JwtUser,
-    @Body()      body: CreateReservationDto,
+    @JwtId() user_id: JwtUser,
+    @Body()  body: CreateReservationDto,
   ) {
     return this.reservationService.create({
-      user_id:      user.id,
+      user_id:      user_id,
       room_id:      body.room_id,
       time_start:   body.time_start,
       time_end:     body.time_end,
@@ -46,19 +51,20 @@ export class ReservationsController {
   }
 
   @Get('/:reservation_id')
-  show(@Param('reservation_id') id: string) {
+  show(@Param('reservation_id', ReservationIdPipe) id: string) {
     return this.reservationService.show(id);
   }
 
   @Put('/:reservation_id/status/:status')
+  @Roles(ROLE_OFFICE)
   update_status(
-    @JwtDecode()             user:           JwtUser,
-    @Param('reservation_id') reservation_id: string,
-    @Param('status')         status:         string,
+    @JwtId()             user_id:           string,
+    @Param('reservation_id', ReservationIdPipe) reservation_id: string,
+    @Param('status', new OneOfPipe(ReservationStatus))         status:         string,
   ) {
     return this.reservationService.change_status({
       status,
-      authorizer_id: user.id,
+      authorizer_id: user_id,
       reservation_id,
     });
   }
