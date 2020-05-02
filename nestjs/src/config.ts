@@ -1,5 +1,6 @@
 require('dotenv-flow').config({
   default_node_env: 'development',
+  silent:           true,
 });
 
 type Env = 'production' | 'development' | 'test'
@@ -11,4 +12,6 @@ export const HOST          = process.env.HOST;
 export const PORT          = +process.env.PORT;
 export const API_ENDPOINT  = `http://${HOST}:${PORT}`;
 
-console.log(module.exports);
+if (NODE_ENV != 'test') {
+  console.log(module.exports);
+}
