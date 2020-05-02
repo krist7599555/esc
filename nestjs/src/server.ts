@@ -1,4 +1,4 @@
-import { PORT, HOST } from './config';
+import { PORT, HOST, NODE_ENV } from './config';
 import { BaseErrorFilter } from './errors/base_error.filter';
 import { AppModule } from './app.module';
 import { NestFactory } from '@nestjs/core';
@@ -13,8 +13,7 @@ import * as express_list_routes from 'express-list-routes';
 export async function esc_server() {
   await db.connection_pool;
   await db.ensure_table();
-  const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  const app = await NestFactory.create(AppModule, { cors: true, logger: false });
 
   const options = new DocumentBuilder()
     .setTitle('ESC api')
@@ -25,11 +24,15 @@ export async function esc_server() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('/api/docs', app, document);
 
+  if (NODE_ENV != 'test') {
+    app.use(morgan('dev'));
+  }
   return app
-    .use(morgan('dev'))
-    .useGlobalFilters(new BaseErrorFilter())
-    .useGlobalFilters(new ValidationExceptionFilter())
+    .useGlobalFilters(
+      new BaseErrorFilter(),
+      new ValidationExceptionFilter())
     .useGlobalPipes(new ValidationPipe({
+      transform: true,
       exceptionFactory(errs) {
         return new ValidationException(errs);
       },
@@ -39,10 +42,11 @@ export async function esc_server() {
 export async function bootstrap() {
   const app = await esc_server();
   return app.listen(PORT, () => {
-    console.log(`listen to http://${HOST}:${PORT}`);
-    // const server = app.getHttpServer();
-    // const router = server._events.request._router;
-    // console.log(server._events.request._router);
-    // express_list_routes({}, 'API:', router);
+    if (NODE_ENV != 'test') {
+      console.log(`server listen on http://${HOST}:${PORT}`);
+      const server = app.getHttpServer();
+      const router = server._events.request._router;
+      express_list_routes({}, 'API:', router);
+    }
   });
 }
