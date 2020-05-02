@@ -18,7 +18,7 @@ export function englib(student_id: string) {
           throw new NotFoundException('user not exist in cu engineer api');
       }),
       map(raw => ({
-        id:         raw.studentId as string,
+        student_id: raw.studentId as string,
         nameEN:     raw.fName as string,
         surnameEN:  raw.lName as string,
         email:      raw.email as string,

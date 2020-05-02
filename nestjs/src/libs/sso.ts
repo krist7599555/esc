@@ -1,5 +1,5 @@
 import * as qs from 'qs';
-import { HttpException } from '@nestjs/common';
+import { HttpException, UnauthorizedException } from '@nestjs/common';
 import { map, pluck, tap, retryWhen, delay, take, catchError } from 'rxjs/operators';
 import { throwError, defer, of } from 'rxjs';
 import axios from 'axios';
@@ -86,7 +86,7 @@ class SSO {
         ),
         pluck('data', 'ticket'),
         tap(ticket => {
-          if (!ticket) throw new HttpException('username or password is wrong', 400);
+          if (!ticket) throw new UnauthorizedException('username or password is wrong');
         })
       ).toPromise();
   }
@@ -121,13 +121,13 @@ function ticket_validate(ticket: string) {
       // ),
       pluck('data'),
       map(raw => ({
-        id:        raw.ouid as string,
-        nameTH:    raw.firstnameth as string,
-        nameEN:    raw.firstname as string,
-        surnameTH: raw.lastnameth as string,
-        surnameEN: raw.lastname as string,
-        faculty:   +raw.ouid.slice(-2) as number,
-        year:      +raw.ouid.slice(0, 2) as number,
+        student_id: raw.ouid as string,
+        nameTH:     raw.firstnameth as string,
+        nameEN:     raw.firstname as string,
+        surnameTH:  raw.lastnameth as string,
+        surnameEN:  raw.lastname as string,
+        faculty:    +raw.ouid.slice(-2) as number,
+        year:       +raw.ouid.slice(0, 2) as number,
       })),
     ).toPromise();
 }

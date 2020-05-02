@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from './user.model';
+import { User } from './user.entity';
 import { users } from '../db';
 
 @Injectable()
@@ -11,7 +11,10 @@ export class UserService {
     return users.run();
   }
   show(id: string) {
-    return users.get(id).run();
+    return users.get(id).without('password').run();
+  }
+  get_by_student_id(student_id: string): Promise<User|null> {
+    return users.getAll(student_id, { index: 'student_id' }).nth(0).default(null).run();
   }
   exist(id: string) {
     return users.getAll(id).count().eq(1).run();
