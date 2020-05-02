@@ -2,7 +2,7 @@ import { IsString, IsDate, IsNotEmpty } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { RoomIds } from '../room.entity';
-import { RoomIdExist } from '../../validate/room_id_exist';
+import { IsRoomId } from '../../decorator/is_room_id';
 
 export class CreateReservationDto {
   @ApiProperty()
@@ -10,7 +10,7 @@ export class CreateReservationDto {
   @IsNotEmpty()                   organization: string;
 
   @ApiProperty({ enum: RoomIds })
-  @RoomIdExist()
+  @IsRoomId()
   @IsString()
   @IsNotEmpty()                   room_id: string;
 
