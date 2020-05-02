@@ -24,10 +24,12 @@ export async function ensure_table() {
     { id: 'pjesc', label: 'ห้องประชุม กวศ', capacity: 15 },
     { id: 'pjbig', label: 'ห้องประชุม ใหญ่', capacity: 30 },
   ]).run().catch(_.noop);
-
+  await r.indexCreate(users, 'student_id', { multi: false }).run().catch(_.noop);
+  await r.indexCreate(users, 'phone',      { multi: false }).run().catch(_.noop);
+  await r.indexWait(users, 'student_id', 'phone').run();
 };
 
-export async function reset() {
+export async function reset_database() {
   await connection_pool;
   await r.dbDrop(DATABASE_NAME).run().catch(_.noop);
   await ensure_table();
