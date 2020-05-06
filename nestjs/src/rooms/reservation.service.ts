@@ -31,7 +31,7 @@ export class ReservationService {
     return reservations.getAll(id).count().eq(1).run();
   }
 
-  async create({ user_id, room_id, time_start, time_end, organization }: Reservation) {
+  async create({ user_id, room_id, time_start, time_end, organization }: Partial<Reservation>) {
     if (time_start > time_end) throw new HttpException('time_start must lessthan time_end', 400);
     return reservations.insert({
       organization,

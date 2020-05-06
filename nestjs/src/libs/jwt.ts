@@ -10,7 +10,7 @@ export function verify(token: string) {
 }
 
 
-export const JwtDecode = createParamDecorator((field?: string, ctx: ExecutionContext) => {
+export const JwtDecode = createParamDecorator((field: string, ctx: ExecutionContext) => {
   try {
     const request = ctx.switchToHttp().getRequest();
     const authorization = request.headers.authorization;

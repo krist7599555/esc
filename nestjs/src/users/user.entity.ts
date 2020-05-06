@@ -5,7 +5,8 @@ export const ROLE_ADMIN = 'admin';
 export const ROLE_OFFICE = 'office';
 export const ROLE_STAFF = 'staff';
 export const ROLE_HR = 'hr';
-export const UserRoles = [ROLE_ADMIN, ROLE_STAFF, ROLE_OFFICE, ROLE_HR];
+export type UserRole = typeof ROLE_ADMIN | typeof ROLE_HR | typeof ROLE_STAFF | typeof ROLE_OFFICE;
+export const UserRoles: UserRole[] = [ROLE_ADMIN, ROLE_STAFF, ROLE_OFFICE, ROLE_HR];
 export class User {
 
   @IsUserId() id: string;

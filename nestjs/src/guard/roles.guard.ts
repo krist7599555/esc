@@ -1,16 +1,17 @@
-import { UserRoles } from '../users/user.entity';
+import { UserRole } from '../users/user.entity';
 import { UseGuards } from '@nestjs/common';
 import * as _ from 'lodash';
 import { CanActivate, ExecutionContext, Injectable, ForbiddenException, UnauthorizedException } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import * as jwt from '../libs/jwt';
 import { users } from '../db/index';
 
 @Injectable()
 export class EscRoleGuard implements CanActivate {
-  constructor(private ...roles: string[]) {
+  roles: string[];
+  constructor(...roles: string[]) {
+    this.roles = roles;
   }
-  async canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const authorization = request.headers.authorization;
     if (!authorization) throw new UnauthorizedException('require login');
@@ -34,4 +35,4 @@ export class EscRoleGuard implements CanActivate {
 
 
 
-export const Roles = (...roles: UserRoles[]) => UseGuards(new EscRoleGuard(...roles));
+export const Roles = (...roles: UserRole[number][]) => UseGuards(new EscRoleGuard(...roles));

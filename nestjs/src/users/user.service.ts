@@ -19,7 +19,7 @@ export class UserService {
   exist(id: string) {
     return users.getAll(id).count().eq(1).run();
   }
-  insert(user: User) {
+  insert(user: Partial<User>) {
     return users.insert(user, { returnChanges: true }).run();
   }
   upsert(user: User) {

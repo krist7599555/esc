@@ -31,7 +31,7 @@ export class ReservationsController {
   @ApiBody({ type: CreateReservationDto })
   @Post('/')
   async create(
-    @JwtId() user_id: JwtUser,
+    @JwtId() user_id: string,
     @Body()  body: CreateReservationDto,
   ) {
     return this.reservationService.create({

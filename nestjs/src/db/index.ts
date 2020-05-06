@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { r } from 'rethinkdb-ts';
-import { Room } from 'src/rooms/room.entity';
-import { User } from 'src/users/user.model';
+import { Room } from '../rooms/room.entity';
+import { User } from '../users/user.entity';
 import { Reservation } from 'src/rooms/reservation.entity';
 import { DATABASE_NAME } from '../config';
 
@@ -24,8 +24,8 @@ export async function ensure_table() {
     { id: 'pjesc', label: 'ห้องประชุม กวศ', capacity: 15 },
     { id: 'pjbig', label: 'ห้องประชุม ใหญ่', capacity: 30 },
   ]).run().catch(_.noop);
-  await r.indexCreate(users, 'student_id', { multi: false }).run().catch(_.noop);
-  await r.indexCreate(users, 'phone',      { multi: false }).run().catch(_.noop);
+  await r.indexCreate(users, 'student_id', { multi: false, geo: false }).run().catch(_.noop);
+  await r.indexCreate(users, 'phone',      { multi: false, geo: false }).run().catch(_.noop);
   await r.indexWait(users, 'student_id', 'phone').run();
 };
 
