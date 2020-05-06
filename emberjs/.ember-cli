@@ -1,0 +1,5 @@
+{
+  "disableAnalytics": true,
+  "port": 7676,
+  "proxy": "http://localhost:7677/api"
+}
