@@ -1,0 +1,58 @@
+import { Module, ValidationPipe } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { PeopleController } from './controller/people';
+import { RoomsController } from './controller/rooms';
+import { ReservationsController } from './controller/reservations';
+import { AuthController } from './controller/auth';
+import { APP_PIPE, APP_FILTER } from '@nestjs/core';
+import { AppExceptionFilter, HttpExceptionFilter, ValidateExceptionFilter } from './app.exception.filter';
+import { ValidationError } from 'class-validator';
+import { JSONAPIErrorOptions } from 'jsonapi-serializer';
+import { JsonApiErrors } from './serialize';
+import * as _ from 'lodash'
+
+@Module({
+  imports: [],
+  controllers: [
+    AppController, 
+    PeopleController, 
+    RoomsController, 
+    ReservationsController, 
+    AuthController
+  ],
+  providers: [
+    AppService,
+    { 
+      provide: APP_PIPE,  
+      useFactory: () => new ValidationPipe({
+        transform: true,
+        // validateCustomDecorators: true,
+        forbidNonWhitelisted: true,
+        whitelist: true,
+        transformOptions: {
+          // strategy: "exposeAll",
+          // enableImplicitConversion: true
+        },
+        exceptionFactory(errors: ValidationError[]) {
+          console.log("exceptionFactory -> errors", errors)
+          return new JsonApiErrors(_(errors)
+            .map(error => _.map(
+              error.constraints, (val, key) => ({
+                detail: val,
+                type: "ValidationException",
+                property: error.property
+              })
+            ))
+            .flatten()
+            .value()
+          )
+        }
+      })
+    },
+    { provide: APP_FILTER, useClass: AppExceptionFilter },
+    { provide: APP_FILTER, useClass: HttpExceptionFilter },
+    { provide: APP_FILTER, useClass: ValidateExceptionFilter },
+  ],
+})
+export class AppModule {}

@@ -1,0 +1,14 @@
+{{!-- {{outlet}} --}}
+<h1>People</h1>
+<ol>
+  {{#each this.model as |person|}}
+    <li>
+      <LinkTo @route='people.show' @model={{person.id}}>
+        <div>{{person.id}}</div>
+        <div>{{person.nameTH}}</div>
+        <div>{{person.nameEN}}</div>
+        <div>{{person.studentId}}</div>
+      </LinkTo>
+    </li>
+  {{/each}}
+</ol>

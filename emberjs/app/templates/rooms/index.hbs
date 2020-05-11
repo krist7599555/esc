@@ -1,0 +1,12 @@
+
+{{!-- {{outlet}} --}}
+<h1>Rooms</h1>
+{{#each this.model.rooms as |room|}}
+  <LinkTo @route='rooms.show' @model={{room.id}}>
+    <div>
+      {{room.id}}
+      {{room.label}}
+      {{room.capacity}}
+    </div>
+  </LinkTo>
+{{/each}}

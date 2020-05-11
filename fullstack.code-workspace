@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"path": "nestjs"
+		},
+		{
+			"path": "emberjs"
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"node_modules": true
+		},
+		"explorerExclude.backup": null
+	}
+}
