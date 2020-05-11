@@ -1,6 +1,9 @@
 
 {{!-- {{outlet}} --}}
+<div class="container py-4">
+
 <h1>Rooms</h1>
+
 {{#each this.model.rooms as |room|}}
   <LinkTo @route='rooms.show' @model={{room.id}}>
     <div>
@@ -10,3 +13,4 @@
     </div>
   </LinkTo>
 {{/each}}
+</div>

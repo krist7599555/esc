@@ -1,0 +1,56 @@
+<div
+  class="bg-cover bg-right"
+  style="background-image: linear-gradient(45deg, #000A, #000A), url(/assets/img/bg-2.png)"
+>
+  <div class="container text-dark">
+    <div class="flex justify-center items-center h-screen">
+      <div
+        class="bg-white px-8 py-8 rounded-lg shadow"
+        style="min-width: 300px"
+        {{gsap (hash y=10)}}
+      >
+        <h1 class="text-xl font-bold">
+          Sign in to your account
+        </h1>
+        <br />
+        <form {{on "submit" this.login}}>
+          <div class="my-3">
+            <label class="font-bold text-sm mb-1 block" for="username">
+              รหัสนิสิต 10 หลัก
+            </label>
+            <Input
+              @value={{this.username}}
+              class="outline-none bg-white border rounded border-primary py-2 px-4 block w-full"
+              placeholder="username"
+              required
+              name="username"
+              {{autofocus}}
+            />
+          </div>
+          <div class="my-3">
+            <label class="font-bold text-sm mb-1 block" for="username">
+              รหัส reg.chula
+            </label>
+            <Input
+              @value={{this.password}}
+              class="outline-none bg-white border rounded border-primary py-2 px-4 block w-full"
+              required
+              name="password"
+              placeholder="password"
+            />
+          </div>
+          <br />
+          <button
+            class="bg-primary text-white rounded px-6 py-2 shadow w-full text-center"
+            type="submit"
+          >
+            <i class="inline h-4" data-feather="log-in"></i>
+            <span>
+              sign in
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
