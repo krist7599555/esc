@@ -41,13 +41,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
+    console.log("HttpExceptionFilter -> exception.message", exception.message)
     response
       .status(exception.getStatus())
       .json({
         errors: [
           {
-            type: "" + exception.getStatus(),
-            detail: exception.message
+            type: exception.message.error,
+            code: exception.message.statusCode,
+            detail: exception.message.message
           }
         ]
       });

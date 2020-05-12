@@ -1,0 +1,11 @@
+<select
+  ...attributes
+  value={{@value}}
+  {{on "change" this.emit}}
+  {{did-insert this.mounted}}
+>
+    <option value='' hidden>ยังไม่ได้เลือก</option>
+  {{#each @options as |opt|}}
+    <option value={{opt.value}}>{{opt.label}}</option>
+  {{/each}}
+</select>

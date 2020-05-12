@@ -1,16 +1,19 @@
 <div
   class="fixed flex m-auto bg-white left-0 bottom-0 w-screen h-16 md:w-16 md:h-screen justify-center md:flex-col md:justify-center shadow"
 >
-  <NavigationItem @icon="log-in" @label="login" @route="login" />
-  <hr class="w-10 m-auto my-2 hidden md:block" />
+  <AnimatedContainer class='overflow-hidden'>
+    {{#animated-if this.session.isAuthenticated rules=this.rules}}
+      <button type='button' {{on "click" this.logout}}>
+        <NavigationItem @icon="log-out" @label="logout" />
+      </button>
+    {{else}}
+      <NavigationItem @icon="log-in" @label="login" @route="login" />
+    {{/animated-if}}
+  </AnimatedContainer>
+  <hr class="opacity-50 w-10 m-auto my-2 hidden md:block" />
   <NavigationItem @icon="home" @label="home" @route="index" />
   <NavigationItem @icon="zap" @label="rooms" @route="rooms.index" />
   <NavigationItem @icon="info" @label="about" @route="index" />
-  <hr class="w-10 m-auto my-2 hidden md:block" />
+  <hr class="opacity-50 w-10 m-auto my-2 hidden md:block" />
   <NavigationItem @icon="tool" @label="setting" @route="index" />
-  {{! <NavigationItem @icon="sliders" /> }}
-  {{! <NavigationItem @icon="pie-chart" @label="rooms" />
-  <NavigationItem @icon="stop-circle" />
-  <NavigationItem @icon="tool" />
-  <NavigationItem @icon="triangle" /> }}
 </div>

@@ -20,6 +20,13 @@ export default class AxiosService extends Service {
     })
     this.agent.interceptors.response.use((res) => {
       return res.data.data;
+    }, err => {
+      const data = err.response.data;
+      if ('errors' in data) {
+        throw data.errors
+      } else {
+        throw [{type: "Error", detail: data.message || err.message }]
+      }
     })
   }
   request(conf) {

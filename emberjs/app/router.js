@@ -16,5 +16,6 @@ Router.map(function() {
   this.route('rooms',  function() {
     this.route('index', { path: '/' });
     this.route('show', { path: '/:room_id' });
+    this.route('new');
   });
 });

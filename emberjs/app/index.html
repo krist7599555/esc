@@ -22,7 +22,9 @@
     <script src="https://unpkg.com/feather-icons"></script>
     <script>
       //https://github.com/feathericons/feather
-      feather.replace();
+      setInterval(() => {
+        feather.replace();
+      }, 50);
     </script>
 
     {{content-for "body-footer"}}

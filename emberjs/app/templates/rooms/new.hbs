@@ -1,0 +1,56 @@
+<div
+  class="bg-cover bg-right h-screen"
+  style="background-image: linear-gradient(45deg, #000A, #000A), url(/assets/img/bg-2.png)"
+>
+  <div class="container p-0 md:p-4 flex items-center h-full" style='max-width: 600px'>
+    <div
+      class="bg-white text-dark rounded-non  md:rounded p-6 p-0 md:p-10 w-full -mt-24 md:mt-0"
+      {{gsap (hash y=8)}}
+    >
+      <h1 class='font-bold text-xl'>จองห้องประชุม</h1>
+      <div class="my-4">
+        <label class="app-label">หน่วยงาน</label>
+        <Input @value={{this.organization}} class="app-input w-full" placeholder="กวศ, กรุป, อบจ"></Input>
+      </div>
+      <div class="my-4">
+        <label class="app-label">ห้องประชุม</label>
+        <Select
+          @value={{this.roomId}}
+          @options={{this.roomsOptions}}
+          @onChange={{fn (mut this.roomId)}}
+          class='app-input appearance-none w-full'
+        >
+        </Select>
+      </div>
+      <div class="my-4">
+        <label class="app-label">วัน</label>
+        <select class='app-input appearance-none w-full'>
+          <option value="">วัน พฤ ที่---</option>
+          <option value="">วัน ศ ที่---</option>
+        </select>
+      </div>
+      <div class="my-4">
+        <div class='flex'>
+          <div class="flex-1 mr-2">
+            <label class="app-label">เวลาเริ่ม</label>
+            <select class='app-input appearance-none w-full'>
+              <option value="">8:00</option>
+              <option value="">9:00</option>
+            </select>
+          </div>
+          <div class="flex-1 ml-2">
+            <label class="app-label">เวลาจบ</label>
+            <select class='app-input appearance-none w-full'>
+              <option value="">8:00</option>
+              <option value="">9:00</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div>{{this.organization}}</div>
+      <div>{{this.roomId}}</div>
+      <button type='button' class="app-button">จอง</button>
+    </div>
+  </div>
+</div>
