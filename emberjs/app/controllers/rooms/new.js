@@ -1,25 +1,62 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
-// import { action } from '@ember/object';
-// import { set } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { action, computed } from '@ember/object';
+import $ from 'jquery';
+
+class ReservationForm {
+  @tracked roomId = "";
+  @tracked organization  = "";
+  @tracked rawDate  = "";
+  @tracked rawTimeStart  = "";
+  @tracked rawTimeEnd  = "";
+  @computed('roomId', 'organization', 'rawDate', 'rawTimeStart', 'rawTimeEnd')
+  get serializeForm() {
+    console.log('recomputed')
+    return {
+      room: this.roomId,
+      organization: this.organization,
+      startTime: this.rawDate + this.rawTimeStart,
+      endTime: this.rawDate + this.rawTimeEnd,
+    }
+  }
+}
 
 export default class RoomsNewController extends Controller {
-  @tracked roomId = "";
-  @tracked organization = "";
-  @tracked roomsOptions = [
-    { value: "pj2", label: "ห้องประชุม 2" },
-    { value: "pj3", label: "ห้องประชุม 3" },
-    { value: "pj4", label: "ห้องประชุม 4" },
-  ]
 
-  // @action
-  // setForm(field, event, e) {
-  //   console.log([field, event, e])
-  //   set(this.form, field, event.target.value);
-  // }
-  // @action
-  // event_setter() {
-  //   console.log('event setter', arguments)
-  // }
+  @tracked form = new ReservationForm();
+  @tracked formElement;
+  @service axios;
+  @service toast;
+
+  constructor() {
+    super(...arguments);
+  }
+
+  @action
+  submit() {
+    console.log(this.form)
+    console.log(this.form.serializeForm)
+    this.axios.request({
+      method: "post",
+      url: "/api/reservations",
+      data: this.form.serializeForm
+    })
+      .then(data => {
+        console.log(data)
+      })
+      .catch(errs => {
+        const root = $(this.formElement)
+        root.find('[data-help-property]').empty()
+        for (const err of errs) {
+          const el = root.find(`[data-help-property=${err.property}]`)
+          if (el.length && err.property && err.detail) {
+            el.append(err.detail)
+          } else {
+            this.toast.error(err.detail || err.type || "some error happen")
+          }
+        }
+      })
+  }
 
 }

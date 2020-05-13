@@ -21,6 +21,10 @@ module.exports = {
         dark: '#682323',
       },
       dark: '#363636',
+      success: 'hsl(141, 53%, 53%)',
+      danger: 'hsl(348, 100%, 61%)',
+      warning: 'hsl(48, 100%, 67%)',
+      info: 'hsl(204, 86%, 53%)'
     },
     container: {
       center: true,

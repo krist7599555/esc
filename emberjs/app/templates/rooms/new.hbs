@@ -6,51 +6,67 @@
     <div
       class="bg-white text-dark rounded-non  md:rounded p-6 p-0 md:p-10 w-full -mt-24 md:mt-0"
       {{gsap (hash y=8)}}
+      {{ref this "formElement"}}
     >
       <h1 class='font-bold text-xl'>จองห้องประชุม</h1>
       <div class="my-4">
         <label class="app-label">หน่วยงาน</label>
-        <Input @value={{this.organization}} class="app-input w-full" placeholder="กวศ, กรุป, อบจ"></Input>
+        <Input @value={{this.form.organization}} class="app-input w-full" placeholder="กวศ, กรุป, อบจ"></Input>
+        <p data-help-property='organization' class="app-help text-right"></p>
       </div>
       <div class="my-4">
         <label class="app-label">ห้องประชุม</label>
         <Select
-          @value={{this.roomId}}
-          @options={{this.roomsOptions}}
-          @onChange={{fn (mut this.roomId)}}
+          @value={{this.form.roomId}}
+          @options={{this.model.rooms}}
+          @onChange={{fn (mut this.form.roomId)}}
+          class='app-input appearance-none w-full'
+        >
+        </Select>
+        <p data-help-property='room' class="app-help text-right"></p>
+      </div>
+      <div class="my-4">
+        <label class="app-label">วัน</label>
+        <Select
+          @value={{this.form.rawDate}}
+          @options={{this.model.days}}
+          @onChange={{fn (mut this.form.rawDate)}}
           class='app-input appearance-none w-full'
         >
         </Select>
       </div>
       <div class="my-4">
-        <label class="app-label">วัน</label>
-        <select class='app-input appearance-none w-full'>
-          <option value="">วัน พฤ ที่---</option>
-          <option value="">วัน ศ ที่---</option>
-        </select>
-      </div>
-      <div class="my-4">
         <div class='flex'>
           <div class="flex-1 mr-2">
             <label class="app-label">เวลาเริ่ม</label>
-            <select class='app-input appearance-none w-full'>
-              <option value="">8:00</option>
-              <option value="">9:00</option>
-            </select>
+            <Select
+              @value={{this.form.rawTimeStart}}
+              @options={{this.model.clocks}}
+              @onChange={{fn (mut this.form.rawTimeStart)}}
+              class='app-input appearance-none w-full'
+            >
+            </Select>
           </div>
           <div class="flex-1 ml-2">
             <label class="app-label">เวลาจบ</label>
-            <select class='app-input appearance-none w-full'>
-              <option value="">8:00</option>
-              <option value="">9:00</option>
-            </select>
+            <Select
+              @value={{this.form.rawTimeEnd}}
+              @options={{this.model.clocks}}
+              @onChange={{fn (mut this.form.rawTimeEnd)}}
+              class='app-input appearance-none w-full'
+            >
+            </Select>
           </div>
         </div>
       </div>
+      <p data-help-property='startTime' class="app-help text-right"></p>
+      <p data-help-property='endTime' class="app-help text-right"></p>
       <br>
-      <div>{{this.organization}}</div>
-      <div>{{this.roomId}}</div>
-      <button type='button' class="app-button">จอง</button>
+      <button
+        type='button'
+        class="app-button"
+        {{on "click" this.submit}}
+      >จอง</button>
     </div>
   </div>
 </div>

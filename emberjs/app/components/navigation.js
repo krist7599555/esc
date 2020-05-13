@@ -16,7 +16,6 @@ export default class Navigation extends Component {
     })
   }
   rules({ newItems }) {
-    console.log("Navigation -> rules -> newItems", newItems)
     if (newItems[0]) {
       return toRight;
     } else {
