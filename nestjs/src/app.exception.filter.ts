@@ -1,10 +1,11 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, BadRequestException } from '@nestjs/common';
 import { Response } from 'express';
 import { JsonApiErrors } from './serialize';
 
 @Catch()
 export class AppExceptionFilter implements ExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
+    console.log("AppExceptionFilter -> host", host)
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     response
@@ -36,20 +37,30 @@ export class ValidateExceptionFilter implements ExceptionFilter {
   }
 }
 
+// 200: "OK",
+// 201: "Created",
+// 204: "No Content",
+// 400: "Bad Request",
+// 401: "Unauthorized",
+// 403: "Forbidden",
+// 404: "Not Found",
+// 409: "Conflict",
+// 500: "Internal Server Error",
+
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    console.log("HttpExceptionFilter -> exception.message", exception.message)
+  
     response
       .status(exception.getStatus())
       .json({
         errors: [
           {
-            type: exception.message.error,
-            code: exception.message.statusCode,
-            detail: exception.message.message
+            type: exception.getResponse(),
+            code: exception.getStatus(),
+            detail: exception.message
           }
         ]
       });

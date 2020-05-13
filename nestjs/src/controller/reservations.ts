@@ -2,12 +2,19 @@ import { Controller, Get, Param, UsePipes, ValidationPipe, ClassSerializerInterc
 import { r } from 'rethinkdb-ts'
 import { Reservations, Reservation } from '../entity/reservations';
 import { Type } from 'class-transformer';
-import { IsDateString } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
+import { JwtId } from '../helper/id';
+import { JwtDecode } from '../lib/jwt';
 
 class ReservationCreateDto {
   
-  owner: string;
+  @IsNotEmpty()
+  @IsString()
   room: string;
+  
+  @IsNotEmpty()
+  @IsString()
+  organization: string;
   
   @IsDateString()
   @Type(() => Date)
@@ -19,14 +26,7 @@ class ReservationCreateDto {
 };
 
 @Controller("/api/reservations")
-@UseInterceptors(ClassSerializerInterceptor)
-@UsePipes(new ValidationPipe({
-  transform: true,
-  skipMissingProperties: false,
-  forbidNonWhitelisted: true,
-  forbidUnknownValues: true,
-  
-}))
+// @UseInterceptors(ClassSerializerInterceptor)
 export class ReservationsController {
   @Get("/") 
   index() {
@@ -37,9 +37,14 @@ export class ReservationsController {
     return Reservations.get(reservationId).run()
   }
   @Post("/")
-  create(@Body() reservationCreate: ReservationCreateDto) {
+  create(
+    @JwtDecode() owner: any,
+    @Body() reservationCreate: ReservationCreateDto
+    ) {
+    console.log("ReservationsController -> owner", owner)
     return Reservations.insert({
       ...reservationCreate,
+      owner,
       created: r.now(),
       updated: r.now()
     }).run()

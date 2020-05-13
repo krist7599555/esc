@@ -3,14 +3,7 @@ import { People } from '../entity/person';
 import { PersonSerializer } from '../serialize';
 
 @Controller("/api/people")
-@UseInterceptors(ClassSerializerInterceptor)
-@UsePipes(new ValidationPipe({
-  transform: true,
-  skipMissingProperties: false,
-  forbidNonWhitelisted: true,
-  forbidUnknownValues: true,
-  
-}))
+// @UseInterceptors(ClassSerializerInterceptor)
 export class PeopleController {
   @Get("/") 
   async index() {

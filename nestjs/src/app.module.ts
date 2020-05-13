@@ -28,8 +28,8 @@ import * as _ from 'lodash'
       useFactory: () => new ValidationPipe({
         transform: true,
         // validateCustomDecorators: true,
-        forbidNonWhitelisted: true,
-        whitelist: true,
+        // forbidNonWhitelisted: true,
+        // whitelist: true,
         transformOptions: {
           // strategy: "exposeAll",
           // enableImplicitConversion: true
