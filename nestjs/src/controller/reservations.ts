@@ -1,9 +1,12 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Put } from '@nestjs/common';
 import { r } from 'rethinkdb-ts'
-import { Reservations, STATUS_PENDING } from '../entity/reservations';
+import { Reservations, STATUS_PENDING, RESERVATION_STATUS, ReservationStatus } from '../entity/reservation';
 import { IsNotEmpty, IsString, IsISO8601 } from 'class-validator'
-import { JwtId, IsRoomId } from '../helper/id';
+import { JwtId, IsRoomId, ReservationIdPipe } from '../helper/id';
 import { serialize_reservations } from '../serialize';
+import { OneOf } from '../pipe/utils';
+import { Roles } from 'src/pipe/guard';
+import { ROLE_OFFICE } from '../entity/person';
 
 class ReservationCreateDto {
   
@@ -49,6 +52,22 @@ export class ReservationsController {
       status: STATUS_PENDING
     }).run();
     return Reservations.get(wr.generated_keys[0]).run().then(serialize_reservations)
+  }
+
+  @Put("/:reservation_id/status/:status")
+  @Roles(ROLE_OFFICE)
+  async update_status(
+    @Param('reservation_id', ReservationIdPipe) reservation_id: string,
+    @Param('status', new OneOf(RESERVATION_STATUS)) status: ReservationStatus
+  ) {
+    await Reservations
+      .get(reservation_id)
+      .update({ 
+        status,
+        updated: r.now().inTimezone('+07:00'),
+      }, { returnChanges: true })
+      .run();
+    return Reservations.get(reservation_id).run().then(serialize_reservations);
   }
   
 }
