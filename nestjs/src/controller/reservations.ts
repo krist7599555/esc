@@ -7,7 +7,8 @@ import { serialize_reservations } from '../serialize';
 
 class ReservationCreateDto {
   
-  @IsRoomId()
+  @IsNotEmpty()
+  @IsRoomId({ message: "room id is not exist" })
   room: string;
   
   @IsNotEmpty()

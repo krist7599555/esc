@@ -6,21 +6,22 @@
     <div
       class="bg-white text-dark rounded-non  md:rounded p-6 p-0 md:p-10 w-full -mt-24 md:mt-0"
       {{gsap (hash y=8)}}
-      {{ref this "formElement"}}
+      {{ref this "form_element"}}
     >
       <h1 class='font-bold text-xl'>จองห้องประชุม</h1>
       <div class="my-4">
         <label class="app-label">หน่วยงาน</label>
-        <Input @value={{this.form.organization}} class="app-input w-full" placeholder="กวศ, กรุป, อบจ"></Input>
+        <Input @value={{this.form.organization}} class="app-input w-full" placeholder="กวศ, กรุป, อบจ" {{on "input" (fn this.clear_error_message "organization") }}></Input>
         <p data-help-property='organization' class="app-help text-right"></p>
       </div>
       <div class="my-4">
         <label class="app-label">ห้องประชุม</label>
         <Select
-          @value={{this.form.roomId}}
+          @value={{this.form.room_id}}
           @options={{this.model.rooms}}
-          @onChange={{fn (mut this.form.roomId)}}
+          @onChange={{fn (mut this.form.room_id)}}
           class='app-input appearance-none w-full'
+          {{on "input" (fn this.clear_error_message "room") }}
         >
         </Select>
         <p data-help-property='room' class="app-help text-right"></p>
@@ -28,10 +29,12 @@
       <div class="my-4">
         <label class="app-label">วัน</label>
         <Select
-          @value={{this.form.rawDate}}
+          @value={{this.form.raw_date}}
           @options={{this.model.days}}
-          @onChange={{fn (mut this.form.rawDate)}}
+          @onChange={{fn (mut this.form.raw_date)}}
           class='app-input appearance-none w-full'
+          {{on "input" (fn this.clear_error_message "arrival_time") }}
+          {{on "input" (fn this.clear_error_message "departure_time") }}
         >
         </Select>
       </div>
@@ -40,27 +43,29 @@
           <div class="flex-1 mr-2">
             <label class="app-label">เวลาเริ่ม</label>
             <Select
-              @value={{this.form.rawTimeStart}}
+              @value={{this.form.raw_arrival_time}}
               @options={{this.model.clocks}}
-              @onChange={{fn (mut this.form.rawTimeStart)}}
+              @onChange={{fn (mut this.form.raw_arrival_time)}}
               class='app-input appearance-none w-full'
+              {{on "input" (fn this.clear_error_message "arrival_time") }}
             >
             </Select>
           </div>
           <div class="flex-1 ml-2">
             <label class="app-label">เวลาจบ</label>
             <Select
-              @value={{this.form.rawTimeEnd}}
+              @value={{this.form.raw_departure_time}}
               @options={{this.model.clocks}}
-              @onChange={{fn (mut this.form.rawTimeEnd)}}
+              @onChange={{fn (mut this.form.raw_departure_time)}}
               class='app-input appearance-none w-full'
+              {{on "input" (fn this.clear_error_message "departure_time") }}
             >
             </Select>
           </div>
         </div>
       </div>
-      <p data-help-property='startTime' class="app-help text-right"></p>
-      <p data-help-property='endTime' class="app-help text-right"></p>
+      <p data-help-property='arrival_time' class="app-help text-right"></p>
+      <p data-help-property='departure_time' class="app-help text-right"></p>
       <br>
       <button
         type='button'
