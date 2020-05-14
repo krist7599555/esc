@@ -9,7 +9,7 @@ export function jwtVerify(token: string) {
   return jwt.verify(token, JWT_SECRET) as JwtUser;
 }
 
-export const JwtDecode = createParamDecorator((field: string, ctx: ExecutionContext) => {
+export const JwtDecode = createParamDecorator((field: keyof JwtUser, ctx: ExecutionContext) => {
   try {
     const request = ctx.switchToHttp().getRequest();
     const authorization = request.headers.authorization;

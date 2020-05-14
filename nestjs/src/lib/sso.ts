@@ -15,6 +15,7 @@ import {
 import { throwError, defer, of } from 'rxjs';
 import axios from 'axios';
 import { AxiosRequestConfig } from 'axios';
+import { Person } from '../entity/person';
 
 function axiosRxjs<T>(conf: AxiosRequestConfig) {
   return defer(() => axios.request(conf));
@@ -40,7 +41,7 @@ interface SsoUser {
   username: string;
 }
 
-async function ssoTicket({ username, password }): Promise<string> {
+async function ssoTicket(username: string, password: string): Promise<string> {
   return axiosRxjs<any>({
     method: 'post',
     baseURL: 'https://account.it.chula.ac.th',
@@ -88,10 +89,8 @@ function ssoTicketValidate(ticket: string) {
     url: '/serviceValidation',
     params: { ticket },
     headers: {
-      DeeAppId:
-        'dc2326fef061a32bea16242be5941c7d403f485fa52fdfc69d145e3c3be2fb05',
-      DeeAppSecret:
-        'b3ed7ba73d5c455d9a9ab7a03cb11829ac141b4c07d535de281d244de779a6a847e430a8806ef6fb5e9bf928414e4c444465cbf0347eb5dab9b7a0a0b532e2e5',
+      DeeAppId: 'dc2326fef061a32bea16242be5941c7d403f485fa52fdfc69d145e3c3be2fb05',
+      DeeAppSecret: 'b3ed7ba73d5c455d9a9ab7a03cb11829ac141b4c07d535de281d244de779a6a847e430a8806ef6fb5e9bf928414e4c444465cbf0347eb5dab9b7a0a0b532e2e5',
     },
   })
     .pipe(
@@ -99,21 +98,23 @@ function ssoTicketValidate(ticket: string) {
         throwError(e.response.status == 403 ? new SsoServerException() : e),
       ),
       pluck('data'),
-      map((raw) => ({
-        studentId: raw.ouid as string,
-        nameTH: raw.firstnameth as string,
-        nameEN: raw.firstname as string,
-        surnameTH: raw.lastnameth as string,
-        surnameEN: raw.lastname as string,
-        faculty: +raw.ouid.slice(-2) as number,
-        year: +raw.ouid.slice(0, 2) as number,
-      })),
+      map<any, Partial<Person>>((raw: any) => {
+        return {
+          student_id: raw.ouid,
+          name_th: raw.firstnameth,
+          name_en: raw.firstname,
+          surname_th: raw.lastnameth,
+          surname_en: raw.lastname,
+          faculty: +raw.ouid.slice(-2),
+          year: +raw.ouid.slice(0, 2),
+        }
+      })
     )
     .toPromise();
 }
 
 export async function sso(username: string, password: string) {
-  const tok = await ssoTicket({ username, password });
+  const tok = await ssoTicket(username, password);
   return await ssoTicketValidate(tok);
 }
 

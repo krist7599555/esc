@@ -20,14 +20,14 @@ class LoginDto {
 export class AuthController {
   @Post("/login") 
   async index(@Body() cred: LoginDto, @Res() response: Response) {
-    const me = await People.filter({ studentId: cred.username }).nth(0).default(null).run();
+    const me = await People.filter({ student_id: cred.username }).nth(0).default(null).run();
     if (!me) {
       const s = await sso(cred.username, cred.password);
       const e = await englib(cred.username);
       const wr = await People.insert({ ...s, ...e, password: bcryptHash(cred.password), roles: [] }).run();
       response
-        .status(201)
-        .send({ data: { access_token: jwtSign({ id: wr.generated_keys[0] }) }});
+      .status(201)
+      .send({ data: { access_token: jwtSign({ id: wr.generated_keys[0] }) }});
     }
     else if (bcryptEqual(cred.password, me.password)) {
       response

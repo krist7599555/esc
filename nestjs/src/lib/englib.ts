@@ -2,6 +2,7 @@ import { NotFoundException } from '@nestjs/common';
 import { map, pluck, tap, retry } from 'rxjs/operators';
 import axios from 'axios';
 import { defer } from 'rxjs';
+import { Person } from '../entity/person';
 
 export function englib(studentId: string) {
   return defer(() =>
@@ -19,13 +20,13 @@ export function englib(studentId: string) {
         if (raw.message == 'invalid')
           throw new NotFoundException('user not exist in cu engineer api');
       }),
-      map((raw) => ({
-        studentId: raw.studentId as string,
-        nameEN: raw.fName as string,
-        surnameEN: raw.lName as string,
-        email: raw.email as string,
-        department: raw.department as string,
-        phone: raw.tel as string,
+      map<any, Partial<Person>>((raw) => ({
+        student_id: raw.studentId,
+        name_en: raw.fName,
+        surname_en: raw.lName,
+        email: raw.email,
+        department: raw.department,
+        phone: raw.tel,
       })),
     )
     .toPromise();

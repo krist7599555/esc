@@ -1,12 +1,15 @@
 import { r } from 'rethinkdb-ts'
-import { plainToClass, Expose } from "class-transformer"
 
+type ID = string;
 export class Reservation {
-  room: string;
-  owner: string;
-  approver: string;
+  room: ID;
+  owner: ID;
+  approver: ID;
+  arrival_time: Date;
+  departure_time: Date;
+  organization: string;
   created: Date;
   updated: Date;
 }
 
-export const Reservations = r.table('reservations');
+export const Reservations = r.table<Reservation>('reservations');
