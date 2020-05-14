@@ -1,6 +1,7 @@
 import * as JSONAPISerializer from "jsonapi-serializer"
 import { JSONAPIErrorOptions } from "jsonapi-serializer"
 import { BadRequestException } from '@nestjs/common';
+import { Reservation } from './entity/reservations';
 const { Serializer } = JSONAPISerializer;
 
 export type JsonApiError = JSONAPIErrorOptions
@@ -11,7 +12,7 @@ export const RoomSerializer = new Serializer('rooms', {
   attributes: ['label', 'capacity']
 })
 export const ReservationSerializer = new Serializer('rooms', {
-  attributes: ['created', 'updated', 'owner', 'room', 'approver'],
+  attributes: ['created', 'updated', 'owner', 'room', 'approver', 'arrival_time', 'departure_time', 'organization'] as (keyof Reservation)[],
   owner: {
     ref: 'id',
     included: false

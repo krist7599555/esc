@@ -42,3 +42,26 @@ export class PersonPipe implements PipeTransform {
 
 export const JwtId = () => JwtDecode('id', new PersonPipe('id'));
 export const JwtPerson = () => JwtDecode('id', new PersonPipe());
+
+
+import {registerDecorator, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments} from "class-validator";
+import { Rooms } from '../entity/room';
+
+@ValidatorConstraint({ async: true })
+export class IsRoomIdConstraint implements ValidatorConstraintInterface {
+  validate(room_id: any, _args: ValidationArguments) {
+    return Rooms.getAll(room_id).count().eq(1).run();
+  }
+}
+
+export function IsRoomId(validationOptions?: ValidationOptions) {
+   return function (object: Record<string, any>, propertyName: string) {
+        registerDecorator({
+            target: object.constructor,
+            propertyName: propertyName,
+            options: validationOptions,
+            constraints: [],
+            validator: IsRoomIdConstraint
+        });
+   };
+}

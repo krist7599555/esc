@@ -36,7 +36,7 @@ export class ValidateExceptionFilter implements ExceptionFilter {
   }
 }
 
-const defaultHttpMessage = {
+const defaultHttpMessage: Record<number, string> = {
   200: "OK",
   201: "Created",
   204: "No Content",

@@ -1,32 +1,27 @@
 import { Controller, Get, Param, UsePipes, ValidationPipe, ClassSerializerInterceptor, UseInterceptors, Post, Body } from '@nestjs/common';
 import { r } from 'rethinkdb-ts'
-import { Reservations, Reservation } from '../entity/reservations';
-import { Type } from 'class-transformer';
-import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
-import { JwtId } from '../helper/id';
-import { JwtDecode } from '../lib/jwt';
+import { Reservations } from '../entity/reservations';
+import { IsNotEmpty, IsString, IsISO8601, IsDate } from 'class-validator'
+import { JwtId, IsRoomId } from '../helper/id';
+import { ReservationSerializer } from '../serialize';
 
 class ReservationCreateDto {
   
-  @IsNotEmpty()
-  @IsString()
+  @IsRoomId()
   room: string;
   
   @IsNotEmpty()
   @IsString()
   organization: string;
   
-  @IsDateString()
-  @Type(() => Date)
-  startTime: Date;
-
-  @IsDateString()
-  @Type(() => Date)
-  endTime: Date;
+  @IsISO8601()
+  arrival_time: string; // implicit conversion
+  
+  @IsISO8601()
+  departure_time: string;
 };
 
 @Controller("/api/reservations")
-// @UseInterceptors(ClassSerializerInterceptor)
 export class ReservationsController {
   @Get("/") 
   index() {
@@ -37,17 +32,24 @@ export class ReservationsController {
     return Reservations.get(reservationId).run()
   }
   @Post("/")
-  create(
-    @JwtDecode() owner: any,
-    @Body() reservationCreate: ReservationCreateDto
-    ) {
-    console.log("ReservationsController -> owner", owner)
-    return Reservations.insert({
-      ...reservationCreate,
-      owner,
-      created: r.now(),
-      updated: r.now()
-    }).run()
+  async create(
+    @JwtId() owner_id: string,
+    @Body() dto: ReservationCreateDto
+  ) {
+    const wr = await Reservations.insert({
+      room: dto.room,
+      owner: owner_id,
+      approver: null,
+      organization: dto.organization,
+      arrival_time: r.ISO8601(dto.arrival_time).inTimezone('+07:00'),
+      departure_time: r.ISO8601(dto.departure_time).inTimezone('+07:00'),
+      created: r.now().inTimezone('+07:00'),
+      updated: r.now().inTimezone('+07:00'),
+    }).run();
+    return Reservations.get(wr.generated_keys[0]).run().then(data => {
+      console.log("ReservationsController -> data", data)
+      return ReservationSerializer.serialize(data)
+    })
   }
   
 }
