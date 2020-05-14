@@ -14,7 +14,11 @@
 			"**/.hg": true,
 			"**/CVS": true,
 			"**/.DS_Store": true,
-			"node_modules": true
+			"node_modules": true,
+			"dist": true,
+			"yarn.lock": true,
+			"yarn-error.log": true,
+			"**/yarn-error.log": true
 		},
 		"explorerExclude.backup": null
 	}

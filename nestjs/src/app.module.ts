@@ -29,9 +29,10 @@ import * as _ from 'lodash'
         transform: true,
         whitelist: true, // only value in class
         transformOptions: {
-          enableImplicitConversion: true,
+          enableImplicitConversion: false,
         },
         exceptionFactory(errors: ValidationError[]) {
+          console.log("exceptionFactory -> errors", errors)
           return new JsonApiErrors(_(errors)
             .map(error => _.map(
               error.constraints, val => ({
