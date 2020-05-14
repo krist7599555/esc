@@ -19,7 +19,6 @@
 			"yarn.lock": true,
 			"yarn-error.log": true,
 			"**/yarn-error.log": true
-		},
-		"explorerExclude.backup": null
+		}
 	}
 }

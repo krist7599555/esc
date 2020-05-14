@@ -1,6 +1,5 @@
 import * as request from 'supertest';
-import { server, appHttp } from '../src/main';
-import { INestApplication } from '@nestjs/common';
+import { appHttp } from '../src/main';
 
 describe('AppController (e2e)', () => {
   let app: ReturnType<typeof request.agent>

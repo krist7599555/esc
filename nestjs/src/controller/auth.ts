@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { Controller, Post, Body, Res, UsePipes, ValidationPipe, ClassSerializerInterceptor, UseInterceptors, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Body, Res, UnauthorizedException } from '@nestjs/common';
 import { IsString, IsNotEmpty } from 'class-validator';
 import { People } from '../entity/person';
 import { sso } from '../lib/sso';

@@ -8,7 +8,6 @@ import { AuthController } from './controller/auth';
 import { APP_PIPE, APP_FILTER } from '@nestjs/core';
 import { AppExceptionFilter, HttpExceptionFilter, ValidateExceptionFilter } from './app.exception.filter';
 import { ValidationError } from 'class-validator';
-import { JSONAPIErrorOptions } from 'jsonapi-serializer';
 import { JsonApiErrors } from './serialize';
 import * as _ from 'lodash'
 
