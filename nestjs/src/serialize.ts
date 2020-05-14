@@ -1,7 +1,7 @@
 import { Person } from './entity/person';
 import { Room } from './entity/room';
 import * as _ from 'lodash'
-import { Reservation } from './entity/reservations';
+import { Reservation } from './entity/reservation';
 import * as dayjs from 'dayjs'
 import "dayjs/locale/th";
 dayjs.locale('th');

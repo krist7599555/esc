@@ -1,6 +1,9 @@
-import { Injectable, PipeTransform, HttpException } from '@nestjs/common';
+import { registerDecorator, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from "class-validator";
+import { Injectable, PipeTransform, HttpException, ArgumentMetadata } from '@nestjs/common';
 import { JwtDecode } from '../lib/jwt';
 import { People } from '../entity/person';
+import { Reservations } from '../entity/reservation';
+import { Rooms } from '../entity/room';
 
 @Injectable()
 export class PersonPipe implements PipeTransform {
@@ -18,34 +21,32 @@ export class PersonPipe implements PipeTransform {
   }
 }
 
-// @Injectable()
-// export class RoomIdPipe implements PipeTransform {
-//   async transform(id: string, _metadata: ArgumentMetadata) {
-//     if (await rooms.getAll(id).count().eq(1).run()) {
-//       return id;
-//     } else {
-//       throw new HttpException('room_id is not exist', 404);
-//     }
-//   }
-// }
+@Injectable()
+export class RoomIdPipe implements PipeTransform {
+  async transform(id: string, _metadata: ArgumentMetadata) {
+    if (await Rooms.getAll(id).count().eq(1).run()) {
+      return id;
+    } else {
+      throw new HttpException('room_id is not exist', 404);
+    }
+  }
+}
 
-// @Injectable()
-// export class ReservationIdPipe implements PipeTransform {
-//   async transform(id: string, _metadata: ArgumentMetadata) {
-//     if (await reservations.getAll(id).count().eq(1).run()) {
-//       return id;
-//     } else {
-//       throw new HttpException('reservation_id is not exist', 404);
-//     }
-//   }
-// }
+@Injectable()
+export class ReservationIdPipe implements PipeTransform {
+  async transform(id: string, _metadata: ArgumentMetadata) {
+    if (await Reservations.getAll(id).count().eq(1).run()) {
+      return id;
+    } else {
+      throw new HttpException('reservation_id is not exist', 404);
+    }
+  }
+}
 
 export const JwtId = () => JwtDecode('id', new PersonPipe('id'));
 export const JwtPerson = () => JwtDecode('id', new PersonPipe());
 
 
-import {registerDecorator, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments} from "class-validator";
-import { Rooms } from '../entity/room';
 
 @ValidatorConstraint({ async: true })
 export class IsRoomIdConstraint implements ValidatorConstraintInterface {
