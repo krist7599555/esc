@@ -53,10 +53,9 @@ export default class RoomsNewController extends Controller {
     })
       .then(o => {
         this.toast.success('success')
-        this.transitionToRoute('rooms.show', { room_id: o.data.id });
+        this.transitionToRoute('reservations.show', { reservation_id: o.data.id });
       })
       .catch(o => {
-      console.log("RoomsNewController -> submit -> o", o)
         this.$form_element.find('[data-help-property]').empty()
         for (const err of o.errors) {
           const err_msg_el = this.$form_element.find(`[data-help-property=${err.source?.parameter}]`)

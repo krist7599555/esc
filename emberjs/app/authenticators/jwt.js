@@ -12,7 +12,7 @@ export default class CustomAuthenticator extends Base {
   }
 
   async authenticate(username, password) {
-    const data = await this.axios.request({
+    const o = await this.axios.request({
       method: "POST",
       url: "/api/login",
       data: {
@@ -20,7 +20,7 @@ export default class CustomAuthenticator extends Base {
         password
       }
     })
-    return data;
+    return o.data;
   }
 
   invalidate(data) {

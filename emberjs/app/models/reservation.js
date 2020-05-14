@@ -8,4 +8,5 @@ export default class ReservationModel extends Model {
   @attr departure_time;
   @attr created;
   @attr updated;
+  @attr status;
 }

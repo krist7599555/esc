@@ -1,16 +1,32 @@
-<div class="container py-4">
-
-<h1>Reservation Show</h1>
-{{#with this.model.reservation as |r|}}
-  <p>org: {{r.organization}}</p>
-  <p>arrival {{dayjs r.arrival_time "(dd) DD MMM YY HH:mm"}}</p>
-  <p>arrival  {{dayjs r.departure_time "(dd) DD MMM YY HH:mm"}}</p>
+<Background::Box class='border-l-8 border-warning'>
+  <h1 class='font-bold text-lg'>รายการจองห้องประชุม</h1>
   <br>
-  <p>by: {{r.owner.id}}</p>
-  <p>by: {{r.owner.student_id}}</p>
-  <p>by: {{r.owner.name_th}}</p>
-  <p>by: {{r.owner.faculty}}</p>
-  <p>by: {{r.owner.phone}}</p>
+  {{#with this.model.reservation as |r|}}
 
-{{/with}}
-</div>
+    <tr><td class='pr-3'>หน่วยงาน</td><td>{{r.organization}}</td></tr>
+    <tr><td>วันที่</td><td>{{dayjs r.arrival_time "D MMMM (ddd)"}}</td></tr>
+    <tr><td>เวลา</td><td>{{dayjs r.arrival_time "HH:mm"}} - {{dayjs r.departure_time "HH:mm"}}</td></tr>
+    <tr><td>สถานะ</td><td>
+      {{r.status}}
+      <Select
+        class='app-input appearance-none mt-3 border-none'
+        style='padding: 0'
+        @value={{r.status}}
+        @options={{this.RESERVATIONS_STATS}}
+        @onChange={{this.change_stats}}
+      >
+      </Select>
+      {{!-- {{if r.status r.status "-"}} --}}
+    </td></tr>
+    <tr class='h-5'></tr>
+    <tr><td>จองโดย</td><td>{{r.owner.name_th}} {{r.owner.surname_th}}</td></tr>
+    <tr><td></td><td>คณะ {{r.owner.faculty}} ปี {{r.owner.year}}</td></tr>
+    <tr><td>เบอร์โทร </td><td>{{r.owner.phone}}</td></tr>
+    <br>
+    <button type='button' class="app-button">ลบรายการจองนี้</button>
+    <br>
+    <hr class='my-4'>
+    <p class='text-sm'>จองเมื่อ {{dayjs r.created "(dd) DD MMM YY HH:mm"}}</p>
+    <p class='text-sm'>แก้ไขล่าสุด {{dayjs r.updated "(dd) DD MMM YY HH:mm"}}</p>
+  {{/with}}
+</Background::Box>

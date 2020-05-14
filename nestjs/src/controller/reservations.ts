@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import { r } from 'rethinkdb-ts'
-import { Reservations } from '../entity/reservations';
+import { Reservations, STATUS_PENDING } from '../entity/reservations';
 import { IsNotEmpty, IsString, IsISO8601 } from 'class-validator'
 import { JwtId, IsRoomId } from '../helper/id';
 import { serialize_reservations } from '../serialize';
@@ -46,6 +46,7 @@ export class ReservationsController {
       departure_time: r.ISO8601(dto.departure_time).inTimezone('+07:00'),
       created: r.now().inTimezone('+07:00'),
       updated: r.now().inTimezone('+07:00'),
+      status: STATUS_PENDING
     }).run();
     return Reservations.get(wr.generated_keys[0]).run().then(serialize_reservations)
   }

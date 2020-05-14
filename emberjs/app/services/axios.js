@@ -12,19 +12,13 @@ export default class AxiosService extends Service {
       baseURL: "/",
     });
     this.agent.interceptors.request.use((req) => {
-      console.log("AxiosService -> constructor -> this.session.data", this.session.data)
       const { authenticator, access_token } =  this.session.data.authenticated;
-      // req.headers['content-type'] = 'application/x-www-form-urlencoded;charset=utf-8'
       if (authenticator == "authenticator:jwt") {
         req.headers["Authorization"] = `Bearer ${access_token}`
       }
-      // if (req.data) {
-      //   req.data = qs.stringify(req.data)
-      // }
       return req;
     })
     this.agent.interceptors.response.use((res) => {
-    console.log("AxiosService -> constructor -> res", res)
       return res.data;
     }, err => {
       const o = err.response.data;
