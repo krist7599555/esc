@@ -29,8 +29,9 @@ describe('Rooms (e2e)', () => {
       })
       // .expect(201)
       .then(res => {
-        console.log("Body", res.body) 
         expect(res.body.data).toBeObject()
+        expect(res.body.data.type).toEqual("reservations")
+        expect(res.body.data.id).toBeString()
       })
   });
 

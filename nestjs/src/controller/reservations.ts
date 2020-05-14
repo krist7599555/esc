@@ -3,7 +3,7 @@ import { r } from 'rethinkdb-ts'
 import { Reservations } from '../entity/reservations';
 import { IsNotEmpty, IsString, IsISO8601 } from 'class-validator'
 import { JwtId, IsRoomId } from '../helper/id';
-import { ReservationSerializer } from '../serialize';
+import { serialize_reservations } from '../serialize';
 
 class ReservationCreateDto {
   
@@ -25,11 +25,11 @@ class ReservationCreateDto {
 export class ReservationsController {
   @Get("/") 
   index() {
-    return Reservations.run();
+    return Reservations.run().then(serialize_reservations)
   }
   @Get("/:reservationId")
   show(@Param('reservationId') reservationId: string) {
-    return Reservations.get(reservationId).run()
+    return Reservations.get(reservationId).run().then(serialize_reservations)
   }
   @Post("/")
   async create(
@@ -46,10 +46,7 @@ export class ReservationsController {
       created: r.now().inTimezone('+07:00'),
       updated: r.now().inTimezone('+07:00'),
     }).run();
-    return Reservations.get(wr.generated_keys[0]).run().then(data => {
-      console.log("ReservationsController -> data", data)
-      return ReservationSerializer.serialize(data)
-    })
+    return Reservations.get(wr.generated_keys[0]).run().then(serialize_reservations)
   }
   
 }

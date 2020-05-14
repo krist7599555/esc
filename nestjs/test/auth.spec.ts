@@ -42,8 +42,8 @@ describe('Auths (e2e)', () => {
       .expect(400)
       .then(({ body }) => {
         for (const error of body.errors) {
-          expect(error.type).toMatch("ValidationException")
-          expect(["username", "password"]).toContainEqual(error.property)
+          expect(error.title).toBeString()
+          expect(["username", "password"]).toContainEqual(error.source.parameter)
         }
       })
     await app
@@ -52,8 +52,8 @@ describe('Auths (e2e)', () => {
       .expect(400)
       .then(({ body }) => {
         for (const error of body.errors) {
-          expect(error.type).toMatch("ValidationException")
-          expect(error.property).toStrictEqual("password")
+          expect(error.title).toBeString()
+          expect(error.source.parameter).toStrictEqual("password")
         }
       })
   });

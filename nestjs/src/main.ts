@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ensureDatabase } from './db/pool';
-import "./serialize"
 import { PORT } from './config';
 import * as morgan from 'morgan'
 

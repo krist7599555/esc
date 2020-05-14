@@ -8,8 +8,7 @@ import { AuthController } from './controller/auth';
 import { APP_PIPE, APP_FILTER } from '@nestjs/core';
 import { AppExceptionFilter, HttpExceptionFilter, ValidateExceptionFilter } from './app.exception.filter';
 import { ValidationError } from 'class-validator';
-import { JsonApiErrors } from './serialize';
-import * as _ from 'lodash'
+import { ApiErrors } from './serialize.errors';
 
 @Module({
   imports: [],
@@ -31,18 +30,7 @@ import * as _ from 'lodash'
           enableImplicitConversion: false,
         },
         exceptionFactory(errors: ValidationError[]) {
-          console.log("exceptionFactory -> errors", errors)
-          return new JsonApiErrors(_(errors)
-            .map(error => _.map(
-              error.constraints, val => ({
-                detail: val,
-                type: "ValidationException",
-                property: error.property
-              })
-            ))
-            .flatten()
-            .value()
-          )
+          return ApiErrors.fromClassValidatorErrors(errors);
         }
       })
     },

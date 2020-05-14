@@ -1,7 +1,6 @@
 import { Controller, Get, Param, UsePipes, ValidationPipe, ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
-// import { r } from 'rethinkdb-ts'
 import { Rooms } from '../entity/room';
-import { RoomSerializer } from '../serialize';
+import { serialize_rooms } from '../serialize';
 
 @Controller("/api/rooms")
 @UseInterceptors(ClassSerializerInterceptor)
@@ -15,13 +14,11 @@ import { RoomSerializer } from '../serialize';
 export class RoomsController {
   @Get("/") 
   async index() {
-    return Rooms.run()
-      .then(res => RoomSerializer.serialize(res))
+    return Rooms.run().then(serialize_rooms)
   }
   @Get("/:roomId")
   show(@Param('roomId') roomId: string) {
-    return Rooms.get(roomId).run()
-      .then(data => RoomSerializer.serialize(data))
+    return Rooms.get(roomId).run().then(serialize_rooms)
   }
   
 }
