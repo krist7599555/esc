@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config';
-import { HttpException, createParamDecorator, ExecutionContext, InternalServerErrorException } from '@nestjs/common';
+import { HttpException, createParamDecorator, ExecutionContext, InternalServerErrorException, Headers } from '@nestjs/common';
 
 export function jwtSign(payload: { id: string }, opt: jwt.SignOptions = { expiresIn: '2 days' }) {
   return jwt.sign(payload, JWT_SECRET, opt);
@@ -8,7 +8,6 @@ export function jwtSign(payload: { id: string }, opt: jwt.SignOptions = { expire
 export function jwtVerify(token: string) {
   return jwt.verify(token, JWT_SECRET) as JwtUser;
 }
-
 
 export const JwtDecode = createParamDecorator((field: string, ctx: ExecutionContext) => {
   try {

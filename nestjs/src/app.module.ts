@@ -27,18 +27,14 @@ import * as _ from 'lodash'
       provide: APP_PIPE,  
       useFactory: () => new ValidationPipe({
         transform: true,
-        // validateCustomDecorators: true,
-        // forbidNonWhitelisted: true,
-        // whitelist: true,
+        whitelist: true, // only value in class
         transformOptions: {
-          // strategy: "exposeAll",
-          // enableImplicitConversion: true
+          enableImplicitConversion: true,
         },
         exceptionFactory(errors: ValidationError[]) {
-          console.log("exceptionFactory -> errors", errors)
           return new JsonApiErrors(_(errors)
             .map(error => _.map(
-              error.constraints, (val, key) => ({
+              error.constraints, val => ({
                 detail: val,
                 type: "ValidationException",
                 property: error.property

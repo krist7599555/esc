@@ -1,14 +1,19 @@
-import { ArgumentMetadata, Injectable, PipeTransform, HttpException } from '@nestjs/common';
+import { Injectable, PipeTransform, HttpException } from '@nestjs/common';
 import { JwtDecode } from '../lib/jwt';
 import { People } from '../entity/person';
 
 @Injectable()
-export class PersonIdPipe implements PipeTransform {
-  async transform(id: string, _metadata: ArgumentMetadata) {
+export class PersonPipe implements PipeTransform {
+  constructor(protected field?: string) {}
+  async transform(id: string) {
     if (await People.getAll(id).count().eq(1).run()) {
-      return id;
+      if (this.field) {
+        return People.get(id)(this.field).default(null).run();
+      } else {
+        return People.get(id).default(null).run();
+      }
     } else {
-      throw new HttpException('user_id is not exist', 404);
+      throw new HttpException('personId is not exist', 404);
     }
   }
 }
@@ -35,4 +40,5 @@ export class PersonIdPipe implements PipeTransform {
 //   }
 // }
 
-export const JwtId = () => JwtDecode('id', new PersonIdPipe());
+export const JwtId = () => JwtDecode('id', new PersonPipe('id'));
+export const JwtPerson = () => JwtDecode('id', new PersonPipe());

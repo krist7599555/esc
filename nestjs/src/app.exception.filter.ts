@@ -5,7 +5,6 @@ import { JsonApiErrors } from './serialize';
 @Catch()
 export class AppExceptionFilter implements ExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
-    console.log("AppExceptionFilter -> host", host)
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     response
@@ -13,7 +12,7 @@ export class AppExceptionFilter implements ExceptionFilter {
       .json({
         errors: [
           { 
-            type: "Internal Error", 
+            type: "InternalError", 
             detail: exception.message,
             meta: {
               stack: exception.stack
@@ -37,29 +36,31 @@ export class ValidateExceptionFilter implements ExceptionFilter {
   }
 }
 
-// 200: "OK",
-// 201: "Created",
-// 204: "No Content",
-// 400: "Bad Request",
-// 401: "Unauthorized",
-// 403: "Forbidden",
-// 404: "Not Found",
-// 409: "Conflict",
-// 500: "Internal Server Error",
+const defaultHttpMessage = {
+  200: "OK",
+  201: "Created",
+  204: "No Content",
+  400: "Bad Request",
+  401: "Unauthorized",
+  403: "Forbidden",
+  404: "Not Found",
+  409: "Conflict",
+  500: "Internal Server Error",
+}
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-  
+    const status = exception.getStatus();
     response
-      .status(exception.getStatus())
+      .status(status)
       .json({
         errors: [
           {
-            type: exception.getResponse(),
-            code: exception.getStatus(),
+            type: defaultHttpMessage[status] || "Error",
+            code: status,
             detail: exception.message
           }
         ]

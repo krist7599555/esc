@@ -3,11 +3,13 @@ import { AppModule } from './app.module';
 import { ensureDatabase } from './db/pool';
 import "./serialize"
 import { PORT } from './config';
+import * as morgan from 'morgan'
 
 export async function server() {
   await ensureDatabase();
   const app = await NestFactory.create(AppModule, { logger: false, cors: true });
-  // app.useGlobalFilters(new AppExceptionFilter())
+  app.use(morgan('dev'))
+
   return app;
 }
 export async function appHttp() {
