@@ -2,13 +2,14 @@ import { Person } from './entity/person';
 import { Room } from './entity/room';
 import * as _ from 'lodash'
 import { Reservation } from './entity/reservations';
+import * as dayjs from 'dayjs'
+import "dayjs/locale/th";
+dayjs.locale('th');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const JSONAPISerializer = require("json-api-serializer");
 const Serializer = new JSONAPISerializer({
-  convertCase: 'snake_case',
-  // unconvertCase: 'snake_case',
+  convertCase: 'kebab-case',
   jsonapiObject: true,
-  // convertCaseCacheSize: 0
 });
 
 Serializer.register('people', {
@@ -57,7 +58,7 @@ Serializer.register('rooms', {
 Serializer.register('reservations', {
   id: "id",
   links: {
-    self: function(data: Room) {
+    self: function(data: Reservation) {
       return "/reservations/" + data.id;
     }
   },
@@ -65,6 +66,13 @@ Serializer.register('reservations', {
     room: { type: "rooms" },
     owner: { type: "people", },
     approver: { type: "people" },
+  },
+  beforeSerialize(data: any) {
+    data.created = dayjs(data.created).format();
+    data.updated = dayjs(data.updated).format();
+    data.arrival_time = dayjs(data.arrival_time).format();
+    data.departure_time = dayjs(data.departure_time).format();
+    return data;
   }
 })
 

@@ -24,13 +24,17 @@ export default class AxiosService extends Service {
       return req;
     })
     this.agent.interceptors.response.use((res) => {
-      return res.data.data;
+    console.log("AxiosService -> constructor -> res", res)
+      return res.data;
     }, err => {
-      const data = err.response.data;
-      if ('errors' in data) {
-        throw data.errors
+      const o = err.response.data;
+      if ('errors' in o) {
+        throw o;
       } else {
-        throw [{type: "Error", detail: data.message || err.message }]
+        console.error('unknow error type', err)
+        console.error('unknow error type', err.response)
+        console.error('unknow error type', err.response.data)
+        throw [{type: "Error", detail: o.message || err.message }]
       }
     })
   }

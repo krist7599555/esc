@@ -1,0 +1,16 @@
+<div class="container py-4">
+
+<h1>Reservation Show</h1>
+{{#with this.model.reservation as |r|}}
+  <p>org: {{r.organization}}</p>
+  <p>arrival {{dayjs r.arrival_time "(dd) DD MMM YY HH:mm"}}</p>
+  <p>arrival  {{dayjs r.departure_time "(dd) DD MMM YY HH:mm"}}</p>
+  <br>
+  <p>by: {{r.owner.id}}</p>
+  <p>by: {{r.owner.student_id}}</p>
+  <p>by: {{r.owner.name_th}}</p>
+  <p>by: {{r.owner.faculty}}</p>
+  <p>by: {{r.owner.phone}}</p>
+
+{{/with}}
+</div>

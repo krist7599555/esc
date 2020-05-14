@@ -27,6 +27,7 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
+    "dayjs": "^1.8.27",
     "dotenv-flow": "^3.1.0",
     "json-api-serializer": "^2.4.2",
     "jsonwebtoken": "^8.5.1",

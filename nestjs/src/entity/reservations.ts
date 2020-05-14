@@ -2,6 +2,7 @@ import { r } from 'rethinkdb-ts'
 
 type ID = string;
 export class Reservation {
+  id?: ID;
   room: ID;
   owner: ID;
   approver: ID;

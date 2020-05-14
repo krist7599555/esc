@@ -1,6 +1,7 @@
 <select
   ...attributes
   value={{@value}}
+  data-value={{@value}}
   {{on "change" this.emit}}
   {{did-insert this.mounted}}
 >

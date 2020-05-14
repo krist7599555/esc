@@ -18,4 +18,10 @@ Router.map(function() {
     this.route('show', { path: '/:room_id' });
     this.route('new');
   });
+
+  this.route('reservations', function() {
+    this.route('show', {
+      path: '/:reservation_id'
+    });
+  });
 });
