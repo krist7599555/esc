@@ -6,9 +6,9 @@ import { action } from '@ember/object';
 export default class ReservationsShowController extends Controller {
 
   @tracked RESERVATIONS_STATS = [
-    { value: 'pending', label: 'ระหว่างดำเนินการ' },
-    { value: 'approved', label: 'อนุมัติ' },
-    { value: 'rejected', label: 'ปฏิเสท' },
+    { value: 'pending', label: 'รอตรวจ', class: "warning"},
+    { value: 'approved', label: 'อนุมัติ', class: "success"},
+    { value: 'rejected', label: 'ปฏิเสท', class: "danger"},
   ]
   @service axios;
   @service toast;
@@ -24,7 +24,7 @@ export default class ReservationsShowController extends Controller {
         this.toast.success('update status success');
         this.model.reservation.reload()
           .then(() => console.log('reload success'))
-          .then(() => console.log('reload fail'))
+          .then(() => console.error('reload fail'))
       })
       .catch(o => {
         console.error(o);
@@ -32,7 +32,7 @@ export default class ReservationsShowController extends Controller {
           this.toast.error(err.detail, err.title);
         }
       })
-    console.log(this.model.reservation.save())
+    // console.log(this.model.reservation.save())
     console.log(new_status)
   }
 
