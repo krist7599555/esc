@@ -10,6 +10,8 @@ export async function ensureDatabase() {
   await r.tableCreate("people").run().catch(noop);
   await r.tableCreate("rooms").run().catch(noop);
   await r.tableCreate("reservations").run().catch(noop);
+  await r.table('reservations').indexCreate('arrival_time').run().catch(noop);
+  await r.table('people').indexCreate('student_id').run().catch(noop);
   await r.table('rooms').insert([
     { id: 'pj2', label: 'ห้องประชุม 2', capacity: 15 },
     { id: 'pj3', label: 'ห้องประชุม 3', capacity: 15 },

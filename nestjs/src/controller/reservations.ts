@@ -1,12 +1,14 @@
-import { Controller, Get, Param, Post, Body, Put } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Put, Query, ConflictException } from '@nestjs/common';
 import { r } from 'rethinkdb-ts'
 import { Reservations, STATUS_PENDING, RESERVATION_STATUS, ReservationStatus } from '../entity/reservation';
-import { IsNotEmpty, IsString, IsISO8601 } from 'class-validator'
+import { IsNotEmpty, IsString, IsISO8601, isISO8601 } from 'class-validator'
 import { JwtId, IsRoomId, ReservationIdPipe } from '../helper/id';
 import { serialize_reservations } from '../serialize';
 import { OneOf } from '../pipe/utils';
 import { Roles } from 'src/pipe/guard';
 import { ROLE_OFFICE } from '../entity/person';
+import * as dayjs from 'dayjs'
+import * as _ from 'lodash'
 
 class ReservationCreateDto {
   
@@ -25,15 +27,52 @@ class ReservationCreateDto {
   departure_time: string;
 };
 
+interface ReservationFilterDto {
+  relative_start_time: number;
+  relative_end_time: number;
+  iso_start_time: string;
+  iso_end_time: string;
+}
+
 @Controller("/api/reservations")
 export class ReservationsController {
   @Get("/") 
-  index() {
-    return Reservations.run().then(serialize_reservations)
+  index(@Query() query: ReservationFilterDto) {
+    const start = 
+      query.iso_start_time ? dayjs(query.iso_start_time) :
+      query.relative_start_time ? dayjs().startOf('day').add(+query.relative_start_time, 'day') : 
+      dayjs().startOf('day');
+    const end = 
+      query.iso_end_time ? dayjs(query.iso_end_time) :
+      query.relative_end_time ? dayjs().endOf('day').add(+query.relative_end_time, 'day') : 
+      dayjs().endOf('day').add(30, 'day')
+
+    return Reservations
+      .between(r.ISO8601(start.format()), r.ISO8601(end.format()), { index: 'arrival_time' })
+      .orderBy('arrival_time')
+      .run()
+      .then(data => serialize_reservations(data, { 
+        query,
+        start_time: start.format(),
+        end_time: end.format(),
+        search_range: end.diff(start, 'day'),
+        possible_query: {
+          relative_start_time: 'number relative to now',
+          relative_end_time: 'number relative to now',
+          iso_start_time: 'start in format iso8601',
+          iso_end_time: 'end in format iso8601',
+        },
+        dates: _.chain(data)
+          .map(rsv => dayjs(rsv.arrival_time).startOf('day').format())
+          .sort()
+          .uniq()
+          .value()
+      }))
   }
-  @Get("/:reservationId")
-  show(@Param('reservationId') reservationId: string) {
-    return Reservations.get(reservationId).run().then(serialize_reservations)
+  
+  @Get("/:reservation_id")
+  show(@Param('reservation_id') reservation_id: string) {
+    return Reservations.get(reservation_id).run().then(serialize_reservations)
   }
   @Post("/")
   async create(

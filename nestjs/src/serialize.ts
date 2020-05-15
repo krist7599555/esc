@@ -73,7 +73,11 @@ Serializer.register('reservations', {
     data.arrival_time = dayjs(data.arrival_time).format();
     data.departure_time = dayjs(data.departure_time).format();
     return data;
-  }
+  },
+  topLevelMeta(data: any, ext: any) {
+    if (_.isArray(data)) ext.length = data.length
+    return ext
+  },
 })
 
 export function serialize_people<T = Partial<Person>>(data: T | T[], extra?: any) {
