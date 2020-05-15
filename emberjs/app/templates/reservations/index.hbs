@@ -11,7 +11,7 @@
   </LinkTo>
 </div>
 <br>
-{{#each this.model.reservations as |r idx|}}
+{{#each this.model.reservations as |r|}}
   <LinkTo @route='reservations.show' @model={{r.id}}>
     {{#if (lodash-includes this.head_of_day r.id)}}
       <div class="font-bold text-white bg-primary {{box.fill_class}} py-3 my-2">

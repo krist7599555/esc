@@ -17,11 +17,4 @@ export default class ReservationsIndexController extends Controller {
     });
     return res;
   }
-
-  @action
-  is_date_equal(lhs, rhs) {
-    const lh = dayjs(lhs.arrival_time);
-    const rh = dayjs(rhs.arrival_time);
-    return lh.isSame(rh, 'date');
-  }
 }

@@ -1,10 +1,13 @@
 import Service from '@ember/service';
-import axios from 'axios'
+import axios, { AxiosInstance } from 'axios'
 import { inject as service } from '@ember/service';
 // import qs from 'qs';
+import { AxiosRequestConfig } from 'axios';
 
 export default class AxiosService extends Service {
   @service session;
+
+  agent: AxiosInstance;
 
   constructor() {
     super(...arguments);
@@ -32,8 +35,15 @@ export default class AxiosService extends Service {
       }
     })
   }
-  request(conf) {
+  request(conf: AxiosRequestConfig) {
     console.log("AxiosService -> request -> conf", conf)
     return this.agent(conf)
+  }
+}
+
+
+declare module '@ember/service' {
+  interface Registry {
+    axios: AxiosService;
   }
 }

@@ -14,7 +14,7 @@ export default class ReservationsShowController extends Controller {
   @service toast;
 
   @action
-  change_stats(new_status) {
+  change_stats(new_status: string) {
     const id = this.model.reservation.id
     this.axios.request({
       method: "put",
