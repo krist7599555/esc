@@ -14,14 +14,12 @@ Router.map(function() {
   });
 
   this.route('rooms',  function() {
-    this.route('index', { path: '/' });
     this.route('show', { path: '/:room_id' });
-    this.route('new');
   });
 
   this.route('reservations', function() {
-    this.route('show', {
-      path: '/:reservation_id'
-    });
+    this.route('index', { path: '/' });
+    this.route('new');
+    this.route('show', { path: '/:reservation_id' });
   });
 });

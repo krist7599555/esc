@@ -4,8 +4,12 @@
 
 html,
 body {
-  height: 100%;
+  @apply text-dark h-full;
 }
+
+[data-reservation-status='rejected'] { @apply text-danger; }
+[data-reservation-status='approved'] { @apply text-success; }
+[data-reservation-status='pending'] { @apply text-warning; }
 
 .appearance-none {
   -webkit-appearance: none;

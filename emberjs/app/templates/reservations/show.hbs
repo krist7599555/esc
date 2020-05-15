@@ -4,11 +4,8 @@
     <h1 class='font-bold text-lg flex items-center'>
       <span class='mr-3'>รายการจองห้องประชุม</span>
       <div
-        class="w-5 h-5 rounded-full bg-dark inline-block mr-2
-          {{if (eq r.status 'rejected') 'bg-danger'}}
-          {{if (eq r.status 'approved') 'bg-success'}}
-          {{if (eq r.status 'pending') 'bg-warning'}}
-        "
+        data-reservation-status={{r.status}}
+        class="w-5 h-5 rounded-full bg-current inline-block mr-2"
       ></div>
     </h1>
     <br>

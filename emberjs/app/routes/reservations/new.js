@@ -24,7 +24,7 @@ function _clocks() {
   })
 }
 
-export default class RoomsNewRoute extends Route {
+export default class ReservationsNewRoute extends Route {
   async model() {
     const rooms = await this.store.query('room', {})
     console.log("RoomsNewRoute -> model ->  rooms",  rooms)

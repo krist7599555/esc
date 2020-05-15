@@ -13,6 +13,8 @@ module.exports = {
         '"Sukhumvit Set", -apple-system, Helvetica, Georgia, Cambria, serif',
     },
     colors: {
+      current: 'currentColor',
+      transparent: 'transparent',
       white: '#FFFFFF',
       light: '#F5F5F5',
       grey: '#DBDBDB',
@@ -23,7 +25,7 @@ module.exports = {
       dark: '#363636',
       success: 'hsl(141, 53%, 53%)',
       danger: 'hsl(348, 100%, 61%)',
-      warning: 'hsl(48, 100%, 67%)',
+      warning: 'hsl(43, 96%, 62%);',
       info: 'hsl(204, 86%, 53%)'
     },
     container: {

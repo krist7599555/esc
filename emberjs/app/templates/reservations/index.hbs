@@ -1,0 +1,31 @@
+<Background::Box as |box|>
+
+<h1 class='font-bold text-xl'>รายการจองห้องประชุม</h1>
+<br>
+<div>
+  <LinkTo @route='reservations.new'>
+    <button type='button' class='bg-primary px-4 py-2 rounded text-white'>
+      <i data-feather="plus" class="inline"></i>
+      จองห้อง
+    </button>
+  </LinkTo>
+</div>
+<br>
+{{#each this.model.reservations as |r idx|}}
+  <LinkTo @route='reservations.show' @model={{r.id}}>
+    {{#if (lodash-includes this.head_of_day r.id)}}
+      <div class="font-bold text-white bg-primary {{box.fill_class}} py-3 my-2">
+        {{dayjs r.arrival_time "วัน ddd ที่ DD MMMM"}}
+      </div>
+    {{/if}}
+    <div class='py-5 flex justify-between items-center hover:bg-light {{box.fill_class}}'>
+      <div class='flex-1'>{{r.organization}}</div>
+      <div class='w-24 text-sm'>{{r.room.label}}</div>
+      <div class='bg-current -my-3 h-4 w-4 rounded-full mx-3' data-reservation-status={{r.status}}></div>
+      <div class='w-24 text-right'>{{dayjs r.arrival_time "H:mm"}} - {{dayjs r.departure_time "H:mm"}}</div>
+    </div>
+  </LinkTo>
+{{/each}}
+
+
+</Background::Box>
