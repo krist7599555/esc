@@ -1,8 +1,8 @@
 all: install build start
 
 install:
-	yarn --cwd emberjs install
-	yarn --cwd nestjs  install
+	yarn --cwd emberjs install --ignore-engines
+	yarn --cwd nestjs  install --ignore-engines
 
 build:
 	yarn --cwd emberjs build
