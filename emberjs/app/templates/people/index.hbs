@@ -3,13 +3,15 @@
 <h1 class='text-lg font-bold'>รายชื่อนิสิต</h1>
 <br>
 {{#each this.model as |person|}}
-  <div class='{{box.fill_class}} hover:bg-grey py-3'>
-    <LinkTo @route='people.show' @model={{person.id}} class='flex'>
-      <div class='w-3/12'>{{person.student_id}}</div>
-      <div class='w-2/12'>{{person.name_th}}</div>
-      <div class='w-3/12'>{{person.surname_th}}</div>
-      <div class='w-2/12'>{{person.phone}}</div>
-    </LinkTo>
-  </div>
+  <LinkTo
+    @route='people.show'
+    @model={{person.id}}
+    class='hover:bg-grey py-3 flex {{box.fill_class}}'
+  >
+    <div class='w-3/12'>{{person.student_id}}</div>
+    <div class='w-2/12'>{{person.name_th}}</div>
+    <div class='w-3/12'>{{person.surname_th}}</div>
+    <div class='w-2/12'>{{person.phone}}</div>
+  </LinkTo>
 {{/each}}
 </Background::Box>

@@ -1,4 +1,4 @@
-<Background::Box class="relative">
+<Background::Box class="relative" @close='reservations.index'>
   {{#with this.model.reservation as |r|}}
     <h1 class="font-bold text-lg flex items-center">
       <span class="mr-3">รายการจองห้องประชุม</span>
@@ -7,12 +7,6 @@
         class="w-5 h-5 rounded-full bg-current inline-block mr-2"
       ></div>
     </h1>
-    <LinkTo
-      @route="reservations.index"
-      class="absolute top-0 right-0 p-6 md:p-10"
-    >
-      <FeatherIcon @icon="x" @class="text-dark" />
-    </LinkTo>
     <br />
     <tr><td class="pr-3">หน่วยงาน</td><td>{{r.organization}}</td></tr>
     <tr><td>วันที่</td><td>{{dayjs r.arrival_time "D MMMM (ddd)"}}</td></tr>
