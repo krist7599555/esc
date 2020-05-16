@@ -18,7 +18,8 @@ export default class LoginController extends Controller {
         this.transitionToRoute("index");
         this.toast.success('login success')
       })
-      .catch(errs => {
+      .catch((errs: any) => {
+        console.error(errs);
         for (const err of errs) {
           this.toast.error(err.detail, err.title || err.type || undefined)
           console.error(err)

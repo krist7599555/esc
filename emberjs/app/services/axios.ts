@@ -1,42 +1,61 @@
 import Service from '@ember/service';
-import axios, { AxiosInstance } from 'axios'
+import axios from 'axios'
 import { inject as service, Registry as Services } from '@ember/service';
 import { AxiosRequestConfig } from 'axios';
 
-export default class AxiosService extends Service {
-  @service session!: Services["session"];
+interface JsonApiError {
+  title: string;
+  detail: string;
+  source?: {
+    parameter: string;
+  }
+};
 
-  public agent: AxiosInstance;
+interface JsonApiResponse<T = any> {
+  data?: T;
+  meta?: any;
+  errors?: JsonApiError[];
+}
+
+export default class AxiosService extends Service {
+  @service session: Services["session"];
+
+  public readonly agent = axios.create({ baseURL: "/" });
 
   constructor() {
     super(...arguments);
-    this.agent = axios.create({
-      baseURL: "/",
-    });
-    this.agent.interceptors.request.use((req) => {
+    this.agent.interceptors.request.use(req => {
       const { authenticator, access_token } =  this.session.data.authenticated;
       if (authenticator == "authenticator:jwt") {
-        req.headers["Authorization"] = `Bearer ${access_token}`
+        req.headers["authorization"] = `Bearer ${access_token}`
       }
       return req;
-    })
-    this.agent.interceptors.response.use((res) => {
-      return res.data;
-    }, err => {
-      const o = err.response.data;
-      if ('errors' in o) {
-        throw o;
-      } else {
-        console.error('unknow error type', err)
-        console.error('unknow error type', err.response)
-        console.error('unknow error type', err.response.data)
-        throw [{type: "Error", detail: o.message || err.message }]
+    });
+    this.agent.interceptors.response.use(
+      res => {
+        if ('data' in res.data) {
+          return res.data
+        } else {
+          console.error('response not in json api format', res)
+          console.error('response not in json api format', res.data)
+          return res.data
+        }
+      },
+      err => {
+        const o = err.response.data;
+        if ('errors' in o) {
+          throw o;
+        } else {
+          console.error('unknow error type', err)
+          console.error('unknow error type', err.response)
+          console.error('unknow error type', err.response.data)
+          throw [{ title: "Error", detail: o.message || err.message }]
+        }
       }
-    })
+    );
   }
-  request(conf: AxiosRequestConfig) {
-    console.log("AxiosService -> request -> conf", conf)
-    return this.agent(conf)
+  request(conf: AxiosRequestConfig): Promise<JsonApiResponse> {
+    return this.agent(conf);
   }
 }
 
