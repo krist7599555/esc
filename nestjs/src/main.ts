@@ -1,12 +1,15 @@
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { ensureDatabase } from './db/pool';
 import { PORT } from './config';
 import * as morgan from 'morgan'
+import * as path from 'path';
 
 export async function server() {
   await ensureDatabase();
-  const app = await NestFactory.create(AppModule, { logger: false, cors: true });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, { logger: false, cors: true });
+  app.useStaticAssets(path.join(__dirname, '../../emberjs/dist'));
   app.use(morgan('dev'))
 
   return app;
