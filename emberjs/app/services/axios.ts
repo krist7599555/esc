@@ -11,10 +11,10 @@ interface JsonApiError {
   }
 };
 
-interface JsonApiResponse<T = any> {
-  data?: T;
-  meta?: any;
-  errors?: JsonApiError[];
+export interface JsonApiResponse<T = any> {
+  data: T;
+  meta: any;
+  errors: JsonApiError[];
 }
 
 export default class AxiosService extends Service {
@@ -55,6 +55,7 @@ export default class AxiosService extends Service {
     );
   }
   request(conf: AxiosRequestConfig): Promise<JsonApiResponse> {
+    // @ts-ignore
     return this.agent(conf);
   }
 }

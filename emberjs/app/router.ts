@@ -22,4 +22,5 @@ Router.map(function() {
     this.route('new');
     this.route('show', { path: '/:reservation_id' });
   });
+  this.route('notfound', { path: '/*' });
 });

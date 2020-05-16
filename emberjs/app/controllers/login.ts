@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { Registry as Services } from '@ember/service';
+import { JsonApiResponse } from 'emberjs/services/axios';
 
 export default class LoginController extends Controller {
   @tracked username = ""
@@ -18,7 +19,7 @@ export default class LoginController extends Controller {
         this.transitionToRoute("index");
         this.toast.success('login success')
       })
-      .catch(o => {
+      .catch((o: JsonApiResponse) => {
         for (const err of o.errors) {
           this.toast.error(err.detail, err.title || undefined)
           console.error(err)
