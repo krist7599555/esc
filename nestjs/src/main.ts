@@ -9,7 +9,6 @@ import * as path from 'path';
 export async function server() {
   await ensureDatabase();
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { logger: false, cors: true });
-  app.useStaticAssets(path.join(__dirname, '../../emberjs/dist'));
   app.use(morgan('dev'))
 
   return app;

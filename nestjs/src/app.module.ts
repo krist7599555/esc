@@ -9,9 +9,16 @@ import { APP_PIPE, APP_FILTER } from '@nestjs/core';
 import { AppExceptionFilter, HttpExceptionFilter, ValidateExceptionFilter } from './app.exception.filter';
 import { ValidationError } from 'class-validator';
 import { ApiErrors } from './serialize.errors';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 
 @Module({
-  imports: [],
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: path.join(__dirname, '../../emberjs/dist'),
+      exclude: ['/api*'],
+    }),
+  ],
   controllers: [
     AppController, 
     PeopleController, 
