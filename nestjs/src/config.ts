@@ -1,7 +1,9 @@
-/* eslint-disable @typescript-eslint/camelcase */
+import * as path from 'path';
+
 require('dotenv-flow').config({
   default_node_env: 'development',
   silent:           true,
+  path:             path.resolve(__dirname, '..')
 });
 
 type Env = 'production' | 'development' | 'test'
