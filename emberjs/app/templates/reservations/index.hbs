@@ -20,9 +20,12 @@
     {{/if}}
     <div class='py-5 flex justify-between items-center hover:bg-light {{box.fill_class}}'>
       <div class='flex-1'>{{r.organization}}</div>
-      <div class='w-24 text-sm'>{{r.room.label}}</div>
-      <div class='bg-current -my-3 h-4 w-4 rounded-full mx-3' data-reservation-status={{r.status}}></div>
-      <div class='w-24 text-right'>{{dayjs r.arrival_time "H:mm"}} - {{dayjs r.departure_time "H:mm"}}</div>
+      <div class='bg-current h-4 w-4 rounded-full mx-3 block md:hidden' data-reservation-status={{r.status}}></div>
+      <div class='md:flex justify-between items-center flex-col md:flex-row w-32 md:w-auto'>
+        <div class='md:w-24 text-right md:text-left md:text-sm mb-1 md:mb-0'>{{r.room.label}}</div>
+        <div class='bg-current h-4 w-4 rounded-full mx-3 hidden md:block' data-reservation-status={{r.status}}></div>
+        <div class='md:w-24 text-right'>{{dayjs r.arrival_time "H:mm"}} - {{dayjs r.departure_time "H:mm"}}</div>
+      </div>
     </div>
   </LinkTo>
 {{/each}}
