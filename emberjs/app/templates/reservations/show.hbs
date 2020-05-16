@@ -25,7 +25,11 @@
     </tr>
     <tr><td>ห้อง</td><td>{{r.room.label}} (~{{r.room.capacity}} คน)</td></tr>
     <tr class="h-5"></tr>
-    <tr><td>จองโดย</td><td>{{r.owner.name_th}} {{r.owner.surname_th}}</td></tr>
+    <tr><td>จองโดย</td><td>
+      <LinkTo @route='people.show' @model={{r.owner.id}} class='text-primary'>
+        {{r.owner.name_th}} {{r.owner.surname_th}}
+      </LinkTo>
+    </td></tr>
     <tr><td></td><td>คณะ {{r.owner.faculty}} ปี {{r.owner.year}}</td></tr>
     <tr><td>เบอร์โทร</td><td>{{r.owner.phone}}</td></tr>
     <br />
