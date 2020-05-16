@@ -27,9 +27,6 @@ function _clocks() {
 export default class ReservationsNewRoute extends Route {
   async model() {
     const rooms = await this.store.query('room', {})
-    console.log("RoomsNewRoute -> model ->  rooms",  rooms)
-    // const clocks = ["8:00", "8:30", "9:00", "9:30", "10:00"]
-    // const days = ["12 May", "13 May", "14 May"];
     return {
       rooms,
       clocks: _clocks(),

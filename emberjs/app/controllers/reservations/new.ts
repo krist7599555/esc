@@ -54,7 +54,7 @@ export default class RoomsNewController extends Controller {
     })
       .then(o => {
         this.toast.success('success')
-        this.transitionToRoute('reservations.show', { reservation_id: o.data.id });
+        this.transitionToRoute(`/reservations/${o.data.id}`);
       })
       .catch(o => {
         this.$form_element.find('[data-help-property]').empty()
