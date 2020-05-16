@@ -2,8 +2,7 @@
   @route="{{@route}}"
   class="text-dark w-16 h-16 py-3 hover:bg-grey flex flex-col justify-center items-center"
 >
-  {{!-- <i data-feather="{{@icon}}" class="inline"></i> --}}
-  <FeatherIcon @icon={{@icon}} />
+  <FeatherIcon @icon={{@icon}} @class='w-5'/>
   <label class="block text-sm mt-1 -mb-1">
     {{@label}}
   </label>

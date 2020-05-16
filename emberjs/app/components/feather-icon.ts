@@ -1,17 +1,19 @@
 import Component from '@glimmer/component';
 import * as feather from "feather-icons"
-// import "feather-icons"
-
+import { action } from '@ember/object';
+import $ from 'jquery'
 interface FeatherIconArgs {
   icon: string;
+  class?: string;
 }
 
 export default class FeatherIcon extends Component<FeatherIconArgs> {
+  @action
   mounted(el: HTMLSpanElement) {
-    console.log(feather)
-    console.log(feather.icons)
-    console.log(feather.icons[this.args.icon])
-    console.log("FeatherIcon -> mounted -> el", el)
-    console.log(feather.icons[this.args.icon].toSvg())
+    console.log("FeatherIcon -> mounted -> this.args.class", this.args.class)
+    const svg = feather.icons[this.args.icon].toSvg({
+      class: this.args.class
+    });
+    $(el).replaceWith(svg);
   }
 }

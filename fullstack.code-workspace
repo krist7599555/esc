@@ -18,8 +18,14 @@
 			"dist": true,
 			"yarn.lock": true,
 			"yarn-error.log": true,
-			"**/yarn-error.log": true
-		},
-		"explorerExclude.backup": null
+			"**/yarn-error.log": true,
+			"testem.js": true,
+			".watchmanconfig": true,
+			".travis.yml": true,
+			".editorconfig": true,
+			"nest-cli.json": true,
+			"jsconfig.json": true,
+			".ember-cli": true
+		}
 	}
 }
