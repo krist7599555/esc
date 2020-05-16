@@ -1,55 +1,64 @@
 <Background::Box class="relative" @close='reservations.index'>
-  {{#with this.model.reservation as |r|}}
-    <h1 class="font-bold text-lg flex items-center">
-      <span class="mr-3">รายการจองห้องประชุม</span>
-      <div
-        data-reservation-status={{r.status}}
-        class="w-5 h-5 rounded-full bg-current inline-block mr-2"
-      ></div>
-    </h1>
-    <br />
-    <tr><td class="pr-3">หน่วยงาน</td><td>{{r.organization}}</td></tr>
-    <tr><td>วันที่</td><td>{{dayjs r.arrival_time "D MMMM (ddd)"}}</td></tr>
-    <tr><td>เวลา</td><td>{{dayjs r.arrival_time "HH:mm"}} - {{dayjs r.departure_time "HH:mm"}}</td></tr>
-    <tr>
-      <td>สถานะ</td>
-      <td>
-        <Select
-          class="app-input appearance-none border-none outline-none shadow-none"
-          style="padding: 0"
-          @value={{r.status}}
-          @options={{this.RESERVATIONS_STATS}}
-          @onChange={{this.change_stats}}
-        />
-      </td>
-    </tr>
-    <tr><td>ห้อง</td><td>{{r.room.label}} (~{{r.room.capacity}} คน)</td></tr>
-    <tr class="h-5"></tr>
-    <tr><td>จองโดย</td><td>
-      <LinkTo @route='people.show' @model={{r.owner.id}} class='text-primary'>
-        {{r.owner.name_th}} {{r.owner.surname_th}}
-      </LinkTo>
-    </td></tr>
-    <tr><td></td><td>คณะ {{r.owner.faculty}} ปี {{r.owner.year}}</td></tr>
-    <tr><td>เบอร์โทร</td><td>{{r.owner.phone}}</td></tr>
-    <tr class='h-5'></tr>
-    <tr><td>ตรวจโดย</td><td>
-      {{#if r.approver.id}}
-        <LinkTo @route='people.show' @model={{r.approver.id}} class='text-primary'>
-          {{r.approver.name_th}} {{r.approver.surname_th}}
+  {{#if this.model.reservation}}
+    {{#with this.model.reservation as |r|}}
+      <h1 class="font-bold text-lg flex items-center">
+        <span class="mr-3">รายการจองห้องประชุม</span>
+        <div
+          data-reservation-status={{r.status}}
+          class="w-5 h-5 rounded-full bg-current inline-block mr-2"
+        ></div>
+      </h1>
+      <br />
+      <tr><td class="pr-3">หน่วยงาน</td><td>{{r.organization}}</td></tr>
+      <tr><td>วันที่</td><td>{{dayjs r.arrival_time "D MMMM (ddd)"}}</td></tr>
+      <tr><td>เวลา</td><td>{{dayjs r.arrival_time "HH:mm"}} - {{dayjs r.departure_time "HH:mm"}}</td></tr>
+      <tr>
+        <td>สถานะ</td>
+        <td>
+          <Select
+            class="app-input appearance-none border-none outline-none shadow-none"
+            style="padding: 0"
+            @value={{r.status}}
+            @options={{this.RESERVATIONS_STATS}}
+            @onChange={{this.change_stats}}
+          />
+        </td>
+      </tr>
+      <tr><td>ห้อง</td><td>{{r.room.label}} (~{{r.room.capacity}} คน)</td></tr>
+      <tr class="h-5"></tr>
+      <tr><td>จองโดย</td><td>
+        <LinkTo @route='people.show' @model={{r.owner.id}} class='text-primary'>
+          {{r.owner.name_th}} {{r.owner.surname_th}}
         </LinkTo>
-      {{else}}
-        -
+      </td></tr>
+      <tr><td></td><td>คณะ {{r.owner.faculty}} ปี {{r.owner.year}}</td></tr>
+      <tr><td>เบอร์โทร</td><td>{{r.owner.phone}}</td></tr>
+      <tr class='h-5'></tr>
+      <tr><td>ตรวจโดย</td><td>
+        {{#if r.approver.id}}
+          <LinkTo @route='people.show' @model={{r.approver.id}} class='text-primary'>
+            {{r.approver.name_th}} {{r.approver.surname_th}}
+          </LinkTo>
+        {{else}}
+          -
+        {{/if}}
+      </td></tr>
+      {{#if (eq r.owner.id this.session.data.authenticated.id)}}
+        <button type="button" class="app-button mt-5 text-sm flex items-end" {{on "click" this.remove_reservation}}>
+          <FeatherIcon @icon='trash' @class='w-4 mr-2 -ml-1' />
+          ลบรายการจองนี้
+        </button>
       {{/if}}
-    </td></tr>
-    {{#if (eq r.owner.id this.session.data.authenticated.id)}}
-      <button type="button" class="app-button mt-5 text-sm flex items-end">
-        <FeatherIcon @icon='trash' @class='w-4 mr-2 -ml-1' />
-        ลบรายการจองนี้
-      </button>
-    {{/if}}
-    <hr class="my-4" />
-    <p class="text-sm">จองเมื่อ {{dayjs r.created "DD MMM"}}</p>
-    <p class="text-sm">แก้ไขล่าสุด {{dayjs r.updated fn="fromNow"}}</p>
-  {{/with}}
+      <hr class="my-4" />
+      <p class="text-sm">จองเมื่อ {{dayjs r.created "DD MMM"}}</p>
+      <p class="text-sm">แก้ไขล่าสุด {{dayjs r.updated fn="fromNow"}}</p>
+    {{/with}}
+  {{else}}
+    <div class="flex flex-col items-center pt-5 pb-3">
+      <FeatherIcon @icon='meh' @class='h-16 w-16' @stroke-width={{0.9}} />
+      <h1 class="font-bold text-2xl mt-2">ไม่พบการจอง</h1>
+      <p class="text-sm mt-2">การจองนี้อาจถูกลบไปแล้ว หรือไม่เคยมีอยู่</p>
+      <LinkTo @route='reservations.index' class='app-button text-primary mt-5 text-sm'>กลับไปหน้า การจอง</LinkTo>
+    </div>
+  {{/if}}
 </Background::Box>

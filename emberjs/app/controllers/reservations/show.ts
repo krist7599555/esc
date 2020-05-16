@@ -36,5 +36,23 @@ export default class ReservationsShowController extends Controller {
       })
   }
 
-
+  @action
+  remove_reservation() {
+    const id = this.model.reservation.id;
+    this.axios.request({
+      method: "delete",
+      url: `/api/reservations/${id}`
+    })
+      .then(() => {
+        this.toast.success('remove reservation success');
+        this.model.reservation.reload()
+          .then(() => console.log('reload success'))
+          .then(() => console.error('reload fail'))
+      })
+      .catch(o => {
+        for (const err of o.errors) {
+          this.toast.error(err.detail, err.title);
+        }
+      })
+  }
 }

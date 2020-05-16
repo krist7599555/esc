@@ -1,6 +1,6 @@
-import { Controller, Get, Param, Post, Body, Put, Query, ConflictException } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Put, Query, ConflictException, Delete, ForbiddenException } from '@nestjs/common';
 import { r } from 'rethinkdb-ts'
-import { Reservations, STATUS_PENDING, RESERVATION_STATUS, ReservationStatus } from '../entity/reservation';
+import { Reservations, STATUS_PENDING, RESERVATION_STATUS, ReservationStatus, Reservation } from '../entity/reservation';
 import { IsNotEmpty, IsString, IsISO8601, isISO8601 } from 'class-validator'
 import { JwtId, IsRoomId, ReservationIdPipe } from '../helper/id';
 import { serialize_reservations } from '../serialize';
@@ -9,6 +9,7 @@ import { Roles } from 'src/pipe/guard';
 import { ROLE_OFFICE } from '../entity/person';
 import * as dayjs from 'dayjs'
 import * as _ from 'lodash'
+import { ParseReservationPipe } from 'src/pipe/parse';
 
 class ReservationCreateDto {
   
@@ -71,10 +72,23 @@ export class ReservationsController {
   }
   
   @Get("/:reservation_id")
-  show(@Param('reservation_id') reservation_id: string) {
-    return Reservations.get(reservation_id).run().then(serialize_reservations)
+  show(
+    @Param('reservation_id', ParseReservationPipe) reservation: Reservation
+  ) {
+    return serialize_reservations(reservation)
   }
-  
+
+  @Delete("/:reservation_id")
+  async remove(
+    @JwtId() person_id: string,
+    @Param('reservation_id', ParseReservationPipe) reservation: Reservation
+  ) {
+    if (reservation.owner != person_id) throw new ForbiddenException("only owner can delete reservation");
+    return {
+      data: await Reservations.get(reservation.id).delete().run()
+    }
+  }
+
   @Post("/")
   async create(
     @JwtId() owner_id: string,
