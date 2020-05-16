@@ -1,11 +1,16 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 
-export default class SelectComponent extends Component {
-  @action emit(event: Event) {
-    this.args.onChange(event.target.value)
+interface SelectComponentArgument {
+  value: string;
+  onChange(value: string): void;
+}
+
+export default class SelectComponent extends Component<SelectComponentArgument> {
+  @action emit(event: KeyboardEvent) {
+    this.args.onChange((event.target as HTMLSelectElement).value)
   }
   @action mounted(elem: HTMLSelectElement) {
-    elem.value = this.args.value; // first biding value
+    elem.value = this.args.value;
   }
 }

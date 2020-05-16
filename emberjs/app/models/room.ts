@@ -1,8 +1,9 @@
+// @ts-ignore-file
 import Model, { attr } from '@ember-data/model';
 
 export default class RoomModel extends Model {
-  @attr label   : string;
-  @attr capacity: number;
+  @attr() label   : string;
+  @attr() capacity: number;
 }
 
 declare module 'ember-data/types/registries/model' {

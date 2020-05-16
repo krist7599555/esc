@@ -5,8 +5,12 @@
   {{on "change" this.emit}}
   {{did-insert this.mounted}}
 >
-    <option value='' hidden>ยังไม่ได้เลือก</option>
+  <option value="" hidden>
+    ยังไม่ได้เลือก
+  </option>
   {{#each @options as |opt|}}
-    <option value={{if opt.value opt.value opt.id}}>{{opt.label}}</option>
+    <option value={{if opt.value opt.value opt.id}}>
+      {{opt.label}}
+    </option>
   {{/each}}
 </select>

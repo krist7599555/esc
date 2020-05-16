@@ -1,10 +1,11 @@
+// @ts-ignore
 import JSONAPIAdapter from '@ember-data/adapter/json-api';
 // import { tracked } from '@glimmer/tracking';
-import { inject as service } from '@ember/service';
+import { inject as service, Registry } from '@ember/service';
 
 export default class ApplicationAdapter extends JSONAPIAdapter {
   // Application specific overrides go here
-  @service session;
+  @service session: Registry["session"];
 
   namespace = 'api';
   get headers() {

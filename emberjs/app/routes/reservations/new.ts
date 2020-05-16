@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 import * as _ from 'lodash'
 
 function _days() {

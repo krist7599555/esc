@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
+import { Registry as Services } from '@ember/service';
 import { action } from '@ember/object';
 import dayjs from 'dayjs';
 import $ from 'jquery';
@@ -29,16 +30,16 @@ class ReservationForm {
 export default class RoomsNewController extends Controller {
 
   @tracked form = new ReservationForm();
-  @tracked $form_element;
-  @service axios;
-  @service toast;
+  @tracked $form_element: JQuery;
+  @service axios!: Services["axios"];
+  @service toast!: Services["toast"];;
 
   constructor() {
     super(...arguments);
   }
 
   @action
-  set_form_element(el) {
+  set_form_element(el: HTMLElement) {
     this.$form_element = $(el);
   }
 
@@ -70,7 +71,7 @@ export default class RoomsNewController extends Controller {
   }
 
   @action
-  clear_error_message(field) {
+  clear_error_message(field: keyof ReturnType<ReservationForm["serialize"]>) {
     this.$form_element.find(`[data-help-property=${field}]`).empty()
   }
 
