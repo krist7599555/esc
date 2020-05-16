@@ -1,6 +1,11 @@
-<Background::Box @close='people.index'>
+<Background::Box>
   {{#with this.model.person as |p|}}
-    <h1 class="text-lg font-bold">{{p.name_th}} {{p.surname_th}}</h1>
+    <div class='flex items-center'>
+      <FeatherIcon @icon='user' @class='w-8 inline mr-2 -ml-1' />
+      <h1 class="text-lg font-bold">
+        {{p.name_th}} {{p.surname_th}}
+      </h1>
+    </div>
     <br>
     <tr>
       <td class='pr-3'>รหัสนิสิต</td>

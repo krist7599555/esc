@@ -8,10 +8,13 @@
     @model={{person.id}}
     class='hover:bg-grey py-3 flex {{box.fill_class}}'
   >
-    <div class='w-3/12'>{{person.student_id}}</div>
-    <div class='w-2/12'>{{person.name_th}}</div>
-    <div class='w-3/12'>{{person.surname_th}}</div>
-    <div class='w-2/12'>{{person.phone}}</div>
+    <div class='w-1/12'>
+      <FeatherIcon @icon='user' @class='w-5' />
+    </div>
+    <div class='mx-2 w-auto md:w-3/12'>{{person.student_id}}</div>
+    <div class='mx-2 w-auto md:w-2/12'>{{person.name_th}}</div>
+    <div class='mx-2 w-auto md:w-2/12'>{{person.surname_th}}</div>
+    <div class='mx-2 w-auto md:w-3/12 hidden md:block'>{{person.phone}}</div>
   </LinkTo>
 {{/each}}
 </Background::Box>
