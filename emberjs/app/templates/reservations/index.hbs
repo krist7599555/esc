@@ -4,8 +4,8 @@
 <br>
 <div>
   <LinkTo @route='reservations.new'>
-    <button type='button' class='bg-primary px-4 py-2 rounded text-white'>
-      <i data-feather="plus" class="inline"></i>
+    <button type='button' class='bg-primary px-5 py-2 rounded text-white'>
+      <FeatherIcon @icon='plus' @class='w-4 h-4 inline -ml-1 mr-1' />
       จองห้อง
     </button>
   </LinkTo>
@@ -28,6 +28,11 @@
       </div>
     </div>
   </LinkTo>
+{{else}}
+  <div class="flex justify-center items-center flex-col mt-4">
+    <FeatherIcon @icon='inbox' @class='h-16 w-16' @stroke-width={{0.9}} />
+    <span class="mt-2 mb-4">ไม่มีรายการจอง</span>
+  </div>
 {{/each}}
 
 

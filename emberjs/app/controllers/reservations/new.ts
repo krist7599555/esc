@@ -44,9 +44,7 @@ export default class RoomsNewController extends Controller {
   }
 
   @action
-  submit() {
-    console.log(this.form)
-    console.log(this.form.serialize())
+  async submit() {
     this.axios.request({
       method: "post",
       url: "/api/reservations",
