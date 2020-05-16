@@ -32,11 +32,22 @@
     </td></tr>
     <tr><td></td><td>คณะ {{r.owner.faculty}} ปี {{r.owner.year}}</td></tr>
     <tr><td>เบอร์โทร</td><td>{{r.owner.phone}}</td></tr>
-    <br />
-    <button type="button" class="app-button">
-      ลบรายการจองนี้
-    </button>
-    <br />
+    <tr class='h-5'></tr>
+    <tr><td>ตรวจโดย</td><td>
+      {{#if r.approver.id}}
+        <LinkTo @route='people.show' @model={{r.approver.id}} class='text-primary'>
+          {{r.approver.name_th}} {{r.approver.surname_th}}
+        </LinkTo>
+      {{else}}
+        -
+      {{/if}}
+    </td></tr>
+    {{#if (eq r.owner.id this.session.data.authenticated.id)}}
+      <button type="button" class="app-button mt-5 text-sm flex items-end">
+        <FeatherIcon @icon='trash' @class='w-4 mr-2 -ml-1' />
+        ลบรายการจองนี้
+      </button>
+    {{/if}}
     <hr class="my-4" />
     <p class="text-sm">จองเมื่อ {{dayjs r.created "DD MMM"}}</p>
     <p class="text-sm">แก้ไขล่าสุด {{dayjs r.updated fn="fromNow"}}</p>

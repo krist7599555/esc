@@ -74,6 +74,7 @@ export class ReservationsController {
   show(@Param('reservation_id') reservation_id: string) {
     return Reservations.get(reservation_id).run().then(serialize_reservations)
   }
+  
   @Post("/")
   async create(
     @JwtId() owner_id: string,
@@ -96,6 +97,7 @@ export class ReservationsController {
   @Put("/:reservation_id/status/:status")
   @Roles(ROLE_OFFICE)
   async update_status(
+    @JwtId() approver_id: string,
     @Param('reservation_id', ReservationIdPipe) reservation_id: string,
     @Param('status', new OneOf(RESERVATION_STATUS)) status: ReservationStatus
   ) {
@@ -103,6 +105,7 @@ export class ReservationsController {
       .get(reservation_id)
       .update({ 
         status,
+        approver: approver_id,
         updated: r.now().inTimezone('+07:00'),
       }, { returnChanges: true })
       .run();

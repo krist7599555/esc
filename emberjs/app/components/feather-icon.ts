@@ -12,7 +12,7 @@ export default class FeatherIcon extends Component<FeatherIconArgs> {
   mounted(el: HTMLSpanElement) {
     console.log("FeatherIcon -> mounted -> this.args.class", this.args.class)
     const svg = feather.icons[this.args.icon].toSvg({
-      class: this.args.class
+      class: this.args.class || ""
     });
     $(el).replaceWith(svg);
   }

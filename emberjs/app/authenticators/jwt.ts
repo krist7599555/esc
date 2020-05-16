@@ -22,7 +22,9 @@ export default class CustomAuthenticator extends Base {
         password
       }
     })
-    return o.data;
+    const { access_token } = o.data;
+    const payload = JSON.parse(atob(access_token.split('.')[1]))
+    return { access_token, ...payload }
   }
 
   invalidate(data: any) {

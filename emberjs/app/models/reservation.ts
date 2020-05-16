@@ -4,6 +4,7 @@ import Model, { belongsTo, attr } from '@ember-data/model';
 export default class ReservationModel extends Model {
   @belongsTo('room') room   : any;
   @belongsTo('person') owner: any;
+  @belongsTo('person') approver: any;
   @attr()    organization   : string;
   @attr()    arrival_time   : string;
   @attr()    departure_time : string;

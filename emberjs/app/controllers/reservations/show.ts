@@ -5,8 +5,9 @@ import { action }               from '@ember/object';
 
 export default class ReservationsShowController extends Controller {
 
-  @service axios!: Services["axios"];
-  @service toast!: Services["toast"];
+  @service axios: Services["axios"];
+  @service toast: Services["toast"];
+  @service session: Services["session"];
 
   @tracked RESERVATIONS_STATS = [
     { value: 'pending',  label: 'รอตรวจ' },
