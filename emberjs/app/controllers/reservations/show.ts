@@ -18,6 +18,7 @@ export default class ReservationsShowController extends Controller {
   @action
   change_stats(new_status: string) {
     const id = this.model.reservation.id
+    this.store.peekRecord('room', 'pj2')
     this.axios.request({
       method: "put",
       url   : `/api/reservations/${id}/status/${new_status}`
@@ -45,11 +46,11 @@ export default class ReservationsShowController extends Controller {
     })
       .then(() => {
         this.toast.success('remove reservation success');
-        this.model.reservation.reload()
-          .then(() => console.log('reload success'))
-          .then(() => console.error('reload fail'))
+        this.store.unloadRecord(this.model.reservation);
+        this.model = null;
       })
       .catch(o => {
+        console.log("ReservationsShowController -> remove_reservation -> o", o)
         for (const err of o.errors) {
           this.toast.error(err.detail, err.title);
         }
