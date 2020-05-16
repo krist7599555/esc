@@ -1,7 +1,3 @@
 // https://deprecations.emberjs.com/ember-data/v3.x/#toc_ember-data:default-serializers
-// export * from '@ember-data/serializer/json-api';
-/*
-import RESTSerializer from '@ember-data/serializer/rest';
-export default class UserSerializer extends RESTSerializer {
-}
-*/
+import JSONAPISerializer from '@ember-data/serializer/json-api';
+export default JSONAPISerializer;

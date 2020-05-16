@@ -1,38 +1,46 @@
-<Background::Box>
+<Background::Box class="relative">
   {{#with this.model.reservation as |r|}}
-
-    <h1 class='font-bold text-lg flex items-center'>
-      <span class='mr-3'>รายการจองห้องประชุม</span>
+    <h1 class="font-bold text-lg flex items-center">
+      <span class="mr-3">รายการจองห้องประชุม</span>
       <div
         data-reservation-status={{r.status}}
         class="w-5 h-5 rounded-full bg-current inline-block mr-2"
       ></div>
     </h1>
-    <br>
-
-    <tr><td class='pr-3'>หน่วยงาน</td><td>{{r.organization}}</td></tr>
+    <LinkTo
+      @route="reservations.index"
+      class="absolute top-0 right-0 p-6 md:p-10"
+    >
+      <FeatherIcon @icon="x" @class="text-dark" />
+    </LinkTo>
+    <br />
+    <tr><td class="pr-3">หน่วยงาน</td><td>{{r.organization}}</td></tr>
     <tr><td>วันที่</td><td>{{dayjs r.arrival_time "D MMMM (ddd)"}}</td></tr>
     <tr><td>เวลา</td><td>{{dayjs r.arrival_time "HH:mm"}} - {{dayjs r.departure_time "HH:mm"}}</td></tr>
-    <tr><td>สถานะ</td><td>
-      <Select
-        class='app-input appearance-none border-none outline-none shadow-none'
-        style='padding: 0'
-        @value={{r.status}}
-        @options={{this.RESERVATIONS_STATS}}
-        @onChange={{this.change_stats}}
-      >
-      </Select>
-    </td></tr>
+    <tr>
+      <td>สถานะ</td>
+      <td>
+        <Select
+          class="app-input appearance-none border-none outline-none shadow-none"
+          style="padding: 0"
+          @value={{r.status}}
+          @options={{this.RESERVATIONS_STATS}}
+          @onChange={{this.change_stats}}
+        />
+      </td>
+    </tr>
     <tr><td>ห้อง</td><td>{{r.room.label}} (~{{r.room.capacity}} คน)</td></tr>
-    <tr class='h-5'></tr>
+    <tr class="h-5"></tr>
     <tr><td>จองโดย</td><td>{{r.owner.name_th}} {{r.owner.surname_th}}</td></tr>
     <tr><td></td><td>คณะ {{r.owner.faculty}} ปี {{r.owner.year}}</td></tr>
-    <tr><td>เบอร์โทร </td><td>{{r.owner.phone}}</td></tr>
-    <br>
-    <button type='button' class="app-button">ลบรายการจองนี้</button>
-    <br>
-    <hr class='my-4'>
-    <p class='text-sm'>จองเมื่อ {{dayjs r.created "DD MMM"}}</p>
-    <p class='text-sm'>แก้ไขล่าสุด {{dayjs r.updated fn="fromNow"}}</p>
+    <tr><td>เบอร์โทร</td><td>{{r.owner.phone}}</td></tr>
+    <br />
+    <button type="button" class="app-button">
+      ลบรายการจองนี้
+    </button>
+    <br />
+    <hr class="my-4" />
+    <p class="text-sm">จองเมื่อ {{dayjs r.created "DD MMM"}}</p>
+    <p class="text-sm">แก้ไขล่าสุด {{dayjs r.updated fn="fromNow"}}</p>
   {{/with}}
 </Background::Box>
