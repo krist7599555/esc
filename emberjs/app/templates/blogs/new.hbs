@@ -1,0 +1,9 @@
+<Background::Box as |box|>
+  <h1 class="font-bold text-2xl mb-5">สร้างประกาศ</h1>
+  <Blog::Form @value={{this.model}} />
+  <br>
+  <Blog::Preview class="bg-light py-6 {{box.fill_class}}" @value={{this.model}} />
+  <br>
+  <Button @icon='save' {{on "click" this.submit}}>สร้างประกาศ</Button>
+  <Blog::Info />
+</Background::Box>

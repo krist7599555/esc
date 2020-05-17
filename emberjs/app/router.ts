@@ -22,5 +22,11 @@ Router.map(function() {
     this.route('new');
     this.route('show', { path: '/:reservation_id' });
   });
+  this.route('blogs', function() {
+    this.route('index', { path: "/" });
+    this.route('show', { path: "/:blog_id" });
+    this.route('new');
+    this.route('edit', { path: "/:blog_id/edit" });
+  });
   this.route('notfound', { path: '/*' });
 });

@@ -1,0 +1,22 @@
+<Background::Box>
+  {{#with this.model as |blog|}}
+    <Blog::Preview class='mt-3 mb-8' @value={{blog}} />
+    <hr class='my-3 mb-8'>
+    <div class="flex justify-between w-full">
+      <div>
+        <p class='text-sm'>โพสเมื่อ {{dayjs blog.created fn="fromNow"}}</p>
+        <p class='text-sm'>แก้ไขล่าสุด {{dayjs blog.updated fn="fromNow"}}</p>
+      </div>
+      <div class="md:flex">
+        <LinkTo @route='blogs.index'>
+          <Button @icon='arrow-left'>ไปหน้าประกาศ</Button>
+        </LinkTo>
+        {{#if (eq blog.author.id this.session.data.authenticated.id)}}
+          <LinkTo @route='blogs.edit' @model={{blog}}>
+            <Button class='ml-0 md:ml-1 mt-2 md:mt-0' @icon='edit'>แก้ไข</Button>
+          </LinkTo>
+        {{/if}}
+      </div>
+    </div>
+  {{/with}}
+</Background::Box>

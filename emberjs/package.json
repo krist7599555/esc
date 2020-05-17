@@ -35,6 +35,7 @@
     "@types/ember__test-helpers": "^0.7.10",
     "@types/feather-icons": "^4.7.0",
     "@types/lodash": "^4.14.150",
+    "@types/marked": "^0.7.4",
     "@types/qunit": "^2.9.1",
     "@types/rsvp": "^4.0.3",
     "autoprefixer": "^9.7.6",
@@ -91,6 +92,7 @@
     "feather-icons": "^4.28.0",
     "gsap": "^3.2.6",
     "lodash": "^4.17.15",
+    "marked": "^1.1.0",
     "qs": "^6.9.4"
   }
 }

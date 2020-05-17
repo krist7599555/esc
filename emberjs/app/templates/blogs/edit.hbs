@@ -1,0 +1,15 @@
+<Background::Box as |box|>
+  <h1 class="font-bold text-2xl mb-5">แก้ไขประกาศ</h1>
+  <Blog::Form @value={{this.model}} />
+  <br>
+  <Blog::Preview
+    class="bg-light py-4 {{box.fill_class}}"
+    @value={{this.model}}
+  />
+  <br>
+  <div class="flex">
+    <Button class='mr-1' @icon='save' {{on "click" this.submit}}>บันทึกการแก้ไข</Button>
+    <Button @icon='trash' {{on "click" this.submit}}>ลบประกาศ</Button>
+  </div>
+  <Blog::Info />
+</Background::Box>
