@@ -1,6 +1,6 @@
 import { Person } from './entity/person';
 import { Room } from './entity/room';
-import * as _ from 'lodash'
+import { isArray } from 'lodash'
 import { Reservation } from './entity/reservation';
 import * as dayjs from 'dayjs'
 import "dayjs/locale/th";
@@ -23,7 +23,7 @@ Serializer.register('people', {
     }
   },
   topLevelMeta: function(data: any, extra: any) {
-    if (_.isArray(data)) {
+    if (isArray(data)) {
       return { length: data.length, ...extra };
     } else {
       return extra
@@ -39,7 +39,7 @@ Serializer.register("rooms", {
     }
   },
   topLevelMeta(data: any, ext: any) {
-    if (_.isArray(data)) {
+    if (isArray(data)) {
       return { length: data.length, ...ext };
     } else {
       return ext
@@ -77,7 +77,7 @@ Serializer.register('reservations', {
     return data;
   },
   topLevelMeta(data: any, ext: any) {
-    if (_.isArray(data)) ext.length = data.length
+    if (isArray(data)) ext.length = data.length
     return ext
   },
 })

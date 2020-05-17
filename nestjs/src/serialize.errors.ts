@@ -1,5 +1,5 @@
 import { HttpException } from '@nestjs/common';
-import * as _ from 'lodash';
+import { values } from 'lodash';
 import { ValidationError } from 'class-validator';
 
 export interface ApiError {
@@ -20,7 +20,7 @@ export class ApiErrors extends HttpException {
   static fromClassValidatorErrors(errors: ValidationError[]) {
     const api_errors = new ApiErrors([]);
     for (const verr of errors) {
-      for (const reason of _.values(verr.constraints)) {
+      for (const reason of values(verr.constraints)) {
         api_errors.errors.push({
           status: 400,
           title: "Bad Request",

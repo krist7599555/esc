@@ -9,7 +9,7 @@ import { Roles } from '../pipe/guard';
 import { ParseReservationPipe } from '../pipe/parse';
 import { ROLE_OFFICE } from '../entity/person';
 import * as dayjs from 'dayjs'
-import * as _ from 'lodash'
+import { chain } from 'lodash'
 
 
 class ReservationCreateDto {
@@ -64,7 +64,7 @@ export class ReservationsController {
           iso_start_time: 'start in format iso8601',
           iso_end_time: 'end in format iso8601',
         },
-        dates: _.chain(data)
+        dates: chain(data)
           .map(rsv => dayjs(rsv.arrival_time).startOf('day').format())
           .sort()
           .uniq()
