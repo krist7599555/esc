@@ -5,11 +5,12 @@ import { IsNotEmpty, IsString, IsISO8601 } from 'class-validator'
 import { JwtId, IsRoomId, ReservationIdPipe } from '../helper/id';
 import { serialize_reservations } from '../serialize';
 import { OneOf } from '../pipe/utils';
-import { Roles } from 'src/pipe/guard';
+import { Roles } from '../pipe/guard';
+import { ParseReservationPipe } from '../pipe/parse';
 import { ROLE_OFFICE } from '../entity/person';
 import * as dayjs from 'dayjs'
 import * as _ from 'lodash'
-import { ParseReservationPipe } from 'src/pipe/parse';
+
 
 class ReservationCreateDto {
   

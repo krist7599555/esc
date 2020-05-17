@@ -1,5 +1,5 @@
 import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException, NotFoundException } from '@nestjs/common';
-import { Reservations, Reservation } from 'src/entity/reservation';
+import { Reservations, Reservation } from '../entity/reservation';
 
 @Injectable()
 export class ParseIntPipe implements PipeTransform<string, number> {

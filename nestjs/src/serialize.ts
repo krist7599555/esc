@@ -4,12 +4,14 @@ import * as _ from 'lodash'
 import { Reservation } from './entity/reservation';
 import * as dayjs from 'dayjs'
 import "dayjs/locale/th";
+import { Blog } from './entity/blog';
 dayjs.locale('th');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const JSONAPISerializer = require("json-api-serializer");
-const Serializer = new JSONAPISerializer({
+import JSONAPISerializer = require("json-api-serializer");
+
+export const Serializer = new JSONAPISerializer({
   convertCase: 'kebab-case',
   jsonapiObject: true,
+  blacklistOnDeserialize: ["created", "inserted"]
 });
 
 Serializer.register('people', {
@@ -29,7 +31,7 @@ Serializer.register('people', {
   },
 });
 
-Serializer.register('rooms', {
+Serializer.register("rooms", {
   id: "id",
   links: {
     self(data: Room) {
@@ -80,6 +82,13 @@ Serializer.register('reservations', {
   },
 })
 
+Serializer.register('blogs', {
+  id: 'id',
+  relationships: {
+    author: { type: "people" }
+  }
+})
+
 export function serialize_people<T = Partial<Person>>(data: T | T[], extra?: any) {
   return Serializer.serialize('people', data, extra);
 }
@@ -88,4 +97,7 @@ export function serialize_rooms<T = Partial<Room>>(data: T|T[], extra?: any) {
 }
 export function serialize_reservations<T = Partial<Reservation>>(data: T|T[], extra?: any) {
   return Serializer.serialize('reservations', data, extra);
+}
+export function serialize_blogs<T = Partial<Blog>>(data: T|T[], extra?: any) {
+  return Serializer.serialize('blogs', data, extra);
 }

@@ -10,6 +10,7 @@ import { AppExceptionFilter, HttpExceptionFilter, ValidateExceptionFilter } from
 import { ValidationError } from 'class-validator';
 import { ApiErrors } from './serialize.errors';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { BlogsController } from './controller/blogs'
 import * as path from 'path';
 
 @Module({
@@ -24,7 +25,8 @@ import * as path from 'path';
     PeopleController, 
     RoomsController, 
     ReservationsController, 
-    AuthController
+    AuthController,
+    BlogsController
   ],
   providers: [
     AppService,
