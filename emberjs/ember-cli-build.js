@@ -8,6 +8,7 @@ const purgeCSS = require('@fullhuman/postcss-purgecss')({
     join(__dirname, 'app', 'templates', '**', '*.hbs'),
     join(__dirname, 'app', 'components', '**', '*.hbs')
   ],
+  whitelistPatterns: [/data-/],
   defaultExtractor: content => content.match(/[A-Za-z0-9-_:/]+/g) || []
 });
 
