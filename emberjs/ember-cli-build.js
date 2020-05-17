@@ -1,8 +1,18 @@
 'use strict';
+const join = require("path").join;
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const purgeCSS = require('@fullhuman/postcss-purgecss')({
+  content: [
+    join(__dirname, 'app', 'index.html'),
+    join(__dirname, 'app', 'templates', '**', '*.hbs'),
+    join(__dirname, 'app', 'components', '**', '*.hbs')
+  ],
+  defaultExtractor: content => content.match(/[A-Za-z0-9-_:/]+/g) || []
+});
 
 module.exports = function(defaults) {
+  console.log("process.env.EMBER_ENV", process.env.EMBER_ENV)
   let app = new EmberApp(defaults, {
     // Add options here
     tests: false,
@@ -14,6 +24,7 @@ module.exports = function(defaults) {
           require('autoprefixer'),
           { module: require('postcss-import') },
           require('tailwindcss')('./app/styles/tailwind.js'),
+          ...(process.env.EMBER_ENV == "production" ? [purgeCSS] : [])
         ]
       },
       filter: {
