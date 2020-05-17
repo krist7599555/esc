@@ -16,13 +16,6 @@ body {
   -moz-appearance: none;
   appearance: none;
 }
-
-.app-label {
-  @apply font-bold text-sm mb-1 block;
-}
-.app-input {
-  @apply bg-white border rounded border-primary py-2 px-4 block;
-}
 select.app-input[data-value=''] {
   color: #a0aec0;
 }
@@ -31,14 +24,19 @@ textarea::placeholder {
   color: #a0aec0;
 }
 
+.app-label {
+  @apply font-bold text-sm mb-1 block;
+}
+.app-input {
+  @apply bg-white border rounded border-primary py-2 px-4 block;
+}
+
 .app-button {
   @apply bg-primary text-white rounded px-6 py-2 shadow text-center;
 }
 .app-help {
   @apply text-sm text-danger leading-snug mt-1;
 }
-
-
 
 .content  h1     { @apply .font-bold .text-2xl; }
 .content  h2     { @apply .font-bold .text-xl; }
@@ -50,4 +48,4 @@ textarea::placeholder {
 .content  ul     { @apply .list-disc; }
 .content  ol     { @apply .list-decimal; }
 .content  blockquote { @apply .mx-6 .my-3; }
-.content > * { @apply .mb-6; }
+.content > *     { @apply .mb-6; }

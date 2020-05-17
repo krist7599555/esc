@@ -4,9 +4,10 @@ const join = require("path").join;
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const purgeCSS = require('@fullhuman/postcss-purgecss')({
   content: [
-    join(__dirname, 'app', 'index.html'),
-    join(__dirname, 'app', 'templates', '**', '*.hbs'),
-    join(__dirname, 'app', 'components', '**', '*.hbs')
+    join(__dirname, './app/styles/app.postcss'),
+    join(__dirname, './app/index.html'),
+    join(__dirname, './app/templates/**/*.hbs'),
+    join(__dirname, './app/components/**/*.hbs')
   ],
   whitelistPatterns: [/data-/],
   defaultExtractor: content => content.match(/[A-Za-z0-9-_:/]+/g) || []
