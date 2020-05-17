@@ -7,3 +7,9 @@ export class Room {
 }
 
 export const Rooms = r.table('rooms');
+
+declare module "@esc" {
+  interface Entity {
+    rooms: Room
+  }
+}

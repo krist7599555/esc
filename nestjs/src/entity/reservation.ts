@@ -22,3 +22,10 @@ export class Reservation {
 }
 
 export const Reservations = r.table<Reservation>('reservations');
+
+
+declare module "@esc" {
+  interface Entity {
+    reservations: Reservation
+  }
+}

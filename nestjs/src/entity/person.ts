@@ -41,3 +41,8 @@ export class Person {
 
 export const People = r.table<Person>('people');
 
+declare module "@esc" {
+  export interface Entity {
+    people: Person
+  }
+}
