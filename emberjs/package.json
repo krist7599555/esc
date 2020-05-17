@@ -18,7 +18,8 @@
     "start": "ember serve",
     "dev": "ember serve --proxy=http://127.0.0.1:7677",
     "test": "npm-run-all lint:* test:*",
-    "test:ember": "ember test"
+    "test:ember": "ember test",
+    "analyze": "http://localhost:4200/_analyze"
   },
   "devDependencies": {
     "@ember/jquery": "^1.1.0",
@@ -47,6 +48,7 @@
     "ember-cli": "~3.17.0",
     "ember-cli-app-version": "^3.2.0",
     "ember-cli-babel": "^7.18.0",
+    "ember-cli-bundle-analyzer": "^0.2.1",
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-htmlbars": "^4.2.3",
     "ember-cli-inject-live-reload": "^2.0.2",
