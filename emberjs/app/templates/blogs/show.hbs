@@ -4,8 +4,13 @@
     <hr class='my-3 mb-8'>
     <div class="flex justify-between w-full">
       <div>
+        <p class='text-sm mb-1'>
+          เขียนโดย
+          <LinkTo @route='people.show' @model={{blog.author.id}} class='text-primary'>
+            {{blog.author.name_th}} {{blog.author.surname_th}}
+          </LinkTo>
+        </p>
         <p class='text-sm'>โพสเมื่อ {{dayjs blog.created fn="fromNow"}}</p>
-        <p class='text-sm'>แก้ไขล่าสุด {{dayjs blog.updated fn="fromNow"}}</p>
       </div>
       <div class="md:flex">
         <LinkTo @route='blogs.index'>
