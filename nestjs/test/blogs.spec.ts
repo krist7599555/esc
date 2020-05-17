@@ -32,7 +32,6 @@ describe('Rooms (e2e)', () => {
       })
       .expect(201)
       .expect(res => {
-        console.log("res.body.data", res.body.data)
         expect(res.body.data.id).toBeString();
         expect(res.body.data.type).toEqual("blogs");
       })

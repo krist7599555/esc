@@ -4,7 +4,6 @@ import { Reservations, Reservation } from '../entity/reservation';
 @Injectable()
 export class ParseIntPipe implements PipeTransform<string, number> {
   transform(value: string, metadata: ArgumentMetadata): number {
-    console.log({value, metadata})
     const val = parseInt(value, 10);
     if (isNaN(val)) {
       throw new BadRequestException('Validation failed');

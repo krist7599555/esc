@@ -1,9 +1,10 @@
-import { Controller, Get, Param, Post, Body, Patch, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Patch, NotFoundException, Req } from '@nestjs/common';
 import { r } from 'rethinkdb-ts'
 import { JwtId } from '../helper/id';
 import { Blogs } from '../entity/blog';
 import { JsonApiSerialize } from '../serialize.interceptor';
 import { IsString, IsNotEmpty } from 'class-validator';
+import { Request } from 'express';
 
 class BlogDto {
   @IsString() 
@@ -39,7 +40,7 @@ export class BlogsController {
     @JwtId() author: string,
     @Param('blog_id') blog_id: string,
     @Body() blog: BlogDto
-  ) {
+    ) {
       const wr = await Blogs
       .get(blog_id)
       .update({
@@ -52,7 +53,7 @@ export class BlogsController {
         throw new NotFoundException("blog id is not exist");
       }
       return {
-        id: wr.generated_keys[0]
+        id: blog_id
       }
     }
     
