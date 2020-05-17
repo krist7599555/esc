@@ -1,7 +1,8 @@
 import Controller from '@ember/controller';
-import { inject as service } from '@ember/service'
+import { inject as service, Registry as Services } from '@ember/service'
+
 export default class BlogsShow extends Controller {
-  @service session;
+  @service session: Services["session"];
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your controllers.
