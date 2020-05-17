@@ -1,5 +1,5 @@
 import { Injectable, NestInterceptor, ExecutionContext, CallHandler, UseInterceptors, BadRequestException } from '@nestjs/common';
-import { tap, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import type { Entity } from '@esc'
 import { Serializer } from './serialize'
 import { Request } from 'express';
@@ -10,10 +10,12 @@ export class JsonApiInterceptor implements NestInterceptor {
   }
   intercept(context: ExecutionContext, next: CallHandler) {
     const req: Request = context.switchToHttp().getRequest();
-    if ('data' in req.body) {
-      req.body = Serializer.deserialize(this.collection, req.body)
-    } else {
-      throw new BadRequestException("require json api pattern");
+    if (["POST", "PATCH"].includes(req.method)) {
+      if ('data' in req.body) {
+        req.body = Serializer.deserialize(this.collection, req.body)
+      } else {
+        throw new BadRequestException("require json api pattern");
+      }
     }
    
     return next

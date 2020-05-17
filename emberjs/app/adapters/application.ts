@@ -10,6 +10,9 @@ export default class ApplicationAdapter extends JSONAPIAdapter {
   namespace = 'api';
   get headers() {
     const { access_token } = this.session.data.authenticated;
-    return access_token ? { Authorization: `Bearer ${access_token}` } : {}
+    return {
+      'authorization': `Bearer ${access_token}`,
+      'content-type': 'application/json'
+    }
   }
 }
