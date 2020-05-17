@@ -57,10 +57,5 @@
   </div>
   <p data-help-property='arrival_time' class="app-help text-right"></p>
   <p data-help-property='departure_time' class="app-help text-right"></p>
-  <br>
-  <button
-    type='button'
-    class="app-button"
-    {{on "click" this.submit}}
-  >จอง</button>
+  <Button class='mt-8' @icon='plus' {{on "click" this.submit}}>จองห้อง</Button>
 </Background::Box>

@@ -1,0 +1,6 @@
+<button type="button" class="app-button text-sm flex items-end" ...attributes>
+  {{#if @icon}}
+    <FeatherIcon @icon={{@icon}} @class='w-4 mr-2 -ml-1' />
+  {{/if}}
+  {{yield}}
+</button>

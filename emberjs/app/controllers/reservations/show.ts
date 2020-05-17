@@ -25,9 +25,7 @@ export default class ReservationsShowController extends Controller {
     })
       .then(() => {
         this.toast.success('update status success');
-        this.model.reservation.reload()
-          .then(() => console.log('reload success'))
-          .then(() => console.error('reload fail'))
+        this.model.reservation.reload();
       })
       .catch(o => {
         console.error(o);
@@ -50,7 +48,6 @@ export default class ReservationsShowController extends Controller {
         this.model = null;
       })
       .catch(o => {
-        console.log("ReservationsShowController -> remove_reservation -> o", o)
         for (const err of o.errors) {
           this.toast.error(err.detail, err.title);
         }
