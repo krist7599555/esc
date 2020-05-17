@@ -4,11 +4,11 @@ import { action } from '@ember/object';
 import { toLeft, toRight } from 'ember-animated/transitions/move-over';
 
 export default class Navigation extends Component {
-  @service session!: Services["session"];
-  @service toast!: Services["toast"];
+  @service auth: Services["auth"];
+  @service toast: Services["toast"];
   @action
   async logout() {
-    this.session.invalidate().then(() => {
+    this.auth.logout().then(() => {
       this.toast.success('logout success')
     })
   }

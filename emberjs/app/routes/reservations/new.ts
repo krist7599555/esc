@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 import * as dayjs from 'dayjs';
 import * as _ from 'lodash'
+import { inject as service, Registry as Services } from '@ember/service';
 
 function _days() {
   const now = dayjs().startOf('day');
@@ -25,7 +26,15 @@ function _clocks() {
 }
 
 export default class ReservationsNewRoute extends Route {
+  @service auth: Services["auth"];
+
+  beforeModel() {
+    if (!this.auth.is_auth) {
+      this.transitionTo("login");
+    }
+  }
   async model() {
+
     const rooms = await this.store.query('room', {})
     return {
       rooms,

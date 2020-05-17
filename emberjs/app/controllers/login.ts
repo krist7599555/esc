@@ -8,13 +8,13 @@ import { JsonApiResponse } from 'emberjs/services/axios';
 export default class LoginController extends Controller {
   @tracked username = ""
   @tracked password = ""
-  @service session!: Services['session'];
-  @service toast!: Services['toast'];
+  @service auth: Services['auth'];
+  @service toast: Services['toast'];
 
   @action
   async login(e: Event) {
     e.preventDefault()
-    await this.session.authenticate('authenticator:jwt', this.username, this.password)
+    await this.auth.login(this.username, this.password)
       .then(() => {
         this.transitionToRoute("index");
         this.toast.success('login success')
