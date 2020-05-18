@@ -1,5 +1,5 @@
+<Background::Pure>
 <Background::Box as |box|>
-
 
   <h1 class='font-bold text-2xl'>ประกาศ</h1>
   {{#if this.auth.is_auth}}
@@ -9,12 +9,15 @@
   {{/if}}
   <br>
   {{#each this.model as |blog|}}
-    <div class='hover:bg-grey py-5 {{box.fill_class}}'>
-      <LinkTo @route="blogs.show" @model={{blog}}>
-        <h1 class="font-bold text-lg">{{blog.title}}</h1>
-        <p>{{dayjs blog.created fn="fromNow"}}</p>
-      </LinkTo>
+    <div class='hover:bg-grey {{box.class}}'>
+      <div class="border-t py-5">
+        <LinkTo @route="blogs.show" @model={{blog}}>
+          <Blog::Preview @value={{blog}} />
+          <p>{{dayjs blog.created fn="fromNow"}}</p>
+        </LinkTo>
+      </div>
     </div>
   {{/each}}
 
 </Background::Box>
+</Background::Pure>

@@ -1,0 +1,18 @@
+<main
+  class="bg-white rounded-non md:rounded p-6 p-0 md:p-10 w-full m-auto my-2 relative"
+  {{gsap (hash y=8)}}
+  ...attributes
+>
+  {{#if @close}}
+    <LinkTo
+      @route={{@close}}
+      class="absolute top-0 right-0 p-6 md:p-10"
+    >
+      <FeatherIcon @icon="x" @class="text-dark" />
+    </LinkTo>
+  {{/if}}
+
+  {{yield (hash
+    class="-mx-6 px-6 md:-mx-10 md:px-10"
+  )}}
+</main>

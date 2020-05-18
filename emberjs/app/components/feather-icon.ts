@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import * as feather from "feather-icons"
 import { action } from '@ember/object';
 import $ from 'jquery'
+
 interface FeatherIconArgs extends feather.FeatherAttributes {
   icon: string;
   class: string;
