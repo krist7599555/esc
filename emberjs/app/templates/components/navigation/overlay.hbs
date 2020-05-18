@@ -1,0 +1,29 @@
+<menu
+  class='bg-dark h-screen w-screen fixed t-0 l-0 m-0 p-0 text-white flex justify-center items-center'
+  style='z-index: 1; background-color: #171717'
+  ...attributes
+  {{did-insert this.mounted}}
+>
+  <ul id='navigation-overlay-list'>
+    <li class='my-4'>
+      <LinkTo @route="index">
+        Home
+      </LinkTo>
+    </li>
+    <li class='my-4'>
+      <LinkTo @route="blogs.index">
+        Blogs
+      </LinkTo>
+    </li>
+    <li class='my-4'>
+      <LinkTo @route="reservations.index">
+        Reservation
+      </LinkTo>
+    </li>
+    <li class='my-4'>
+      <button type='button' {{on "click" this.logout}}>
+        Logout
+      </button>
+    </li>
+  </ul>
+</menu>

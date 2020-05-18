@@ -1,6 +1,8 @@
+<Navigation::Overlay @visible={{this.show_menu}}></Navigation::Overlay>
 <nav
-  class="fixed flex m-auto bg-white left-0 bottom-0 w-screen h-16 md:w-16 md:h-screen justify-center md:flex-col md:justify-center shadow"
+  class="fixed flex m-auto bg-white left-0 bottom-0 w-screen h-16 md:w-16 md:h-screen justify-around sm:justify-center md:flex-col md:justify-center shadow"
   style='z-index: 10'
+  {{did-insert this.mounted}}
 >
   <AnimatedContainer class='overflow-hidden'>
     {{#animated-if this.auth.is_auth rules=this.rules}}
@@ -8,14 +10,21 @@
         <NavigationItem @icon="log-out" @label="logout" />
       </button>
     {{else}}
-      <NavigationItem @icon="log-in" @label="login" @route="login" />
+      <LinkTo @route="login">
+        <NavigationItem @icon="log-in" @label="login" />
+      </LinkTo>
     {{/animated-if}}
+  <hr class="opacity-50 w-10 m-auto my-2 hidden md:block" />
   </AnimatedContainer>
+  <LinkTo @route="blogs.index">
+    {{!-- <NavigationItem @icon="home" @label="home" /> --}}
+    <NavigationItem @icon="flag" @label="blogs" />
+  </LinkTo>
+  <LinkTo @route="reservations.index">
+    <NavigationItem @icon="zap" @label="rooms" />
+  </LinkTo>
   <hr class="opacity-50 w-10 m-auto my-2 hidden md:block" />
-  <NavigationItem @icon="home" @label="home" @route="blogs.index" />
-  <NavigationItem @icon="zap" @label="rooms" @route="reservations.index" />
-  {{!-- <NavigationItem @icon="info" @label="about" @route="index" /> --}}
-  {{!-- <NavigationItem @icon="users" @label="people" @route="people.index" /> --}}
-  <hr class="opacity-50 w-10 m-auto my-2 hidden md:block" />
-  <NavigationItem @icon="menu" @label="more" @route="index" />
+  <button id='navigation-item-menu' class='appearance-none outline-none' type='button' {{on "click" this.toggle_menu}}>
+    <NavigationItem @icon="menu" @label="more" />
+  </button>
 </nav>
