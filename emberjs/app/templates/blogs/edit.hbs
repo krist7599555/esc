@@ -9,8 +9,8 @@
   />
   <br>
   <div class="flex">
-    <Button class='mr-1' @icon='save' {{on "click" this.submit}}>บันทึกการแก้ไข</Button>
-    <Button @icon='trash' {{on "click" this.submit}}>ลบประกาศ</Button>
+    <Button @icon='save' {{on "click" this.patch}} class='mr-1'>บันทึกการแก้ไข</Button>
+    <Button @icon='trash' {{on "click" this.remove}}>ลบประกาศ</Button>
   </div>
   <Blog::Info />
 </Background::Box>

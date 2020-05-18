@@ -1,23 +1,22 @@
 <Background::Pure>
-<Background::Box as |box|>
-
-  <h1 class='font-bold text-2xl'>ประกาศ</h1>
-  {{#if this.auth.is_auth}}
-    <LinkTo @route='blogs.new'>
-      <Button @icon='plus' class='mt-5'>สร้างประกาศ</Button>
-    </LinkTo>
-  {{/if}}
+  <div class="flex justify-between mt-8 px-6 md:px-0">
+    <h1 class='font-bold text-4xl text-white'>ข่าวสาร</h1>
+    {{#if this.auth.is_auth}}
+      <LinkTo @route='blogs.new'>
+        <Button @icon='plus' class='mt-2'>สร้างประกาศ</Button>
+      </LinkTo>
+    {{/if}}
+  </div>
   <br>
   {{#each this.model as |blog|}}
-    <div class='hover:bg-grey {{box.class}}'>
-      <div class="border-t py-5">
+    <Background::Box class='mb-5' as |box|>
+      <div class='{{box.class}}'>
         <LinkTo @route="blogs.show" @model={{blog}}>
           <Blog::Preview @value={{blog}} />
-          <p>{{dayjs blog.created fn="fromNow"}}</p>
+          <p class='text-sm text-right'>เมื่อ {{dayjs blog.created fn="fromNow"}}</p>
         </LinkTo>
       </div>
-    </div>
+    </Background::Box>
   {{/each}}
 
-</Background::Box>
 </Background::Pure>

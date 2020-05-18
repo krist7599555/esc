@@ -1,6 +1,7 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 import { computed } from '@ember/object';
 import * as marked from 'marked';
+import { htmlSafe } from '@ember/template';
 
 export default class Blog extends Model {
   @attr({ defaultValue: "" }) title:    string;
@@ -10,7 +11,7 @@ export default class Blog extends Model {
   @belongsTo('person') author: any;
   @computed('markdown')
   get html() {
-    return marked(this.markdown);
+    return htmlSafe(marked(this.markdown));
   }
 }
 

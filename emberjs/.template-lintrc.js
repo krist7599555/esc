@@ -4,6 +4,7 @@ module.exports = {
   extends: 'octane',
   rules: {
     'no-inline-styles': false,
-    'no-triple-curlies': false
+    'no-triple-curlies': false,
+    'style-concatenation': false
   },
 };

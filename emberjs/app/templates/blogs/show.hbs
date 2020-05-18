@@ -1,6 +1,11 @@
-<Background::Box>
+<Background::Pure>
+<Background::Box class='h-full'>
   {{#with this.model as |blog|}}
-    <Blog::Preview class='mt-3 mb-8' @value={{blog}} />
+    <div class="flex flex-col h-full">
+
+    <div class="flex-1">
+      <Blog::Preview class='mt-3 mb-8' @value={{blog}} />
+    </div>
     <hr class='my-3 mb-8'>
     <div class="flex justify-between w-full">
       <div>
@@ -23,5 +28,7 @@
         {{/if}}
       </div>
     </div>
+    </div>
   {{/with}}
 </Background::Box>
+</Background::Pure>

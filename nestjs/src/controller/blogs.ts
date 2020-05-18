@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, Patch, NotFoundException, Req } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Patch, NotFoundException, Req, Delete, ForbiddenException } from '@nestjs/common';
 import { r } from 'rethinkdb-ts'
 import { JwtId } from '../helper/id';
 import { Blogs } from '../entity/blog';
@@ -58,17 +58,27 @@ export class BlogsController {
     }
     
     @Get("/")
-
     index() {
       return Blogs.orderBy('updated').run();
     }
     
     @Get("/:blog_id")
-
     async show(@Param('blog_id') blog_id: string) {
       const blog = await Blogs.get(blog_id).run();
       if (!blog) throw new NotFoundException("blog id is not exist");
       return blog;
+    }
+
+    @Delete("/:blog_id")
+    async remove(
+      @JwtId() author_id: string,
+      @Param('blog_id') blog_id: string
+    ) {
+      const blog = await Blogs.get(blog_id).run();
+      if (!blog) throw new NotFoundException("blog id is not exist");
+      if (blog.author != author_id) throw new ForbiddenException("no permission to delete");
+      await Blogs.get(blog_id).delete().run();
+      return { id: blog_id }
     }
 
   
