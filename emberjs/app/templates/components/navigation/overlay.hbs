@@ -1,29 +1,56 @@
 <menu
-  class='bg-dark h-screen w-screen fixed t-0 l-0 m-0 p-0 text-white flex justify-center items-center'
+  class='bg-dark h-screen pb-16 md:pb-0 w-screen fixed t-0 l-0 m-0 p-0 text-white flex justify-center items-center'
   style='z-index: 1; background-color: #171717'
   ...attributes
   {{did-insert this.mounted}}
 >
+  <style>
+    #navigation-overlay-list li:hover a:not([setdisabledflag])::before {
+      content: "👉";
+      position: absolute;
+      left: -30px;
+    }
+  </style>
   <ul id='navigation-overlay-list'>
-    <li class='my-4'>
+    <li class='my-6 text-lg'>
       <LinkTo @route="index">
-        Home
+        หน้าแรก
       </LinkTo>
     </li>
-    <li class='my-4'>
+    <li class='my-6 text-lg'>
       <LinkTo @route="blogs.index">
-        Blogs
+        ข่าวสาร
       </LinkTo>
     </li>
-    <li class='my-4'>
+    <li class='my-6 text-lg'>
       <LinkTo @route="reservations.index">
-        Reservation
+        ห้องประชุม
       </LinkTo>
     </li>
-    <li class='my-4'>
-      <button type='button' {{on "click" this.logout}}>
-        Logout
-      </button>
+    <li class='my-6 text-lg opacity-25'>
+      <LinkTo @route="index" setDisabledFlag={{true}}>
+        ยืม/คืน พัสดุ
+      </LinkTo>
+    </li>
+    <li class='my-6 text-lg opacity-25'>
+      <LinkTo @route="index" setDisabledFlag={{true}}>
+        เอกสาร
+      </LinkTo>
+    </li>
+    <li class='my-6 text-lg opacity-25'>
+      <LinkTo @route="index" setDisabledFlag={{true}}>
+        ชมรม
+      </LinkTo>
+    </li>
+    <li class='my-6 text-lg opacity-25'>
+      <LinkTo @route="index" setDisabledFlag={{true}}>
+        ติดต่อเรา
+      </LinkTo>
+    </li>
+    <li class='my-6 text-lg'>
+      <LinkTo @route="logout">
+        ออกจากระบบ
+      </LinkTo>
     </li>
   </ul>
 </menu>

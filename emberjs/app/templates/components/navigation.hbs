@@ -6,15 +6,15 @@
 >
   <AnimatedContainer class='overflow-hidden'>
     {{#animated-if this.auth.is_auth rules=this.rules}}
-      <button type='button' {{on "click" this.logout}}>
-        <NavigationItem @icon="log-out" @label="logout" />
-      </button>
+      <LinkTo @route="index">
+        <NavigationItem @icon="home" @label="home" />
+      </LinkTo>
     {{else}}
       <LinkTo @route="login">
         <NavigationItem @icon="log-in" @label="login" />
       </LinkTo>
     {{/animated-if}}
-  <hr class="opacity-50 w-10 m-auto my-2 hidden md:block" />
+  {{!-- <hr class="opacity-50 w-10 m-auto my-2 hidden {{unless this.auth.is_auth "md:block"}}" /> --}}
   </AnimatedContainer>
   <LinkTo @route="blogs.index">
     {{!-- <NavigationItem @icon="home" @label="home" /> --}}
@@ -23,7 +23,7 @@
   <LinkTo @route="reservations.index">
     <NavigationItem @icon="zap" @label="rooms" />
   </LinkTo>
-  <hr class="opacity-50 w-10 m-auto my-2 hidden md:block" />
+  {{!-- <hr class="opacity-50 w-10 m-auto my-2 hidden md:block" /> --}}
   <button id='navigation-item-menu' class='appearance-none outline-none' type='button' {{on "click" this.toggle_menu}}>
     <NavigationItem @icon="menu" @label="more" />
   </button>
