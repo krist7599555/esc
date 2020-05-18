@@ -13,9 +13,18 @@ body {
 [data-reservation-status='pending'] { @apply text-warning; }
 
 .appearance-none {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+}
+.outline-none	{
+  outline: 0 !important;
+}
+button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  outline: 0;
 }
 select.app-input[data-value=''] {
   color: #a0aec0;
