@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { inject as service, Registry as Services } from '@ember/service';
 import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
 import { gsap } from 'gsap';
 import $ from 'jquery';
 import { addObserver } from '@ember/object/observers';
@@ -19,20 +18,6 @@ export default class NavigationOverlay extends Component<{visible: boolean}> {
   @service router: Services["router"];
   @service auth: Services["auth"];
   @service toast: Services["toast"];
-
-  @action
-  to_route(path: string) {
-    this.router.transitionTo(path);
-  }
-  @action
-  async logout() {
-    this.auth.logout().then(() => {
-      this.toast.success('logout success');
-      this.router.transitionTo("index");
-    })
-  }
-
-  @tracked timeline: TimelineMax;
 
   @action
   mounted(el: HTMLElement) {
