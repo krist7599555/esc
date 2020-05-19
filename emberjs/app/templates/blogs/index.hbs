@@ -1,22 +1,24 @@
 <Background::Pure>
-  <div class="flex justify-between mt-8 px-6 md:px-0">
+  <div class="flex justify-between items-center mt-8 px-6 md:px-0" {{did-insert this.mounted_header}}>
     <h1 class='font-bold text-4xl text-white'>ข่าวสาร</h1>
     {{#if this.auth.is_auth}}
-      <LinkTo @route='blogs.new'>
+      <LinkTo @route='blogs.new' id='blogs-index-header-create'>
         <Button @icon='plus' class='mt-2'>สร้างประกาศ</Button>
       </LinkTo>
     {{/if}}
   </div>
   <br>
-  {{#each this.model as |blog|}}
-    <Background::Box class='mb-5' as |box|>
-      <div class='{{box.class}}'>
-        <LinkTo @route="blogs.show" @model={{blog}}>
-          <Blog::Preview @value={{blog}} />
-          <p class='text-sm text-right'>เมื่อ {{dayjs blog.created fn="fromNow"}}</p>
-        </LinkTo>
-      </div>
-    </Background::Box>
-  {{/each}}
+  <div id='blogs-index-list'>
+    {{#each this.model as |blog|}}
+      <Background::Box class='mb-5' as |box|>
+        <div class='{{box.class}}'>
+          <LinkTo @route="blogs.show" @model={{blog}}>
+            <Blog::Preview @value={{blog}} />
+            <p class='text-sm text-right'>เมื่อ {{dayjs blog.created fn="fromNow"}}</p>
+          </LinkTo>
+        </div>
+      </Background::Box>
+    {{/each}}
+  </div>
 
 </Background::Pure>
