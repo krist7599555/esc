@@ -28,7 +28,8 @@ export default class Navigation extends Component {
   mounted(el: HTMLElement) {
     const is_mobile = window.innerWidth <= 767;
     const conf = is_mobile ? { y: 100 } : { x: -100 }
-    gsap.from(el, { delay: 0.9, ...conf })
+    const is_home = this.router.currentURL == "/"
+    gsap.from(el, { delay: is_home ? 2.5 : 0.9, ...conf })
   }
 
   @action
