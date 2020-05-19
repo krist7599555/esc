@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import { gsap } from 'gsap';
 import $ from 'jquery';
 import { addObserver } from '@ember/object/observers';
-import { easeOut } from 'ember-animated/easings/cosine';
+import { easeInAndOut } from 'ember-animated/easings/cosine';
 
 function menu_btn_pos(): { x: number, y: number } {
   const $btn = $("#navigation-item-menu");
@@ -22,18 +22,18 @@ export default class NavigationOverlay extends Component<{visible: boolean}> {
   @action
   mounted(el: HTMLElement) {
     const {x, y} = menu_btn_pos();
-    const open  = { clipPath: `circle(170% at ${x}px ${y}px)`, ease: easeOut }
+    const open  = { clipPath: `circle(133% at ${x}px ${y}px)`, ease: easeInAndOut }
     const close = { clipPath: `circle(0% at ${x}px ${y}px)` };
 
     const tl = gsap.timeline();
     tl.fromTo(el, 1, close, open);
-    tl.from("#navigation-overlay-list > li", { x: 100, opacity: 0, ease: "ease-in", stagger: 0.3, duration: 0.7 }, "-=1.2")
-
+    tl.from("#navigation-overlay-list > li", { x: 30, opacity: 0, ease: easeInAndOut, stagger: 0.3, duration: 0.7 }, "-=0.5")
+    tl.progress(1).progress(0);
     function anim(stat: boolean) {
       if (stat) {
-        tl.duration(1.5).play();
+        tl.duration(2.5).play();
       } else {
-        tl.duration(0.7).reverse();
+        tl.duration(1).reverse();
       }
     }
 

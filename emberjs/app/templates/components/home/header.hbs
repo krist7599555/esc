@@ -7,13 +7,15 @@
     src="/assets/img/logo.png"
     alt="esc"
     style="width: 180px"
-    {{gsap (hash y=-13 opacity=0 delay=0.2)}}
+    {{gsap (hash y=-13 opacity=0 delay=0.8)}}
   />
   <label
     class="mt-3 text-primary"
     for="title"
-    {{gsap (hash y=-5 opacity=0 delay=0.9)}}
+    {{gsap (hash y=-5 opacity=0 delay=1.5)}}
   >
     กรรมการนิสิตคณะวิศวกรรมศาสตร์
   </label>
+  {{this.is_fullscreen}}
+  <Button class='mt-10' @icon='compass' {{on "click" this.try_full_screen}}  {{gsap (hash opacity=0 delay=4)}}>FULLSCREEN EXPERIENT</Button>
 </div>
