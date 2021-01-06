@@ -90,7 +90,7 @@
     "edition": "octane"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "dayjs": "^1.8.27",
     "feather-icons": "^4.28.0",
     "gsap": "^3.2.6",
